@@ -19,6 +19,7 @@ namespace accela.Models
         {
 
         }
+        
         public int ID{get { return _id; } set{ _id = value; } }
         public string Firstname { get { return _firstname; } set { _firstname = value; } }
         public string Lastname { get { return _lastname; } set { _lastname = value; } }
@@ -26,11 +27,5 @@ namespace accela.Models
         public string Password { get { return _password; } set { _password = value; } }
 
 
-
-
-        /*public IActionResult Index()
-        {
-           // return View();
-        }*/
     }
 }
