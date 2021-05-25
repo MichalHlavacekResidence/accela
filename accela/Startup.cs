@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using accela.Data;
+
 
 namespace accela
 {
@@ -23,6 +23,30 @@ namespace accela
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Service that connects to local database
+            services.AddDbContext<AppDbContext>(config => {
+                config.UseInMemoryDatabase("Memory");
+            });
+
+            //Service that creates virtual identity (also creates Cookies) of logged user
+            services.AddIdentity<IdentityUser, IdentityRole>( config =>
+            {
+                config.Password.RequiredLength = 4;
+                config.Password.RequireDigit = false;
+                config.Password.RequireLowercase = false;
+                config.Password.RequireUppercase = false;
+                config.Password.RequireNonAlphanumeric = false;  
+            })
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.Cookie.Name = "Identity.Cookie";
+                //config.Cookie.Expiration = ;
+                config.LoginPath = "/Account/Login";
+            });
+
             services.AddControllersWithViews();
         }
 
