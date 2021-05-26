@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Models
+namespace accela.Models
 {
     public class Product {
 
@@ -20,7 +20,7 @@ namespace Models
 
         public Product()
         {
-            
+            _id = 0;
         }
 
         public int ID { get { return _id;} set { _id = value; }}

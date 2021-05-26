@@ -21,7 +21,7 @@ namespace accela.Models
 
         public User()
         {
-
+            _id = 0;
         }
 
         public User(int id, string fname, string lname, string email, string level)
