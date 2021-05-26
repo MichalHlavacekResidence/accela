@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using accela.Models;
 
-namespace Models 
+namespace accela.Models 
 {
     public class Brand 
     {
@@ -20,7 +20,7 @@ namespace Models
 
         public Brand()
         {
-            
+            _id = 0;
         }
 
         public int ID { get { return _id;} set { _id = value; } }
@@ -31,6 +31,6 @@ namespace Models
         public string SmallText { get { return _smallText;} set {_smallText = value; }}
         public Manager Contact { get { return _contact;} set { _contact = value; }}
         public int Position { get { return _position;} set { _position = value; }}
-        public bool Visiblity { get { return _visibility;} set { _visibility = value; }}
+        public bool Visibility { get { return _visibility;} set { _visibility = value; }}
     }
 }

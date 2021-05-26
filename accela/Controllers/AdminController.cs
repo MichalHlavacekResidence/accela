@@ -24,5 +24,11 @@ namespace Controllers
         public IActionResult Index(){
             return View();
         }
+
+        public IActionResult Managers(){
+            Database db = new Database();
+            ViewBag.ManagerList = db.GetManagers();
+            return View();
+        }
     }
 }
