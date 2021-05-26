@@ -1,0 +1,27 @@
+@model accela.Models.User;
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        @{
+            if(@Model.Message != null){
+                <div role="alert" class="alert alert-danger">
+                    <p> Zadali jste špatné heslo nebo email. </p>
+                </div>
+            }
+        }
+        <form method="POST" asp-action="Registration" asp-controller="Account">
+            <label asp-for="@Model.Firstname"> Křestní jméno </label>
+            <input asp-for="@Model.Firstname" type="text" placeholder="Adam"/> 
+            <label asp-for="@Model.Lastname"> Příjmení </label>
+            <input asp-for="@Model.Lastname" type="text" placeholder="Vaněk"/>
+            <label asp-for="@Model.Email"> Emailová adresa </label>
+            <input type="email" placeholder="Zadjte prosím email" asp-for="@Model.Email"/>
+            <label asp-for="@Model.Password"> Heslo </label>
+            <input type="password" asp-for="@Model.Password" placeholder="*****"/>
+            <label asp-for="@Model.Repassword"> Znovu heslo </label>
+            <input type="password" asp-for="@Model.Repassword" placeholder="******"/> 
+            <button class="btn bg-success" value="Přihlásit se" name="login"> Registrovat se </button>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
