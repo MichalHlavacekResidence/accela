@@ -26,6 +26,9 @@
     height: 53px;
     color:green;
 }
+.container-fluid{
+    max-width:1600px;
+}
 @media all and (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {
         display: none;
@@ -64,30 +67,61 @@
     background-position: center top;
     width: 100%;
     background-image: url('../file/pictures/home_back.jpg');
-    height: 465px;
     overflow: auto;
 }
 
 .container-fluid{
     padding:0px;
+    max-width:1600px;
 }
-.hpTitle{
-    display:none;
+header {
+    padding: 0px;
+    max-width: 1600px;
+}
+footer {
+   
+    
+}
+.hpPageContainer{
+    padding:0;
+    margin-bottom:280px;
+}
+.hpTitle {
+    display: none;
 }
 .hpSubmenu {
-    height: 50px;
-    width:50px;
+    height: 172px;
+    width: 50px;
 }
 .hpTechSubmenu {
-   margin-top: 293px;
-   
+    margin-top: 293px;
 }
 .hpSubmenu:hover {
-    height: 230px;
-    margin-top: -180px;
+    height: 280px;
+    margin-top: -108px;
+}
+.hpSubTitle {
+    font-size: 40px;
+    color: #46ad72;
+    font-weight: 300;
+}
+.hpDiscoverContent {
+    padding-left: 50px;
+    padding-right: 15px;
+}
+.hpDiscoverItemL {
+    margin-right: 2%;
+    margin-top: 20px;
+}
+.hpDiscoverItemM {
+    margin-right: 2%;
+    margin-top: 20px;
+}
+.hpDiscoverItemR {
+    margin-top: 20px;
 }
 /* MOBILE VERSION*/
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 992px) {
     .hpTop {
         position: relative;
         margin-left: auto;
@@ -96,5 +130,17 @@
         background-position: center top;
         width: 100%;
         background-image: url('../file/pictures/home_back_small.png');
+    }
+
+    .hpSubmenu {
+        height: 280px;
+    }
+
+        .hpSubmenu:hover {
+            margin-top: 0;
+        }
+
+    .hpDiscoverItemM, .hpDiscoverItemL, .hpDiscoverItemR {
+        margin-right: 0%;
     }
 }
