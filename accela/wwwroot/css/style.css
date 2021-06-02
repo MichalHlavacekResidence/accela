@@ -5,6 +5,7 @@
 }
 .row {
     margin-right: 0px;
+    margin-left:0px;
 }
 
 .nemu-collum {
@@ -42,11 +43,17 @@
     }
 
     .navbar .nav-item .dropdown-menu {
-        margin-top: 0;
+        
     }
 }
-.dropdown-menu{
-    width:100%;
+.hpMenuColapse {
+    margin-left: 100%;
+}
+
+.dropdown-menu {
+    width: 1550px;
+    top: 73%;
+    margin-left:20px;
 }
 .footer {
     background-color: #00953f;
@@ -105,10 +112,6 @@ footer {
     color: #46ad72;
     font-weight: 300;
 }
-.hpDiscoverContent {
-    padding-left: 50px;
-    padding-right: 15px;
-}
 .hpDiscoverItemL {
     margin-right: 2%;
     margin-top: 20px;
@@ -119,6 +122,46 @@ footer {
 }
 .hpDiscoverItemR {
     margin-top: 20px;
+}
+
+.hpBrandsPolygon {
+    height:195px;
+    float: left;
+    display: block;
+    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.hpBrandsPolygonEnd {
+    float: left;
+    display: block;
+    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.hpBrandsPolygonSecond {
+    margin-left: 74px;
+    margin-top: -32px;
+}
+
+.hpBrandsPolygonItemSecond {
+    float: left;
+    height: 195px;
+    margin-right: 13px;
+    display: block;
+    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+.hpBrandsPolygon:nth-child(7) {
+    margin-left: 74px;
+    margin-top: -32px;
+}
+.hpBrandsPolygon:nth-child(18) {
+    margin-left: 74px;
+    margin-top: -32px;
 }
 /* MOBILE VERSION*/
 @media only screen and (max-width: 992px) {
@@ -136,11 +179,16 @@ footer {
         height: 280px;
     }
 
-        .hpSubmenu:hover {
-            margin-top: 0;
-        }
+    .hpSubmenu:hover {
+        margin-top: 0;
+    }
 
     .hpDiscoverItemM, .hpDiscoverItemL, .hpDiscoverItemR {
         margin-right: 0%;
     }
+    .hpMenuColapse {
+        margin-left: 0%;
+    }
+    
+
 }
