@@ -1,0 +1,67 @@
+@model accela.Models.Manager
+<div class="mx-auto">
+    <h1 class="text-center"> Add new Manager </h1>
+</div>
+<form class="needs-validation" method="post" asp-action="AddManager" asp-controller="Admin" novalidate>
+  <div class="mb-3">
+    <label asp-for="@Model.Firstname" class="form-label">Firstname</label>
+    <input asp-for="@Model.Firstname" type="text" class="form-control" aria-describedby="nameHelp" required>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div class="invalid-feedback">
+        This field is mandatory, fill it please.
+    </div>
+    <div id="nameHelp" class="form-text form-helper">Firstname of the manager. Include any degree he has please. <span class="form-mandatory"> This field is mandatory. </span> </div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="@Model.Description" for=""> Description of the manager </label>
+    <textarea asp-for="@Model.Description" class="form-control" placeholder="Write the description of product here." style="height: 100px"></textarea>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div id="descHelp" class="form-text form-helper">Description of the Manager. You can include what work he is doing or whatever you'd like.</div>
+  </div>
+   <div class="mb-3">
+    <label asp-for="@Model.Lastname" class="form-label">Family name of the Manager.</label>
+    <input type="text" class="form-control" aria-describedby="subtitleHelp" asp-for="@Model.Lastname"/>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div id="subtitleHelp" class="form-text form-helper"> Lastname (Family Name, Surname) of the Manager. <span class="form-mandatory"> This field is mandatory. </span> </div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="@Model.Email" class="form-label"> Email of the Manager. </label>
+    <input type="email" class="form-control" aria-describedby="linkHelp" asp-for="@Model.Email" required/>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div class="invalid-feedback">
+        This field is mandatory, fill it please.
+    </div>
+    <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. <span class="form-mandatory"> This field is mandatory. </span> </div>
+  </div>
+  <div class="mb-3">
+    <select class="form-select" required>
+        <option selected>Click here and select Manager</option>
+        @{
+            foreach(Manager manager in ViewBag.ManagerList){
+                <option value="@manager.ID"> @manager.Firstname @manager.Lastname (@manager.Email) </option>
+            }
+        }
+    </select>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div class="invalid-feedback">
+        This field is mandatory, choose Manager please.
+    </div>
+  </div>
+    <div class="mb-3">
+        <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" asp-for="@Model.Visibility">
+        <label class="form-check-label" asp-for="@Model.Visibility"> Should be brand visible? <span class="form-mandatory"> This field is mandatory. </span> </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

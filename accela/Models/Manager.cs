@@ -20,6 +20,8 @@ namespace accela.Models
         public Manager()
         {
             this.ID = 0;
+            this.Firstname = "Unknown";
+            this.Lastname = "Unknown";
         }
 
         //Načtení do tabulky (admin/managers)

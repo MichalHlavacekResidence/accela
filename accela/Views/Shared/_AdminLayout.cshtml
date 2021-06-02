@@ -3,121 +3,53 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - accela</title>
+    <title>@ViewData["Title"] | Administration Accela</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/adminStyle.css" rel="stylesheet" />
 </head>
 <body>
     <header>
-        <!--
-
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/file/pictures/logo.png" />
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <a class="navbar-brand" asp-controller="Admin" asp-action="Index">Accela Administration</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="menu-collapse navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="menu-item nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Discover</a>
-                        </li>
-                        <li class="menu-item nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Technologies</a>
-                        </li>
-                        <li class="menu-item nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Product</a>
-                        </li>
-                        <li class="menu-item nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Brands</a>
-                        </li>
-                        <li class="menu-item nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">References</a>
-                        </li>
-                        <li class="menu-item nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>-->
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="@Url.Action("Index")"><img src="~/file/pictures/logo.png" /></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"> </span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="menu-item nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-
-
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="menu-item nav-link" href="#">Link</a>
+                        <a class="nav-link" aria-current="page" asp-action="Products" asp-controller="Admin">Products</a>
                     </li>
-
-                    <li class="nav-item dropdown open" style="position: initial;">
-                        <a class="menu-item nav-link  dropdown-toggle" href="#" data-bs-toggle="dropdown">  Hover me  </a>
-                        <ul class="dropdown-menu" >
-                            <li><a class="dropdown-item" href="#"> Submenu item 1</a></li>
-                            <li><a class="dropdown-item" href="#"> Submenu item 2 </a></li>
-                            <li><a class="dropdown-item" href="#"> Submenu item 3 </a></li>
-                        </ul>
-                    </li>
-
-
                     <li class="nav-item">
-                        <a class="menu-item nav-link disabled" href="#">Disabled</a>
+                        <a class="nav-link" aria-current="page" asp-controller="Admin" asp-action="Brands">Brands</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
-                <!--
-
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                -->
+                </div>
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Your Account
+                        </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Your profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" asp-action="SignOut" asp-controller="Account">Sign out</a></li>
+                    </ul>
+                    </li>
+                </div>
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
+    <div class="container">
+        <main role="main" class="pb-3" style="padding: 20px">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-            <div class="row footer-container justify-content-center col">
-                    <div class="col-md-4">
-
-                        <img src="~/file/pictures/foot_logo.png" />
-
-                    </div>
-                    <div class="col-md-2">
-                        <p class="text-white">Technologies</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p>Technologies</p>
-                    </div>
-                    <div class="col-md-3">
-                        <p>Technologies</p>
-                    </div>
-
-            
-                <!--
-            &copy; 2021 - accela - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        -->
-            </div>
-
-       
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -157,6 +89,27 @@
             }
             // end if innerWidth
         });
+    </script>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+                })
+            })()
     </script>
 </body>
 </html>
