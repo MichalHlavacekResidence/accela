@@ -91,7 +91,7 @@ namespace accela.Data
             }
         }
 
-        public List<Manager> GetManagers(){
+        public List<Manager> GetAllManagers(){
             try{
                 using(var db = new AppDb()){
                     db.Connection.Open();
@@ -167,7 +167,7 @@ namespace accela.Data
                     }
                 }
             }catch(Exception ex){
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("[GetDepartmentDetails] "+ex.Message);
                 return new Department();
             }
         }
@@ -197,8 +197,383 @@ namespace accela.Data
                     }
                 }
             }catch(Exception ex){
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("[CreateManager] "+ex.Message);
                 return new SystemMessage("Přidání manažera", ex.Message, "Error");
+            }
+        }
+
+        public List<Product> GetAllProducts (){
+            try{
+                using (var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, ContactID, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products";
+                        var reader = cmd.ExecuteReader();
+                        if(!reader.HasRows){
+                            return new List<Product>();
+                        }
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string subtitle = null;
+                        string smalld = null;
+                        string descr = null;
+                        string link = null;
+                        bool vis = false;
+                        int contID = 0;
+                        int bID = 0;
+                        int catID = 0;
+                        string vidUrl = null;
+                        string referenceLink = null;
+                        int managerID = 0;
+                        Manager mng = new Manager();
+                        List<Product> products = new List<Product>();
+
+                        while(reader.Read()){
+                            try { id = reader.GetInt16(0); }catch(Exception){ id = 0;}
+                            try { name = reader.GetString(1); }catch(Exception){name = null;}
+                            try { url = reader.GetString(2); }catch(Exception){url = null;}
+                            try { subtitle = reader.GetString(3); }catch(Exception){ subtitle = null; }
+                            try { smalld = reader.GetString(4); }catch(Exception){ smalld = null; }
+                            try { descr = reader.GetString(5); }catch(Exception){ descr = null; }
+                            try { link = reader.GetString(6);}catch(Exception){link = null; }
+                            try { vis = reader.GetBoolean(7);}catch(Exception){vis = false; }
+                            try { contID = reader.GetInt16(8);} catch(Exception){ contID = 0; }
+                            try { bID = reader.GetInt16(9);}catch(Exception){ bID = 0; }
+                            try { catID = reader.GetInt16(10);}catch(Exception){catID = 0;}
+                            try { vidUrl = reader.GetString(11);}catch(Exception){vidUrl = null;}
+                            try { referenceLink = reader.GetString(12);}catch(Exception){referenceLink = null;}
+                            try { managerID = reader.GetInt16(13); }catch(Exception){ managerID = 0;}
+                            if(managerID != 0){
+                                mng = this.GetManagerByID(managerID);
+                            }
+                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis));
+                        }
+                        return products;
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[GetAllProducts] "+ex.Message);
+               return new List<Product>(); 
+            }
+        }
+
+        public SystemMessage AddProduct(Product product){
+            try {
+                using(var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "INSERT INTO Products (Name, URL, Subtitle, Small_desc, Description, Visibility, ContactID, BrandID, CategoryID, VideoURL,ReferenceLink, ManagerID) VALUES (@name, @url, @sub, @smalld, @desc, @vis, @contId, @brandId, @catId, @videoUrl, @referLink, @manId)";
+                        cmd.Parameters.AddWithValue("@name", product.Name);
+                        cmd.Parameters.AddWithValue("@url", product.URL);
+                        cmd.Parameters.AddWithValue("@sub", product.Subtitle);
+                        cmd.Parameters.AddWithValue("@smalld", product.SmallDescription);
+                        cmd.Parameters.AddWithValue("@desc", product.Description);
+                        cmd.Parameters.AddWithValue("@vis", product.Visibility);
+                        if(product.Manager.ID == 0){
+                            cmd.Parameters.AddWithValue("@contId", null);
+                        }else{
+                            cmd.Parameters.AddWithValue("@contId", product.Manager.ID);
+                        }
+                        cmd.Parameters.AddWithValue("@brandId", product.Producer.ID);
+                        cmd.Parameters.AddWithValue("@catId", product.Category.ID);
+                        cmd.Parameters.AddWithValue("@videoUrl", product.VideoURL);
+                        cmd.Parameters.AddWithValue("@referLink", product.ReferenceLink);
+                        if(product.Manager.ID == 0){
+                            cmd.Parameters.AddWithValue("@manId", null);
+                        }else{
+                            cmd.Parameters.AddWithValue("@manId", product.Manager.ID);
+                        }
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Přidání nového produktu", "Produkt byl úspěšně přidán", "OK");
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[AddProduct] " + ex.Message);
+                return new SystemMessage("Přidání nového produktu", ex.Message, "Error");
+            }
+        }
+
+        public SystemMessage AddBrand(Brand brand){
+            try {
+                using(var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "INSERT INTO Brands (ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility) VALUES (@contId, @name, @url, @desc, @smalld, @link, @pos, @vis)";
+                        cmd.Parameters.AddWithValue("@contId", brand.Contact.ID);
+                        cmd.Parameters.AddWithValue("@name", brand.Name);
+                        cmd.Parameters.AddWithValue("@url", brand.URL);
+                        cmd.Parameters.AddWithValue("@smalld", brand.SmallText);
+                        cmd.Parameters.AddWithValue("@desc", brand.Description);
+                        cmd.Parameters.AddWithValue("@vis", brand.Visibility);
+                        cmd.Parameters.AddWithValue("@pos", brand.Position);
+                        cmd.Parameters.AddWithValue("@referLink", brand.ReferenceLink);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Adding new brand", "Brand was succesfully added", "OK");
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[AddProduct] " + ex.Message);
+                return new SystemMessage("Adding new brand", ex.Message, "Error");
+            }
+        }
+
+        public List<Product> GetVisibleProducts(){
+            try{
+                using (var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, ContactID, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE Visibility = 1 ORDER BY Position ASC";
+                        var reader = cmd.ExecuteReader();
+                        if(!reader.HasRows){
+                            return new List<Product>();
+                        }
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string subtitle = null;
+                        string smalld = null;
+                        string descr = null;
+                        string link = null;
+                        bool vis = false;
+                        int contID = 0;
+                        int bID = 0;
+                        int catID = 0;
+                        string vidUrl = null;
+                        string referenceLink = null;
+                        int managerID = 0;
+                        Manager mng = new Manager();
+                        List<Product> products = new List<Product>();
+
+                        while(reader.Read()){
+                            try { id = reader.GetInt16(0); }catch(Exception){ id = 0;}
+                            try { name = reader.GetString(1); }catch(Exception){name = null;}
+                            try { url = reader.GetString(2); }catch(Exception){url = null;}
+                            try { subtitle = reader.GetString(3); }catch(Exception){ subtitle = null; }
+                            try { smalld = reader.GetString(4); }catch(Exception){ smalld = null; }
+                            try { descr = reader.GetString(5); }catch(Exception){ descr = null; }
+                            try { link = reader.GetString(6);}catch(Exception){link = null; }
+                            try { vis = reader.GetBoolean(7);}catch(Exception){vis = false; }
+                            try { contID = reader.GetInt16(8);} catch(Exception){ contID = 0; }
+                            try { bID = reader.GetInt16(9);}catch(Exception){ bID = 0; }
+                            try { catID = reader.GetInt16(10);}catch(Exception){catID = 0;}
+                            try { vidUrl = reader.GetString(11);}catch(Exception){vidUrl = null;}
+                            try { referenceLink = reader.GetString(12);}catch(Exception){referenceLink = null;}
+                            try { managerID = reader.GetInt16(13); }catch(Exception){ managerID = 0;}
+                            if(managerID != 0){
+                                mng = this.GetManagerByID(managerID);
+                            }
+                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis));
+                        }
+                        return products;
+                    }
+                }
+             }catch(Exception ex){
+                Console.WriteLine("[GetVisibleProducts] "+ex.Message);
+                return new List<Product>();
+            }
+        }
+
+        public Product GetProduct (int productID){
+            try {
+                using(var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, ContactId, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@id", productID);
+                        var reader = cmd.ExecuteReader();
+                        if(!reader.HasRows){
+                            return new Product();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string subtitle = null;
+                        string smalld = null;
+                        string descr = null;
+                        string link = null;
+                        bool vis = false;
+                        int contID = 0;
+                        int bID = 0;
+                        int catID = 0;
+                        string vidUrl = null;
+                        string referenceLink = null;
+                        int managerID = 0;
+                        Manager mng = new Manager();
+
+                        while(reader.Read()){
+                            try { id = reader.GetInt16(0); }catch(Exception){ id = 0;}
+                            try { name = reader.GetString(1); }catch(Exception){name = null;}
+                            try { url = reader.GetString(2); }catch(Exception){url = null;}
+                            try { subtitle = reader.GetString(3); }catch(Exception){ subtitle = null; }
+                            try { smalld = reader.GetString(4); }catch(Exception){ smalld = null; }
+                            try { descr = reader.GetString(5); }catch(Exception){ descr = null; }
+                            try { link = reader.GetString(6);}catch(Exception){link = null; }
+                            try { vis = reader.GetBoolean(7);}catch(Exception){vis = false; }
+                            try { contID = reader.GetInt16(8);} catch(Exception){ contID = 0; }
+                            try { bID = reader.GetInt16(9);}catch(Exception){ bID = 0; }
+                            try { catID = reader.GetInt16(10);}catch(Exception){catID = 0;}
+                            try { vidUrl = reader.GetString(11);}catch(Exception){vidUrl = null;}
+                            try { referenceLink = reader.GetString(12);}catch(Exception){referenceLink = null;}
+                            try { managerID = reader.GetInt16(13); }catch(Exception){ managerID = 0;}
+                            if(managerID != 0){
+                                mng = this.GetManagerByID(managerID);
+                            }
+                        }
+                        return new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis);
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[GetProduct] "+ex.Message);
+                return new Product();
+            }
+        }
+
+        public Manager GetManagerByID(int managerID){
+            try{
+                using(var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Firstname, Lastname, Email, Phone, Img, Description, Visibility, Position, DepartmentID FROM Managers WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@id", managerID);
+                        var reader = cmd.ExecuteReader();
+                        if(!reader.HasRows){
+                            return new Manager();
+                        }
+
+                        int id = 0;
+                        string fname = null;
+                        string lname = null;
+                        string email = null;
+                        string phone = null;
+                        string img = null;
+                        string desc = null;
+                        bool vis = false;
+                        int pos = 0;
+                        int depID = 0;
+
+                        while(reader.Read()){
+                            try { id = reader.GetInt16(0); }catch(Exception){ id = 0;}
+                            try { fname = reader.GetString(1);} catch(Exception){fname = null;}
+                            try { lname = reader.GetString(2);} catch(Exception){lname = null;}
+                            try { email = reader.GetString(3);} catch(Exception){email = null;}
+                            try { phone = reader.GetString(4);} catch(Exception){phone = null;}
+                            try { img = reader.GetString(5);}catch(Exception){img = null;}
+                            try { desc = reader.GetString(6);}catch(Exception){desc = null;}
+                            try { vis = reader.GetBoolean(7);}catch(Exception){vis = false;}
+                            try { pos = reader.GetInt16(8);}catch(Exception){pos = 0;}
+                            try { depID = reader.GetInt32(9);}catch(Exception){depID = 0;}
+                        }
+                        Department department = new Department();
+                        if(depID != 0){
+                            department = this.GetDepartmentDetails(depID);
+                        }
+                        return new Manager(id, fname, lname, email, department, phone, desc, img, vis, pos);
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[GetManagerByID] "+ex.Message);
+                return new Manager();
+            }
+        }
+
+        public Brand GetBrandByID(int brandID){
+            try{
+                using(var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility FROM Brands WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@id", brandID);
+                        var reader = cmd.ExecuteReader();
+                        if(!reader.HasRows){
+                            return new Brand();
+                        }
+
+                        int id = 0;
+                        int contID = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        string smalld = null;
+                        string link = null;
+                        int pos = 0;
+                        bool vis = false;
+                        while(reader.Read()){
+                            try { id = reader.GetInt32(0); }catch(Exception){ id = 0;}
+                            try { contID = reader.GetInt32(1); }catch(Exception){ contID = 0;}
+                            try { name = reader.GetString(2); }catch(Exception){ name = null; }
+                            try { url = reader.GetString(3);}catch(Exception){ url = null; }
+                            try { desc = reader.GetString(4);}catch(Exception) { desc = null;}
+                            try { smalld = reader.GetString(5);}catch(Exception){ smalld = null; }
+                            try { link = reader.GetString(6);}catch(Exception){ link = null; }
+                            try { pos = reader.GetInt32(7);}catch(Exception){ pos = 0;}
+                            try { vis = reader.GetBoolean(8);}catch(Exception){ vis = false;}
+                        }
+                        Manager contact = new Manager();
+                        if(contID != 0){
+                            contact = this.GetManagerByID(contID);
+                        }
+                        return new Brand(id, name, link ,url, desc, smalld, contact, pos, vis);
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[GetBrandByID] "+ex.Message);
+                return new Brand();
+            }
+        }
+
+        public List<Brand> GetAllBrands(){
+            try{
+                using(var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility FROM Brands";
+                        var reader = cmd.ExecuteReader();
+                        if(!reader.HasRows){
+                            return new List<Brand>();
+                        }
+
+                        int id = 0;
+                        int contID = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        string smalld = null;
+                        string link = null;
+                        int pos = 0;
+                        bool vis = false;
+                        List<Brand> brands = new List<Brand>();
+                        while(reader.Read()){
+                            try { id = reader.GetInt32(0); }catch(Exception){ id = 0;}
+                            try { contID = reader.GetInt32(1); }catch(Exception){ contID = 0;}
+                            try { name = reader.GetString(2); }catch(Exception){ name = null; }
+                            try { url = reader.GetString(3);}catch(Exception){ url = null; }
+                            try { desc = reader.GetString(4);}catch(Exception) { desc = null;}
+                            try { smalld = reader.GetString(5);}catch(Exception){ smalld = null; }
+                            try { link = reader.GetString(6);}catch(Exception){ link = null; }
+                            try { pos = reader.GetInt32(7);}catch(Exception){ pos = 0;}
+                            try { vis = reader.GetBoolean(8);}catch(Exception){ vis = false;}
+                            Manager contact = new Manager();
+                            if(contID != 0){
+                                contact = this.GetManagerByID(contID);
+                            }
+                            brands.Add(new Brand(id, name, link ,url, desc, smalld, contact, pos, vis));
+                        }
+                        return brands;
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[GetBrands] "+ex.Message);
+                return new List<Brand>();
             }
         }
 
