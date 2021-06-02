@@ -1,0 +1,61 @@
+@model accela.Models.Product
+<div class="mx-auto">
+    <h1 class="text-center"> Add new product </h1>
+</div>
+<form class="needs-validation" method="post" asp-action="AddProduct" asp-controller="Admin" novalidate>
+  <div class="mb-3">
+    <label asp-for="@Model.Name" class="form-label">Name of product</label>
+    <input asp-for="@Model.Name" type="text" class="form-control" aria-describedby="nameHelp" required>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div class="invalid-feedback">
+        This field is mandatory, fill it please.
+    </div>
+    <div id="nameHelp" class="form-text form-helper">Name of product has to be unique. <span class="form-mandatory"> This field is mandatory. </span> </div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="@Model.Subtitle" class="form-label">Subtitle</label>
+    <input type="text" class="form-control" aria-describedby="subtitleHelp" asp-for="@Model.Subtitle"/>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div id="subtitleHelp" class="form-text form-helper"> Subtitle is shown under the name.  </div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="@Model.Description" for="">Description</label>
+    <textarea asp-for="@Model.Description" class="form-control" placeholder="Write the description of product here." style="height: 100px"></textarea>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div id="descHelp" class="form-text form-helper">Description of the product.</div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="@Model.ReferenceLink" class="form-label">Link to producer's product page </label>
+    <input type="text" class="form-control" aria-describedby="linkHelp" asp-for="@Model.ReferenceLink" required/>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div class="invalid-feedback">
+        This field is mandatory, fill it please.
+    </div>
+    <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. <span class="form-mandatory"> This field is mandatory. </span> </div>
+  </div>
+  <div class="mb-3">
+    <select class="form-select" required>
+        <option selected>Click here and select producer</option>
+        @{
+            foreach(Brand producer in ViewBag.ProducerList){
+                <option value="Tesco"> Tesco a.s. </option>
+            }
+        }
+    </select>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div class="invalid-feedback">
+        This field is mandatory, choose Producer please.
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

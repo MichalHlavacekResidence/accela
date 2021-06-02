@@ -1,0 +1,13 @@
+.height-500{
+    height: 500px;
+}
+
+.form-helper {
+    font-size: 12px;
+    color: #212529;
+}
+
+.form-mandatory {
+    color: red;
+    font-size: 12px;
+}

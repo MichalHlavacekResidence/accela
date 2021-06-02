@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using accela.Structs;
 
 namespace accela.Models
 {
@@ -15,12 +16,31 @@ namespace accela.Models
         private string _smallDescription;
         private string _referenceLink;
         private Brand _producer;
+        private Category _category;
+        private Manager _manager;
         private string _videoURL;
-        private bool _visibility;
+        private bool _visibility = false; //default hodnota = false
+        private List<Product> _relatedProducts;
+        private List<Dictionary<string, string>> _discoverMore;
+        private List<Documentation> _documentation;
 
         public Product()
         {
             _id = 0;
+        }
+
+        public Product(int id, string name, string url, string description, string subtitle, string smallDesc, string referenceLink, Brand producer, Manager manager, string videoUrl, bool visibility){
+            _id = id;
+            _name = name;
+            _url = url;
+            _description = description;
+            _subtitle = subtitle;
+            _smallDescription = smallDesc;
+            _referenceLink = referenceLink;
+            _producer = producer;
+            _manager = manager;
+            _videoURL = videoUrl;
+            _visibility = visibility;
         }
 
         public int ID { get { return _id;} set { _id = value; }}
@@ -30,8 +50,35 @@ namespace accela.Models
         public string Subtitle { get { return _subtitle;} set { _subtitle = value; }}
         public string SmallDescription { get { return _smallDescription;} set { _smallDescription = value; }}
         public string ReferenceLink { get { return _referenceLink;} set { _referenceLink = value; }}
-        public Brand Producer { get { return _producer; } set { _producer = value; }}
+        public Brand Producer { get { return _producer; } set { _producer = value; } }
+        public Manager Manager { get { return _manager; } set { _manager = value; } }
+        public Category Category { get { return _category; } set { _category = value; } }
         public string VideoURL { get { return _videoURL;} set { _videoURL = value; }}
         public bool Visibility { get { return _visibility; } set { _visibility = value; }}  
+        public List<Product> RelatedProducts { get { return _relatedProducts; } set { _relatedProducts = value; } }
+        public List<Dictionary<string, string>> DiscoverMore { get { return _discoverMore; } set { _discoverMore = value; } }
+        public List<Documentation> Documentations { get { return _documentation; } set { _documentation = value; }}
+    
+        public bool CheckDetails(bool checkID = true){
+            bool result = true;
+            if(checkID == true){
+                if(this._id == 0){
+                    result = false;
+                }
+            }
+
+            //Povinné položky
+            if(this._name == null || this._url == null || this._description == null || this._referenceLink == null){
+                result = false;
+            }
+
+            //Pokud není nastaven producer, zkontroluj custom manažera
+            if(this._producer.ID == 0){
+                if(this._manager.ID == 0 ){
+                    result = false;
+                }
+            }
+            return result;
+        }
     }
 }
