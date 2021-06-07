@@ -33,13 +33,46 @@ namespace Controllers
             return View();
         }
 
+        public IActionResult Departments(){
+            Database db = new Database();
+            ViewBag.DepartmentList = db.GetAllDepartments();
+            return View();
+        }
+
+        public IActionResult AddDepartment(){
+            Department dep = new Department();
+            return View(dep);
+        }
+
+        [HttpPost]
+        public IActionResult AddDepartment(Department dep){
+            //Generate URL from Name
+            dep.GenerateUrl();
+            //Check if all form inputs are filled
+            if(dep.CheckDetails() == false){
+                return View();
+            }
+
+            Database db = new Database();
+            db.AddDepartment(dep);
+            return RedirectToAction("Departments", "Admin");
+        }
+
         public IActionResult AddManager(){
             Manager mng = new Manager();
+            Database db = new Database();
+            ViewBag.DepartmentList = db.GetVisibleDepartments();
             return View(mng);
         }
 
         [HttpPost]
         public IActionResult AddManager(Manager manager){
+            Database db = new Database();
+            if(manager.CheckDetails() == false)
+            {
+                return View();
+            }
+            //db.AddManager(manager);
             return RedirectToAction("Managers", "Admin");
         }
 

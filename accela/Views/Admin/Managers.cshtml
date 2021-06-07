@@ -5,27 +5,41 @@
 </div>
 <div class="row">
     <div class="col">
-        <table class="table mx-auto" style="width: 60%;">
-            <thead>
-                <tr>cd 
-                    <th> ID </th>
-                    <th> Jméno </th>
-                    <th> Email </th>
-                    <th> Tel. </th>
-                    <th> Operace </th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    foreach(Manager mng in ViewBag.ManagerList){
-                        <td>@mng.ID</td>
-                        <td>@mng.Firstname @mng.Lastname</td>
-                        <td>@mng.Email</td>
-                        <td>@mng.Phone</td>
-                        <td> show edit </td>
-                    }
-                }
-            </tbody>
-        </table>
+        <a class="btn btn-primary" asp-action="AddManager" asp-controller="Admin"> Add new manager </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @{
+        List<Manager> managers = ViewBag.ManagerList;
+            if(managers.Count() != 0){
+                <table class="table mx-auto" style="width: 60%;">
+                    <thead>
+                        <tr>cd 
+                            <th> ID </th>
+                            <th> Jméno </th>
+                            <th> Email </th>
+                            <th> Tel. </th>
+                            <th> Operace </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach(Manager mng in ViewBag.ManagerList){
+                                <td>@mng.ID</td>
+                                <td>@mng.Firstname @mng.Lastname</td>
+                                <td>@mng.Email</td>
+                                <td>@mng.Phone</td>
+                                <td> show edit </td>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }else{
+                <div class="page-container height-500">
+                    <h3 style="padding: 0px 60px" class="bg-danger text-white"> No managers found. </h3>
+                </div> 
+            }
+        }        
     </div>
 </div>

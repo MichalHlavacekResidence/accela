@@ -259,6 +259,135 @@ namespace accela.Data
             }
         }
 
+        public List<Department> GetAllDepartments(){
+            try{
+                using(var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand command = new MySqlCommand()){
+                        command.Connection = db.Connection;
+                        command.CommandText = "SELECT ID, Name, URL, Visibility, Position FROM Departments";
+                        var reader = command.ExecuteReader();
+                        if(reader.HasRows == false){
+                            return new List<Department>();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        bool vis = false;
+                        int pos = 0;
+                        List<Department> deps = new List<Department>();
+                        while(reader.Read()){
+                            try{ id = reader.GetInt32(0);}catch(Exception){ id = 0; }
+                            try{ name = reader.GetString(1);}catch(Exception){ name = null; }
+                            try{ url = reader.GetString(2);}catch(Exception){ url = null; }
+                            try{ vis = reader.GetBoolean(3);}catch(Exception){ vis = false; }
+                            try{ pos = reader.GetInt32(4);}catch(Exception){ pos = 0; } 
+                            deps.Add(new Department(id, name, url, vis, pos));
+                        }
+                        return deps;
+                    }
+                }
+            }catch(Exception ex ){
+                Console.WriteLine("[GetAllDepartments] "+ex.Message);
+                return new List<Department>(); 
+            }
+        }
+
+        public List<Department> GetVisibleDepartments(){
+            try {
+                using(var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, URL, Visibility, Position FROM Departments WHERE Visibility = 1";
+                        var reader = cmd.ExecuteReader();
+                        if(reader.HasRows == false){
+                            return new List<Department>();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        bool visibility = false;
+                        int position = 0;
+                        List<Department> deps = new List<Department>();
+                        while(reader.Read())
+                        {
+                            try{ id = reader.GetInt32(0);}catch(Exception){ id = 0; }
+                            try{ name = reader.GetString(1);}catch(Exception) {name = null;}
+                            try{ url = reader.GetString(2);}catch(Exception){ url = null; }
+                            try{ visibility = reader.GetBoolean(3); }catch(Exception){visibility = false;}
+                            try{ position = reader.GetInt32(4);}catch(Exception){ position = 0;}
+                            deps.Add(new Department(id, name, url, visibility, position));
+                        }
+                        return deps;
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[GetVisibleDepartments] "+ ex.Message);
+                return new List<Department>();
+            }
+            
+        }
+
+        public SystemMessage AddManager(Manager mng)
+        {
+            try{
+                if(this.VerifyManagerExistence(mng))
+                {
+                    return new SystemMessage("Adding new Manager", "Manager with this email already exists", "error");
+                }
+
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "INSERT INTO Managers(Firstname, Lastname, Email, Phone, Img, Description, Visibility, Position, DepartmentID) VALUES (@fname, @lname, @email, @phone, @img, @desc, @vis, @pos, @depid)";
+                        cmd.Parameters.AddWithValue("@fname", mng.Firstname);
+                        cmd.Parameters.AddWithValue("@lname", mng.Lastname);
+                        cmd.Parameters.AddWithValue("@email", mng.Email);
+                        cmd.Parameters.AddWithValue("@phone", mng.Phone);
+                        cmd.Parameters.AddWithValue("@img", mng.ImageRelativeURL);
+                        cmd.Parameters.AddWithValue("@desc", mng.Description);
+                        cmd.Parameters.AddWithValue("@vis", mng.Visibility);
+                        cmd.Parameters.AddWithValue("@pos", mng.Position);
+                        cmd.Parameters.AddWithValue("@depid", mng.Department.ID);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Adding new Manager", "Manager was successfully added", "OK");
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[AddManager] "+ex.Message);
+                return new SystemMessage("Adding new Manager", "There was critical error processing this request. Check server -- app console for more informations", "Error");
+            }
+            
+        }
+
+        public SystemMessage AddDepartment(Department dp){
+            if(this.VerifyDepartmentExistence(dp)){
+                return new SystemMessage("Adding new Department", "Department with this name alredy exists.", "Error");
+            }
+
+            using(var db = new AppDb()){
+                db.Connection.Open();
+                using(MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = db.Connection;
+                    cmd.CommandText = "INSERT INTO Departments (Name, URL, Visibility, Position) VALUES (@nam, @url, @vis, @pos)";
+                    cmd.Parameters.AddWithValue("@nam", dp.Name);
+                    cmd.Parameters.AddWithValue("@url", dp.URL);
+                    cmd.Parameters.AddWithValue("@vis", dp.Visibility);
+                    cmd.Parameters.AddWithValue("@pos", dp.Position);
+                    cmd.ExecuteNonQuery();
+                    return new SystemMessage("Adding new Department", "Department was successfully added", "OK");
+                }
+            }
+        }
+
         public SystemMessage AddProduct(Product product){
             try {
                 using(var db = new AppDb()){
@@ -596,6 +725,30 @@ namespace accela.Data
                 }
             }catch(Exception ex){
                 Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public bool VerifyDepartmentExistence(Department dp){
+            try{
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT 1 FROM Departments WHERE Name = @name OR ID = @id";
+                        cmd.Parameters.AddWithValue("@id", dp.ID);
+                        cmd.Parameters.AddWithValue("@name", dp.Name);
+                        var reader = cmd.ExecuteReader();
+                        if(reader.HasRows == true){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[VerifyDepartmentExistence] "+ ex.Message);
                 return false;
             }
         }
