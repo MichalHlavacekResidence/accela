@@ -34,6 +34,22 @@ namespace accela.Controllers
         {
             return View();
         }
+        public IActionResult Discover()
+        {
+            return View();
+        }
+        public IActionResult References()
+        {
+            return View();
+        }
+        public IActionResult Technologies()
+        {
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

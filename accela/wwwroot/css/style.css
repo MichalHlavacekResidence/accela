@@ -4,9 +4,17 @@
     border: 0;
 }
 .row {
-    margin-right: 0px;
-    margin-left:0px;
+   
 }
+.hpPageOfPages{
+   
+}
+a {
+    text-decoration: none !important;
+    font-family: 'Open Sans', Arial, sans-serif;
+    color: #00953f !important;
+}
+
 
 .nemu-collum {
     margin-top:5px;
@@ -22,13 +30,9 @@
 }
 
 .menu-collapse {
- 
     width: 179px;
     height: 53px;
     color:green;
-}
-.container-fluid{
-    max-width:1600px;
 }
 @media all and (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {
@@ -47,18 +51,23 @@
     }
 }
 .hpMenuColapse {
-    margin-left: 100%;
+    /*margin-left: 100%;*/
 }
 
 .dropdown-menu {
-    width: 1550px;
-    top: 73%;
-    margin-left:20px;
+    width: 1500px;
+    margin:0 auto;
+}
+.dropdown-menuContainerTech {
+    margin-left: -267px !important;
+}
+.dropdown-menuContainerBrand {
+    margin-left: -471px !important;
 }
 .footer {
     background-color: #00953f;
     margin-bottom: auto;
-    width:100%;
+    width: 100%;
 }
 .footer-container {
     float: left;
@@ -68,40 +77,78 @@
 }
 .hpTop {
     position: relative;
-    margin-left: auto;
-    margin-right: auto;
     background-repeat: no-repeat;
-    background-position: center top;
-    width: 100%;
+    background-position: top;
+    height:300px;
     background-image: url('../file/pictures/home_back.jpg');
     overflow: auto;
+    background-size: cover;
 }
-
-.container-fluid{
-    padding:0px;
-    max-width:1600px;
+.hpMainContainer{
+}
+.refContainer {
+    margin: 5px 5px 5px 5px;
+    width: 24%;
+}
+.refContainerF {
+    margin: 5px 5px 5px 0px;
+    width: 24%;
+}
+.refContainerT {
+    margin: 5px 0px 5px 5px;
+    width: 24%;
+}
+.desc {
+    margin-top: 26px;
+    text-align: center;
+    margin-left: 30px;
+    margin-right: 30px;
+    color: #2e2d2c;
+    font-size: 13px;
+    font-weight: 300;
+}
+.refImage {
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 45px;
+    width: 255px;
+    height: 80px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    table-layout: fixed;
+}
+.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+    /*max-width: 1600px;*/
 }
 header {
     padding: 0px;
-    max-width: 1600px;
+    /*max-width: 1600px;*/
 }
 footer {
    
     
 }
-.hpPageContainer{
-    padding:0;
-    margin-bottom:280px;
+.hpPageContainer {
+    padding: 0;
+    margin-bottom: 280px;
+    max-width:100%;
+    width:100%;
+    padding-left:0px !important;
+    padding-right:0px !important;
 }
 .hpTitle {
     display: none;
 }
 .hpSubmenu {
     height: 172px;
-    width: 50px;
+    
 }
 .hpTechSubmenu {
-    margin-top: 293px;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
 }
 .hpSubmenu:hover {
     height: 280px;
@@ -115,25 +162,29 @@ footer {
 .hpDiscoverItemL {
     margin-right: 2%;
     margin-top: 20px;
+    padding:0px !important;
 }
 .hpDiscoverItemM {
     margin-right: 2%;
     margin-top: 20px;
+    padding: 0px !important;
 }
 .hpDiscoverItemR {
     margin-top: 20px;
+    padding: 0px !important;
 }
 
 .hpBrandsPolygon {
-    height:195px;
+    height: 195px;
     float: left;
     display: block;
-    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-image: url('../file/pictures/sestiuhelnik-accela-190x171.jpg');
     background-repeat: no-repeat;
     background-position: center top;
 }
 
 .hpBrandsPolygonEnd {
+    height: 195px;
     float: left;
     display: block;
     background-image: url('../file/pictures/accela-mnohouhelnik.png');
@@ -155,6 +206,12 @@ footer {
     background-repeat: no-repeat;
     background-position: center top;
 }
+.bannerContainer {
+    min-height: 194px;
+    background-image: url('../file/pictures/page_top_brands.jpg');
+    background-repeat:no-repeat;
+    background-size: 100% 100%;
+}
 .hpBrandsPolygon:nth-child(7) {
     margin-left: 74px;
     margin-top: -32px;
@@ -163,32 +220,426 @@ footer {
     margin-left: 74px;
     margin-top: -32px;
 }
+.bannerNoStyle{
+    padding:unset;
+    margin:0 !important;
+}
+.pTop {
+    margin-top: 65px;
+    font-size: 50px;
+    text-shadow: 0px 0px 7px black;
+    color: white;
+}
+.pTop h1 {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 40px;
+    font-weight: 300;
+    color: white;
+    line-height: 50px;
+    height: 50px;
+    margin-top: 50px;
+    text-align: center;
+}
+.pfilbi {
+    max-height: 40px;
+}
+.pfilf a.fil_field {
+    font-size: 14px;
+    color: #00953f;
+    margin-left: 10px;
+    font-weight: 600;
+}
+.pfil {
+    float: left;
+    margin-top: 9px;
+    width: 100%;
+}
+.pfil p.title {
+    
+    border-radius: 3px;
+    background-color: #00953f;
+    color: white;
+    height: 45px;
+    line-height: 45px;
+    padding-left: 15px;
+    text-transform: uppercase;
+}
+.discoverModalButton {
+    display: none !important;
+}
+.brandItem {
+    float: left;
+    display: block;
+    background-image: url('../file/pictures/brand_cell.png');
+    width: 222px;
+    height: 117px;
+    margin-top:5px;
+    background-repeat: no-repeat;
+}
+.brandItemImage {
+    display: table-cell;
+    padding-top: 40px;
+    vertical-align: middle;
+    text-align: center;
+    max-width: 90px;
+    max-height: 70px;
+}
+img {
+    max-width: 100%;
+    max-height: 100%;
+    width:100%;
+}
+.brandItemText {
+    float: left;
+}
+.brandSubTitle {
+    float: left;
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+    margin-top: 10px;
+}
+.hpDiscoverImgBrand {
+    margin-top: -105px;
+    width: 41%;
+    padding-bottom: 100px;
+}
+.hpDiscoverImgDiscover {
+    width: 100%;
+    margin-top:0px;
+}
+.hpDiscoverImage{
+    width:100%;
+}
+
+
+.hpbrandFirst {
+    width: 16%;
+    margin-right: 5px;
+    height: 195px;
+    float: left;
+    display: block;
+    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.hpbrandSecond {
+    width: 16%;
+    height: 195px;
+    margin-right: 5px;
+    float: left;
+    display: block;
+    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-repeat: no-repeat;
+    margin-top: -3%;
+    margin-left: 8%;
+    background-size: 100% 100%;
+}
+
+.hpbrand {
+    width: 16%;
+    height: 195px;
+    margin-right: 5px;
+    float: left;
+    display: block;
+    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-repeat: no-repeat;
+    margin-top: -3%;
+    background-size: 100% 100%;
+}
+
+
+
+
+
+
+
+.hpBoxContainer {
+    margin-right: 0px !important;
+}
 /* MOBILE VERSION*/
-@media only screen and (max-width: 992px) {
-    .hpTop {
+
+    @media only screen and (max-width: 992px) {
+        .hpTop {
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            background-repeat: no-repeat;
+            background-position: top;
+            background-image: url('../file/pictures/home_back_small.png');
+            background-size: contain;
+            height: 132px;
+        }
+
+        .hpSubmenu {
+            height: 280px;
+        }
+
+            .hpSubmenu:hover {
+                margin-top: 0;
+            }
+
+        .hpDiscoverItemM, .hpDiscoverItemL, .hpDiscoverItemR {
+            margin-right: 0%;
+        }
+
+        .hpMenuColapse {
+            margin-left: 0%;
+        }
+
+        .bannerContainer {
+            background-image: url('../file/pictures/page_top_banner_small.png');
+            min-height: 194px;
+        }
+
+        .discoverSearchContainer {
+            display: none;
+        }
+
+        .discoverModalButton {
+            display: unset !important;
+        }
+
+        .refImage {
+            padding-top: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            width: 190px;
+            height: 80px;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            table-layout: fixed;
+        }
+
+        .desc {
+            margin-top: 5px;
+            text-align: center;
+            margin-left: 15px;
+            margin-right: 15px;
+            color: #2e2d2c;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        .refContainer {
+            margin: 5px 0px 5px 0px;
+            width: 49%;
+        }
+
+        .refContainerF {
+            margin: 5px 0px 5px 0px;
+            width: 49%;
+        }
+
+        .refContainerT {
+            margin: 5px 0px 5px 0px;
+            width: 49%;
+        }
+
+        .hpbrandFirstM {
+            width: 30%;
+            margin-right: 5px;
+            height: 100px;
+            float: left;
+            display: block;
+            background-image: url('../file/pictures/accela-mnohouhelnik.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .hpbrandSecondM {
+            width: 30%;
+            height: 100px;
+            margin-right: 5px;
+            float: left;
+            display: block;
+            background-image: url('../file/pictures/accela-mnohouhelnik.png');
+            background-repeat: no-repeat;
+            margin-top: -3%;
+            margin-left: 15%;
+            background-size: 100% 100%;
+        }
+
+        .hpbrandM {
+            width: 30%;
+            height: 100px;
+            margin-right: 5px;
+            float: left;
+            display: block;
+            background-image: url('../file/pictures/accela-mnohouhelnik.png');
+            background-repeat: no-repeat;
+            margin-top: -3%;
+            margin-left: 0px;
+            background-size: 100% 100%;
+        }
+        .ccccc {
+            width: auto !important;
+           
+        }
+        .ddddddddddddd {
+            margin-left: 0px !important;
+            margin-top: -50px !important;
+        }
+
+        .tttttttt {
+            margin-left: 0px !important;
+            margin-top: -50px !important;
+        }
+        .sssssssss {
+            margin-left: 0px !important;
+            margin-top: -50px !important;
+        }
+        .aaaa {
+            width: 170px !important;
+        }
+        .eeeeeeeeee {
+            width: 170px !important;
+            margin-top: -50px !important;
+        }
+        .mmmmmmmm {
+            margin-top: -50px !important;
+        }
+        
+    }
+@media only screen and (max-width: 400px) {
+    .mmini {
+        margin-top: -50px !important;
+    }
+}
+@media only screen and (min-width: 1700px) {
+    .hpbrandFirst {
+        height: 210px;
+    }
+
+    .hpbrandSecond {
+        margin-top: -40px;
+        margin-left: 130px;
+        height: 210px;
+    }
+
+    .hpbrand {
+        margin-top: -40px;
+        height: 210px;
+    }
+
+    .aaaa {
+        width: 250px !important;
+        height: 280px !important;
+        float: left;
+        display: block;
+        margin-right: 10px;
+        background-repeat: no-repeat;
+        margin-top: -36px;
+        background-image: url('../file/pictures/accela-mnohouhelnik.png');
+        background-size: 100% 100%;
+    }
+
+    .ccccc {
+        width: 1700px !important;
         position: relative;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .sssssssss {
+        margin-left: 126px !important;
+        margin-top: -56px;
+    }
+
+    .eeeeeeeeee {
+        width: 250px !important;
+        height: 280px !important;
+        float: left;
+        display: block;
+        margin-right: 10px;
         background-repeat: no-repeat;
-        background-position: center top;
-        width: 100%;
-        background-image: url('../file/pictures/home_back_small.png');
+        margin-top: -56px;
+        background-image: url('../file/pictures/accela-mnohouhelnik.png');
+        background-size: contain;
     }
 
-    .hpSubmenu {
-        height: 280px;
+    .ddddddddddddd {
+        margin-left: 0px !important;
+        margin-top: -56px;
     }
 
-    .hpSubmenu:hover {
-        margin-top: 0;
+    .tttttttt {
+        margin-left: 126px !important;
+        margin-top: -56px;
     }
-
-    .hpDiscoverItemM, .hpDiscoverItemL, .hpDiscoverItemR {
-        margin-right: 0%;
-    }
-    .hpMenuColapse {
-        margin-left: 0%;
-    }
-    
-
 }
+
+@media only screen and (min-width: 2400px) {
+    .hpbrandFirst {
+        height: 220px;
+    }
+    .hpbrandSecond {
+        margin-top: -35px;
+        margin-left: 180px;
+        height: 220px;
+    }
+
+    .hpbrand {
+        margin-top: -35px;
+        height: 220px;
+    }
+
+    .aaaa {
+        width: 500px;
+        height: 500px;
+        float: left;
+        display: block;
+        margin-right: 10px;
+        background-repeat: no-repeat;
+        margin-top: -36px;
+        background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    }
+
+    .ccccc {
+        width: 2000px;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.aaaa {
+    width: 200px;
+    height: 240px;
+    float: left;
+    display: block;
+    margin-right: 10px;
+    background-repeat: no-repeat;
+    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-size:contain;
+}
+.ccccc {
+    width: 1300px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+.sssssssss{
+    margin-left:104px;
+    margin-top:-56px;
+}
+.eeeeeeeeee {
+    width: 200px;
+    height: 240px;
+    float: left;
+    display: block;
+    margin-right: 10px;
+    background-repeat: no-repeat;
+    margin-top: -56px;
+    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-size: contain;
+}
+.ddddddddddddd {
+    margin-left: 104px;
+    margin-top: -56px;
+}
+
+
