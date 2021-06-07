@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Models\ViewModels\" />
-    <Folder Include="wwwroot\file\pictures\" />
     <Folder Include="wwwroot\file\product\ing\" />
     <Folder Include="wwwroot\file\product\pdf\" />
   </ItemGroup>
