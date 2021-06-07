@@ -71,7 +71,7 @@ namespace Controllers
             //Přihlaš uživatele v rámci frameworku .NET
             await _signManager.SignInAsync(loggedUser, false, null);
             Console.WriteLine("Uživatel byl přihlášen");
-
+ 
             return RedirectToAction("Index", "Admin");
         }
 
