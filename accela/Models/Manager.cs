@@ -47,5 +47,15 @@ namespace accela.Models
         public int Position { get { return _position;} set { _position = value; } }
         public bool Visibility { get { return _visibility;} set { _visibility = value; }}
 
+        public bool CheckDetails(){
+            bool result = true;
+
+            if(this.Firstname == null || this.Lastname == null || this.Email == null){
+                result = false;
+            }
+
+            return result;
+        }
+
     }
 }

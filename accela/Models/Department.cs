@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using accela.Extensions;
 
 namespace accela.Models
 {
@@ -23,6 +24,17 @@ namespace accela.Models
             _url = url;
             _visibility = visibility;
             _position = position;
+        }
+
+        public void GenerateUrl(){
+            this._url = Slugify.URLFriendly(this._name);
+        }
+
+        public bool CheckDetails(){
+            if(this._name == null || this._name == "" || this._url == "" || this._url == null){
+                return false;
+            }
+            return true;
         }
 
         public int ID { get { return _id; } set { _id = value; } }
