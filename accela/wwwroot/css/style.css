@@ -475,12 +475,45 @@ img {
             margin-left: 0px;
             background-size: 100% 100%;
         }
-    }
+        .ccccc {
+            width: auto !important;
+           
+        }
+        .ddddddddddddd {
+            margin-left: 0px !important;
+            margin-top: -50px !important;
+        }
 
+        .tttttttt {
+            margin-left: 0px !important;
+            margin-top: -50px !important;
+        }
+        .sssssssss {
+            margin-left: 0px !important;
+            margin-top: -50px !important;
+        }
+        .aaaa {
+            width: 170px !important;
+        }
+        .eeeeeeeeee {
+            width: 170px !important;
+            margin-top: -50px !important;
+        }
+        .mmmmmmmm {
+            margin-top: -50px !important;
+        }
+        
+    }
+@media only screen and (max-width: 400px) {
+    .mmini {
+        margin-top: -50px !important;
+    }
+}
 @media only screen and (min-width: 1700px) {
     .hpbrandFirst {
         height: 210px;
     }
+
     .hpbrandSecond {
         margin-top: -40px;
         margin-left: 130px;
@@ -490,6 +523,52 @@ img {
     .hpbrand {
         margin-top: -40px;
         height: 210px;
+    }
+
+    .aaaa {
+        width: 250px !important;
+        height: 280px !important;
+        float: left;
+        display: block;
+        margin-right: 10px;
+        background-repeat: no-repeat;
+        margin-top: -36px;
+        background-image: url('../file/pictures/accela-mnohouhelnik.png');
+        background-size: 100% 100%;
+    }
+
+    .ccccc {
+        width: 1700px !important;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .sssssssss {
+        margin-left: 126px !important;
+        margin-top: -56px;
+    }
+
+    .eeeeeeeeee {
+        width: 250px !important;
+        height: 280px !important;
+        float: left;
+        display: block;
+        margin-right: 10px;
+        background-repeat: no-repeat;
+        margin-top: -56px;
+        background-image: url('../file/pictures/accela-mnohouhelnik.png');
+        background-size: contain;
+    }
+
+    .ddddddddddddd {
+        margin-left: 0px !important;
+        margin-top: -56px;
+    }
+
+    .tttttttt {
+        margin-left: 126px !important;
+        margin-top: -56px;
     }
 }
 
@@ -507,13 +586,60 @@ img {
         margin-top: -35px;
         height: 220px;
     }
+
+    .aaaa {
+        width: 500px;
+        height: 500px;
+        float: left;
+        display: block;
+        margin-right: 10px;
+        background-repeat: no-repeat;
+        margin-top: -36px;
+        background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    }
+
+    .ccccc {
+        width: 2000px;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 .aaaa {
-    height:195px;
+    width: 200px;
+    height: 240px;
+    float: left;
+    display: block;
+    margin-right: 10px;
+    background-repeat: no-repeat;
     background-image: url('../file/pictures/accela-mnohouhelnik.png');
-    background-repeat:no-repeat;
-    background-size:100% 100%;
+    background-size:contain;
+}
+.ccccc {
+    width: 1300px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+.sssssssss{
+    margin-left:104px;
+    margin-top:-56px;
+}
+.eeeeeeeeee {
+    width: 200px;
+    height: 240px;
+    float: left;
+    display: block;
+    margin-right: 10px;
+    background-repeat: no-repeat;
+    margin-top: -56px;
+    background-image: url('../file/pictures/accela-mnohouhelnik.png');
+    background-size: contain;
+}
+.ddddddddddddd {
+    margin-left: 104px;
+    margin-top: -56px;
 }
 
 
