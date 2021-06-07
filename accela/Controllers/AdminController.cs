@@ -72,7 +72,7 @@ namespace Controllers
             {
                 return View();
             }
-            //db.AddManager(manager);
+            db.AddManager(manager);
             return RedirectToAction("Managers", "Admin");
         }
 

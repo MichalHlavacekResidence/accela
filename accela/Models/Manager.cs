@@ -50,7 +50,7 @@ namespace accela.Models
         public bool CheckDetails(){
             bool result = true;
 
-            if(this.ID == 0 || this.Firstname == null || this.Lastname == null || this.Phone == null || this.Email == null){
+            if(this.Firstname == null || this.Lastname == null || this.Email == null){
                 result = false;
             }
 

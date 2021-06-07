@@ -42,7 +42,7 @@
     <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. <span class="form-mandatory"> This field is mandatory. </span> </div>
   </div>
   <div class="mb-3">
-    <select class="form-select">
+    <select asp-for="@Model.Department.ID" class="form-select">
         <option selected>Click here and select Department</option>
         @{
             foreach(Department department in ViewBag.DepartmentList){
