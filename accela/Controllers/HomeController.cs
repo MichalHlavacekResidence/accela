@@ -53,6 +53,43 @@ namespace accela.Controllers
         {
             return View();
         }
+        public IActionResult TechnologiDetail()
+        {
+            return View();
+        }
+        public IActionResult DiscoverDetail()
+        {
+            return View();
+        }
+        public IActionResult ProductDetail()
+        {
+            return View();
+        }
+        public IActionResult Product()
+        {
+            return View();
+        }
+        public IActionResult Support()
+        {
+            return View();
+        }
+        public IActionResult About()
+        {
+            return View();
+        }
+        public IActionResult Downloads()
+        {
+            return View();
+        }
+        public IActionResult MeetUs()
+        {
+            return View();
+        }
+        public IActionResult Career()
+        {
+            return View();
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
