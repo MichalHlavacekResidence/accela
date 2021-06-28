@@ -1,8 +1,14 @@
 @model accela.Models.Brand
 <div class="mx-auto">
-    <h1 class="text-center"> Add new brand </h1>
+    @{
+      if(@Model.ID != 0){
+        <h1 class="text-center"> Update Brand </h1>
+      }else{
+        <h1 class="text-center"> Add new Brand </h1>
+      }
+    }
 </div>
-<form class="needs-validation" method="post" asp-action="AddBrand" asp-controller="Admin" novalidate>
+<form class="needs-validation" enctype="multipart/form-data" method="post" asp-action="AddBrand" asp-controller="Admin" novalidate>
   <div class="mb-3">
     <label asp-for="@Model.Name" class="form-label">Name of brand</label>
     <input asp-for="@Model.Name" type="text" class="form-control" aria-describedby="nameHelp" required>
@@ -42,7 +48,7 @@
     <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. <span class="form-mandatory"> This field is mandatory. </span> </div>
   </div>
   <div class="mb-3">
-    <select class="form-select" required>
+    <select asp-for="@Model.Contact.ID" class="form-select" required>
         <option selected>Click here and select Manager</option>
         @{
             foreach(Manager manager in ViewBag.ManagerList){
@@ -62,6 +68,35 @@
         <input class="form-check-input" type="checkbox" asp-for="@Model.Visibility">
         <label class="form-check-label" asp-for="@Model.Visibility"> Should be brand visible? <span class="form-mandatory"> This field is mandatory. </span> </label>
     </div>
+      <div class="mb-3">
+        <label class="form-label" for="ImageFile"> Upload profile picture of manager </label>
+        <input type="file" name="ImageFile" class="form-control"/>
+      </div>
   </div>
+  <div class="mb-3">
+    <input class="form-control" type="text" list="datalist"/>
+    <datalist id="datalist">
+      @{
+        foreach(Product prod in ViewBag.ProductList)
+        {
+          <option class="js_search_element" value="@prod.Name"> @prod.Name </option>
+        }
+        <option class="js_search_element" value="haf">haf</option>
+        <option class="js_search_element" value="reg">reg</option> 
+
+      }
+    </datalist>
+  </div>
+  <div class="mb-3">
+    <p> Selected products: </p>
+    <div class="js_selectedProducts">
+
+    </div>
+  </div>
+  <input type="hidden" asp-for="@Model.ID" />
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+
+</script>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using accela.Extensions;
 
 namespace accela.Models
 {
@@ -14,6 +15,7 @@ namespace accela.Models
         private int _position;
         private bool _visibiliy;
         private Manager _contact;
+        private Category _pool;
 
         public Category(int id, string name, string url, string desc, string img, string text, int position, bool visibility, Manager contact)
         {
@@ -26,6 +28,20 @@ namespace accela.Models
             _position = position;
             _visibiliy = visibility;
             _contact = contact;
+        }
+
+        public Category(int id, Category pid, string name, string url, string desc, string img, string text, int position, bool visibility, Manager contact)
+        {
+            _id = id;
+            _name = name;
+            _url = url;
+            _description = desc;
+            _image = img;
+            _text = text;
+            _position = position;
+            _visibiliy = visibility;
+            _contact = contact;
+            _pool = pid;
         }
 
         public Category()
@@ -42,5 +58,23 @@ namespace accela.Models
         public string Text { get { return _text;} set { _text = value; }}
         public bool Visibility { get { return _visibiliy; } set { _visibiliy = value;}}
         public Manager Contact { get { return _contact; } set { _contact = value; }}
+        public Category Pool { get { return _pool; } set { _pool = value; }}
+        public int Position { get { return _position; } set { _position = value; }}
+
+        public bool CheckDetails()
+        {
+            bool result = true;
+            if(this._name == null || this._url == null)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        public void GenerateUrl()
+        {
+            this._url = Slugify.URLFriendly(this._name);
+        }
     }
 }

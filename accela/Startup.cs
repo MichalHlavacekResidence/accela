@@ -46,6 +46,7 @@ namespace accela
                 config.Cookie.Name = "Identity.Cookie";
                 //config.Cookie.Expiration = ;
                 config.LoginPath = "/Account/Login";
+                config.ExpireTimeSpan = System.TimeSpan.FromHours(1);
             });
 
             services.AddControllersWithViews();
@@ -79,7 +80,7 @@ namespace accela
                 //endpoints.MapControllerRoute(
                   //  name: "default",
                    // pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+           });
         }
         
     }

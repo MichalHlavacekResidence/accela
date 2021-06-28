@@ -32,29 +32,71 @@
   </div>
   <div class="mb-3">
     <label asp-for="@Model.ReferenceLink" class="form-label">Link to producer's product page </label>
-    <input type="text" class="form-control" aria-describedby="linkHelp" asp-for="@Model.ReferenceLink" required/>
+    <input type="text" class="form-control" aria-describedby="linkHelp" asp-for="@Model.ReferenceLink"/>
     <div class="valid-feedback">
         Looks good!
     </div>
     <div class="invalid-feedback">
         This field is mandatory, fill it please.
     </div>
-    <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. <span class="form-mandatory"> This field is mandatory. </span> </div>
+    <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. </div>
   </div>
   <div class="mb-3">
-    <select class="form-select" required>
-        <option selected>Click here and select producer</option>
+    <label asp-for="@Model.Category.ID" class="form-label"> Category </label>
+    <select asp-for="@Model.Category.ID" class="form-select" required>
         @{
-            foreach(Brand producer in ViewBag.ProducerList){
-                <option value="Tesco"> Tesco a.s. </option>
+            foreach(Category cat in ViewBag.CategoryList){
+                <option value="@cat.ID"> @cat.Name (@cat.URL) </option>
             }
         }
     </select>
+    <div id="linkHelp" class="form-text form-helper"> Category where product will be shown. <span class="form-mandatory"> This field is mandatory. </span> </div>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="@Model.Producer.ID" class="form-label">Brand (Company that created this item)</label>
+    <select asp-for="@Model.Producer.ID" class="form-select" required>
+        <option selected disabled>Click here and select producer</option>
+        @{
+            foreach(Brand producer in ViewBag.ProducerList){
+                <option value="@producer.ID"> @producer.Name </option>
+            }
+        }
+    </select>
+    <span class="form-mandatory"> This field is mandatory. </span>
     <div class="valid-feedback">
         Looks good!
     </div>
     <div class="invalid-feedback">
         This field is mandatory, choose Producer please.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="@Model.Manager.ID" class="form-label"> Manager (shown as contact person) </label>
+    <select asp-for="@Model.Manager.ID" class="form-select">
+        @{
+            <option selected value="0"> Without any specific manager</option>
+            foreach(Manager mngrs in ViewBag.ManagerList){
+                <option value="@mngrs.ID"> @mngrs.Firstname @mngrs.Lastname </option>
+            }
+        }
+    </select>
+    <div id="linkHelp" class="form-text form-helper"> If you won't select manager (contact person), manager that is set as contact person of the brand will be shown instead. </div>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="container">
+        <fieldset class="form-group">
+            <a href="javascript:void(0)" onclick="$('#pro-image').click()">Upload Image</a>
+            <input type="file" id="pro-image" name="pro-image" style="display: none;" class="form-control" multiple>
+        </fieldset>
+        <div class="preview-images-zone">
+            
+        </div>
     </div>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>

@@ -1,36 +1,36 @@
 <div class="row">
     <div class="mx-auto">
-        <h1 class="text-center"> Managers management </h1>
+        <h1 class="text-center"> Messages overview </h1>
     </div>
 </div>
 <div class="row">
     <div class="mx-auto" style="margin-top:5vh">
-        <div class="row">
-            <div class="col kek">
-                <a class="btn float-end btn-primary" asp-action="AddManager" asp-controller="Admin"> Add new manager </a>
-            </div>
-        </div>
         @{
-        List<Manager> managers = ViewBag.ManagerList;
-            if(managers.Count() != 0){
+        List<Email> messages = ViewBag.MessageList;
+            if(messages.Count() != 0){
                 <table class="table table-hover">
                     <thead>
                         <tr> 
                             <th> ID </th>
-                            <th> Jméno </th>
+                            <th> Name </th>
                             <th> Email </th>
-                            <th> Tel. </th>
-                            <th> Operace </th>
+                            <th> Created </th>
+                            <th> Operation </th>
                         </tr>
                     </thead>
                     <tbody>
                         @{
-                            foreach(Manager mng in ViewBag.ManagerList){
+                            foreach(Email mng in ViewBag.MessageList){
                             <tr>
                                 <td>@mng.ID</td>
-                                <td>@mng.Firstname @mng.Lastname</td>
-                                <td>@mng.Email</td>
-                                <td>@mng.Phone</td>
+                                @{
+                                    foreach(KeyValuePair<string, string> kvp in mng.SendTo[0])
+                                    {
+                                        <td>@kvp.Key</td>
+                                        <td>@kvp.Value</td>  
+                                    }
+                                }
+                                <td>@mng.Created</td>
                                 <td>
                                     <a class="btn btn-primary" href="~/Admin/Manager?mid=@mng.ID"> show </a>
                                     <a class="btn btn-warning" href="~/Admin/AddManager?uid=@mng.ID"> edit </a> 
@@ -42,7 +42,7 @@
                 </table>
             }else{
                 <div class="page-container height-500">
-                    <h3 style="padding: 0px 60px" class="bg-danger text-white"> No managers found. </h3>
+                    <h3 style="padding: 0px 60px" class="text-center bg-danger text-white"> No messages found. </h3>
                 </div> 
             }
         }        

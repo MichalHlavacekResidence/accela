@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="mx-auto">
+        <h1 class="text-center"> Categories management </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="mx-auto" style="margin-top: 5vh">
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary float-end" asp-action="AddCategory" asp-controller="Admin"> Add new category </a>              
+            </div>
+        </div>
+    @{
+        List<Category> cats = ViewBag.CategoryList;
+        if(cats.Count() != 0){
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th> ID </th>
+                        <th> Category name </th>
+                        <th> Original category </th>
+                        <th> Visible </th>
+                        <th> Operation </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach(Category cat in cats){
+                            <tr>
+                                <td> @cat.ID </td>
+                                <td> @cat.Name </td>
+                                <td> @cat.Pool.Name </td>
+                                <td> @cat.Visibility </td>
+                                <td> 
+                                    <a class="btn btn-primary" asp-action="Category" asp-controller="Admin"> show </a>
+                                    <a class="btn btn-warning" asp-action="EditCategory" asp-controller="Admin"> edit </a> 
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }else{
+            <div class="page-container height-500">
+                <h3 style="margin-top: 10%; padding: 0px 60px" class="bg-danger text-center text-white"> No categories found. </h3>
+            </div>
+        }
+    }
+    </div>
+</div>
