@@ -11,3 +11,17 @@
     color: red;
     font-size: 12px;
 }
+
+.small-table {
+    width: 50%;
+}
+
+.margin-top-40 {
+    margin-top: 40px;
+}
+
+.image-thumbnail
+{
+    max-width: 200px;
+    max-height: 200px;
+}

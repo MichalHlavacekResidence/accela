@@ -178,6 +178,19 @@
                 window.location.href = "../Home/Technologies";
             });
         });
+
+        $(".js_testClick").on("click", function() {
+             $.post("/Email/RecieveMessage",
+                {
+                    Name: "Donald Duck",
+                    Email: "Duckburg",
+                    Text: "tata",
+                    FormType: "kekw"
+                },
+                function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+        });
     </script>
 </body>
 </html>

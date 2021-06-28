@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="mx-auto">
+        <h1 class="text-center"> Pools management </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="mx-auto">
+        <div class="row float-end">
+            <div class="col">
+                <a class="btn btn-primary" asp-action="AddPool" asp-controller="Admin"> Add new pool </a>
+            </div>
+        </div>
+    @{
+        List<Category> cats = ViewBag.PoolList;
+        if(cats.Count() != 0){
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th> ID </th>
+                        <th> Category name </th>
+                        <th> Visible </th>
+                        <th> Operation </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach(Category cat in cats){
+                            <tr>
+                                <td> @cat.ID </td>
+                                <td> @cat.Name </td>
+                                <td> @cat.Visibility </td>
+                                <td> 
+                                    <a asp-action="Pool" asp-controller="Admin"> <i> show </i></a>
+                                    <a asp-action="EditPool" asp-controller="Admin"> <i class="glyphicon"> edit </i> </a> 
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }else{
+            <div class="page-container height-500">
+                <h3 style="margin-top: 10%; padding: 0px 60px" class="bg-danger text-center text-white"> No pools found. </h3>
+            </div>
+        }
+    }
+    </div>
+</div>
