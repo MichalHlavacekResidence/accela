@@ -19,5 +19,6 @@
         <input class="form-check-input" type="checkbox" asp-for="@Model.Visibility">
         <label class="form-check-label" asp-for="@Model.Visibility"> Should be Department active(visible)? <span class="form-mandatory"> This field is mandatory. </span> </label>
     </div>
+    <input type="hidden" asp-for="@Model.ID" value="@Model.ID"/>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

@@ -25,19 +25,22 @@ namespace accela.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [Route("/Mailing")]
+        public IActionResult Mailing()
         {
             return View();
         }
 
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+        [Route("/Brand")]
         public IActionResult Brand()
         {
             return View();
         }
-        public IActionResult Discover()
-        {
-            return View();
-        }
+
         public IActionResult References()
         {
             return View();

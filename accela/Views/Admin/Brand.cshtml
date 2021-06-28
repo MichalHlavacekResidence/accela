@@ -1,0 +1,65 @@
+@model accela.Models.Brand
+<div class="row">
+    <div class="mx-auto">
+        <h1 class="text-center"> @Model.Name </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="mx-auto" style="margin-top: 5vh">
+        <div class="row">
+            <img class="image-thumbnail img-thumbnail float-start" src="~/file/uploaded/images/@Model.ImageRelativeURL"/>
+            <table class="mx-auto small-table table table-success table-stripped">
+                <tbody>
+                    <tr>
+                        <td> Numeric identifier (ID) </td>
+                        <td> @Model.ID </td>
+                    </tr>
+                    <tr>
+                        <td> URL </td>
+                        <td> @Model.URL </td>
+                    </tr>
+                    <tr> 
+                        <td> Reference link </td>
+                        <td>@Model.ReferenceLink </td>
+                    </tr>
+                    <tr> 
+                        <td> Contact (Manager) </td>
+                        <td> @Model.Contact.Firstname @Model.Contact.Lastname </td>
+                    </tr>
+
+                    <tr> 
+                        <td> Small description </td>
+                        <td> @Model.SmallText </td>
+                    </tr>
+
+                    <tr> 
+                        <td> Description </td>
+                        <td> @Model.Description </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row margin-top-40">
+            <h3 class="text-center"> Products linked with this brand. </h3>
+            @{
+                if(Model.Products.Count() == 0)
+                {
+                    <p class="text-center text-danger"> No products were added to this Brand yet. </p>
+                }else{
+                    foreach(Product prd in Model.Products)
+                    {
+                        <div class="card" style="width: 18rem;">
+                            <img src="~/file/uploaded/images/@prd.Image" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">@prd.Name</h5>
+                                <p class="card-text">@prd.Description</p>
+                                <a href="#" class="btn btn-primary">Show product</a>
+                            </div>
+                        </div>
+                    }
+                }
+                
+            }
+        </div>
+    </div>
+</div>

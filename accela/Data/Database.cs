@@ -21,6 +21,15 @@ namespace accela.Data
             }
         }
 
+
+        ///
+        /// <summary>
+        ///     Funkce provede kontrolu hesla a emailu. 
+        /// </summary>
+        /// <returns>
+        ///     Funkce vrátí instanci třídy User, pokud nebyl uživatel přihlášen, nebo nalezen, vrátí instanci třídy s ID = 0.    
+        /// </returns>     
+        ///
         public User LoginUser(User usr){
             if(usr.Email == null || usr.Password == null){
                 //Uživatel nevyplnil heslo a email
@@ -65,6 +74,15 @@ namespace accela.Data
             }
         }
 
+        ///
+        /// <summary>
+        ///     Funkce vytvoří nový záznam uživatele v databázi. Před vytvořením záznamu
+        ///     kontroluje existenci emailu v databázi. Email musí být unikátní. 
+        /// </summary>
+        /// <returns>
+        ///     Notifikaci ve formátu SystemMessage obsahující informaci o výsledku operace.    
+        /// </returns>     
+        ///
         public SystemMessage CreateUser(User usr){
             if(this.VerifyUserExistence(usr)){
                 return new SystemMessage("Registrace uživatele", "Tento uživatel již existuje", "Error");
@@ -91,6 +109,99 @@ namespace accela.Data
             }
         }
 
+        ///<summary>
+        ///     Funkce pro získání všech zpráv, které byli zaslány skrze modální okna do systému.
+        ///</summary>
+        ///<returns>
+        ///     List objektů třídy Email. Díky tomu je možné ihned připravit (doplnit) objekt a odeslat email.
+        ///</returns>
+        ///
+        public List<Email> GetAllMessages()
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand command = new MySqlCommand())
+                    {
+                        command.Connection = db.Connection;
+                        command.CommandText = "SELECT ID, Name, Email, Text, FormUrl, Created FROM CustomerMessages";
+                        var reader = command.ExecuteReader();
+                        if(reader.HasRows == false)
+                        {
+                            return new List<Email>();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string email = null;
+                        string text = null;
+                        string formurl = null;
+                        DateTime created = DateTime.Now;
+                        List<Email> mails = new List<Email>();
+                        while(reader.Read())
+                        {
+                            try{ id = reader.GetInt32(0);}catch(Exception){ id = 0;}
+                            try{ name = reader.GetString(1);}catch(Exception){ name = null;}
+                            try{ email = reader.GetString(2);}catch(Exception){ email = null;}
+                            try{ text = reader.GetString(3);}catch(Exception){ text = null;}
+                            try{ formurl = reader.GetString(4);}catch(Exception){ formurl = null;}
+                            try{ created = reader.GetDateTime("Created");}catch(Exception){ created = DateTime.Now;}
+                            mails.Add(new Email(id, created, text, name, email, formurl));
+                        }
+                        return mails;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Email>();
+            }
+        }
+
+        ///
+        ///<summary>
+        ///     Funkce je určená k uložení formuláře (dotazníku) do databáze.
+        ///</summary>
+        ///<returns>
+        ///     Funkce vrací výsledek pokusu o zápis do databáze ve formátu objektu SystemMessage.
+        ///</returns>
+        ///
+        public SystemMessage SaveCustomerMessage(string username, string email, string text, string formtype)
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText ="INSERT INTO CustomerMessages (Name, Email, Text, FormURL) VALUES (@nam, @em, @tex, @url)";
+                        cmd.Parameters.AddWithValue("@nam", username);
+                        cmd.Parameters.AddWithValue("@em", email);
+                        cmd.Parameters.AddWithValue("@tex", text);
+                        cmd.Parameters.AddWithValue("@url", formtype);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Message successfully sent", "Your message was successfully sent to our system.", "ok");
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new SystemMessage("Message was not sent", ex.Message, "Error");
+            }
+        }
+
+        ///
+        /// <summary>
+        ///     Funkce získá z databáze všechny manažery, viditelné i skryté. 
+        /// </summary>
+        /// <returns>
+        ///     Pole ve formátu List[Manager].    
+        /// </returns>     
+        ///
         public List<Manager> GetAllManagers(){
             try{
                 using(var db = new AppDb()){
@@ -137,14 +248,333 @@ namespace accela.Data
                 return new List<Manager>();
             }
         }
+        ///
+        ///<summary>
+        ///     Funkce pro získání produktů se specifickým BranID u produktu.
+        ///</summary>
+        ///<returns>
+        ///     List produktů v datovém formátu List[Product].
+        ///</returns>
+        ///
+        public List<Product> GetProductsForBrand(int brandID)
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE BrandID = @bid";
+                        cmd.Parameters.AddWithValue("@bid", brandID);
+                        var reader = cmd.ExecuteReader();
 
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string subtitle = null;
+                        string smalld = null;
+                        string descr = null;
+                        string link = null;
+                        bool vis = false;
+                        int bID = 0;
+                        int catID = 0;
+                        string vidUrl = null;
+                        string referenceLink = null;
+                        int managerID = 0;
+                        Manager mng = new Manager();
+                        List<Product> products = new List<Product>();
+
+                        while(reader.Read()){
+                            try { id = reader.GetInt16(0); }catch(Exception){ id = 0;}
+                            try { name = reader.GetString(1); }catch(Exception){name = null;}
+                            try { url = reader.GetString(2); }catch(Exception){url = null;}
+                            try { subtitle = reader.GetString(3); }catch(Exception){ subtitle = null; }
+                            try { smalld = reader.GetString(4); }catch(Exception){ smalld = null; }
+                            try { descr = reader.GetString(5); }catch(Exception){ descr = null; }
+                            try { link = reader.GetString(6);}catch(Exception){link = null; }
+                            try { vis = reader.GetBoolean(7);}catch(Exception){vis = false; }
+                            try { bID = reader.GetInt16(8);}catch(Exception){ bID = 0; }
+                            try { catID = reader.GetInt16(9);}catch(Exception){catID = 0;}
+                            try { vidUrl = reader.GetString(10);}catch(Exception){vidUrl = null;}
+                            try { referenceLink = reader.GetString(11);}catch(Exception){referenceLink = null;}
+                            try { managerID = reader.GetInt16(12); }catch(Exception){ managerID = 0;}
+                            if(managerID != 0){
+                                mng = this.GetManagerByID(managerID);
+                            }
+                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, mng, vidUrl, vis));
+                        }
+                        return products;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetProductsForBrand] "+ex.Message);
+                return new List<Product>();
+            }
+        }
+
+            
+        ///
+        /// <summary>
+        ///     Funkce získá z databáze všechny viditelné manažery. 
+        /// </summary>
+        /// <returns>
+        ///     Pole ve formátu List[Manager].    
+        /// </returns>     
+        ///
+        public List<Manager> GetVisibleManagers()
+        {
+             try{
+                using(var db = new AppDb()){
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand()){
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Firstname, Lastname, Email, Phone, Img, Description, Visibility, Position, DepartmentID FROM Managers Where Visibility = 1";
+                        var reader = cmd.ExecuteReader();
+
+                        if(!reader.HasRows){
+                            //Vrátit prázdný výsledek
+                            return new List<Manager>();
+                        }
+                        int id;
+                        string fname;
+                        string lname;
+                        string email;
+                        string phone;
+                        string img;
+                        string description;
+                        bool visibility;
+                        int position;
+                        int departmentId;
+                        List<Manager> managers = new List<Manager>();
+                        while(reader.Read()){
+                            try{id = reader.GetInt16(0);}catch(Exception){ id = 0;}
+                            try{fname = reader.GetString(1);}catch(Exception){ fname = null; }
+                            try{lname = reader.GetString(2);}catch(Exception){ lname = null; }
+                            try{email = reader.GetString(3);}catch(Exception){ email = null; }
+                            try{phone = reader.GetString(4);}catch(Exception){ phone = null; }
+                            try{img = reader.GetString(5);}catch(Exception){ img = null; }
+                            try{description = reader.GetString(6);}catch(Exception){ description = null; }
+                            try{visibility = reader.GetBoolean(7);}catch(Exception){ visibility = false; }
+                            try{position = reader.GetInt16(8);}catch(Exception){ position = 0; }
+                            try{departmentId = reader.GetInt16(9);}catch(Exception){departmentId = 0;}
+                            
+                            managers.Add(new Manager(id, fname, lname, email, this.GetDepartmentDetails(departmentId), phone, description, img, visibility, position));
+                        }
+                        return managers;
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine(ex.Message);
+                return new List<Manager>();
+            }
+        }
+
+        ///
+        /// <summary>
+        ///     Funkce získá z databáze všechny viditelné Pools (nejvyšší kategorie). 
+        /// </summary>
+        /// <returns>
+        ///     Pole ve formátu List[Category].    
+        /// </returns>     
+        ///
+        public List<Category> GetVisiblePools()
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, Url, Description, Visibility, Position, Img, ContactID FROM Pools WHERE Visibility = 1";
+                        var reader = cmd.ExecuteReader();
+                        if(reader.HasRows == false)
+                        {
+                            return new List<Category>();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        bool vis = false;
+                        int pos = 0;
+                        string img = null;
+                        int contId = 0;
+                        List<Category> cats = new List<Category>();
+                        while(reader.Read())
+                        {
+                            try{ id = reader.GetInt32(0);}catch(Exception){ id = 0;}
+                            try{ name = reader.GetString(1);}catch(Exception){ name = "Neznámá kategorie"; }
+                            try{ url = reader.GetString(2);}catch(Exception){ url = null; }
+                            try{ desc = reader.GetString(3);}catch(Exception){ desc = null; }
+                            try{ vis = reader.GetBoolean(4);}catch(Exception){ vis = false; }
+                            try{ pos = reader.GetInt32(5);}catch(Exception){ pos = 0;}
+                            try{ img = reader.GetString(6);}catch(Exception){ img = null; }
+                            try{ contId = reader.GetInt32(7);}catch(Exception){ contId = 0; }
+                            cats.Add(new Category(id, name, url, desc, img, null, pos, vis, this.GetManagerByID(contId)));
+                        }
+                        return cats;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetPools] " +ex.Message);
+                return new List<Category>();
+            }
+        }
+
+        ///
+        /// <summary>
+        ///     Funkce získá z databáze všechny Pools, viditelné i skryté. (nejvyšší kategorie). 
+        /// </summary>
+        /// <returns>
+        ///     Pole ve formátu List[Category].    
+        /// </returns>     
+        ///
+        public List<Category> GetAllPools()
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, Url, Description, Visibility, Position, Img, ContactID FROM Pools";
+                        var reader = cmd.ExecuteReader();
+                        if(reader.HasRows == false)
+                        {
+                            return new List<Category>();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        bool vis = false;
+                        int pos = 0;
+                        string img = null;
+                        int contId = 0;
+                        List<Category> cats = new List<Category>();
+                        while(reader.Read())
+                        {
+                            try{ id = reader.GetInt32(0);}catch(Exception){ id = 0;}
+                            try{ name = reader.GetString(1);}catch(Exception){ name = "Neznámá kategorie"; }
+                            try{ url = reader.GetString(2);}catch(Exception){ url = null; }
+                            try{ desc = reader.GetString(3);}catch(Exception){ desc = null; }
+                            try{ vis = reader.GetBoolean(4);}catch(Exception){ vis = false; }
+                            try{ pos = reader.GetInt32(5);}catch(Exception){ pos = 0;}
+                            try{ img = reader.GetString(6);}catch(Exception){ img = null; }
+                            try{ contId = reader.GetInt32(7);}catch(Exception){ contId = 0; }
+                            cats.Add(new Category(id, name, url, desc, img, null, pos, vis, this.GetManagerByID(contId)));
+                        }
+                        return cats;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetPools] " +ex.Message);
+                return new List<Category>();
+            }
+        }
+
+        ///
+        /// <summary>
+        ///     Funkce přidá do databáze záznam o novém Poolu (nejvyšší kategori). 
+        /// </summary>
+        /// <returns>
+        ///     Notifikaci ve formátu SystemMessage obsahující informaci o výsledku operace.    
+        /// </returns>     
+        ///
+        public SystemMessage AddPool(Category pool)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "INSERT INTO Pools (Name, Url, Description, Visibility, Position, Img, ContactID) VALUES (@name, @url, @desc, @vis, @pos, @img, @cId)";
+                        cmd.Parameters.AddWithValue("@name", pool.Name);
+                        cmd.Parameters.AddWithValue("@url", pool.URL);
+                        cmd.Parameters.AddWithValue("@desc", pool.Description);
+                        cmd.Parameters.AddWithValue("@vis", pool.Visibility);
+                        cmd.Parameters.AddWithValue("@pos", pool.Position);
+                        cmd.Parameters.AddWithValue("@img", pool.Image);
+                        cmd.Parameters.AddWithValue("@cId", pool.Contact.ID);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Adding pool", "Pool was successfully added.", "ok");
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[AddPools] "+ex.Message);
+                return new SystemMessage("Adding pool", "Fatal error: "+ex.Message, "error");
+            }
+        }
+
+        ///
+        /// <summary>
+        ///     Funkce přidá do databáze záznam o nové kategorii. 
+        /// </summary>
+        /// <returns>
+        ///     Notifikaci ve formátu SystemMessage obsahující informaci o výsledku operace.    
+        /// </returns>     
+        ///
+        public SystemMessage AddCategory(Category cat)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "INSERT INTO Categories (PoolID, ContactID, Name, Url, Description, Img, Visibility, Position) VALUES (@pId, @cId, @name, @url, @desc, @img, @vis, @pos)";
+                        cmd.Parameters.AddWithValue("@pId", cat.Pool.ID);
+                        cmd.Parameters.AddWithValue("@cId", cat.Contact.ID);
+                        cmd.Parameters.AddWithValue("@name", cat.Name);
+                        cmd.Parameters.AddWithValue("@url", cat.URL);
+                        cmd.Parameters.AddWithValue("@desc", cat.Description);
+                        cmd.Parameters.AddWithValue("@img", cat.Image);
+                        cmd.Parameters.AddWithValue("@vis", cat.Visibility);
+                        cmd.Parameters.AddWithValue("@pos", cat.Position);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Added new category", "Successfully added new category called: "+cat.Name, "OK");
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[AddCategory] "+ ex.Message);
+                return new SystemMessage("Trying to add category", "Error occured: "+ex.Message, "error");
+            }
+        }
+
+        ///
+        /// <summary>
+        ///     Funkce získá z databáze detaily o žádaném oddělení (Department). 
+        /// </summary>
+        /// <returns>
+        ///     Instance objektu Department, pokud nebyl nalezen žádný záznam se zadaným ID,
+        ///     je vrácen prázdný objekt obsahující ID = 0;  
+        /// </returns>     
+        ///
         public Department GetDepartmentDetails(int Id){
             try{
                 using(var db = new AppDb()){
                     db.Connection.Open();
                     using(MySqlCommand cmd = new MySqlCommand()){
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Name, URL, Visibility, Position FROM Department WHERE ID = @id";
+                        cmd.CommandText = "SELECT ID, Name, URL, Visibility, Position FROM Departments WHERE ID = @id";
                         cmd.Parameters.AddWithValue("@id", Id);
                         var reader = cmd.ExecuteReader();
                         if(!reader.HasRows){
@@ -201,14 +631,21 @@ namespace accela.Data
                 return new SystemMessage("Přidání manažera", ex.Message, "Error");
             }
         }
-
+        ///
+        /// <summary>
+        ///     Funkce získá z databáze záznamy všech produktů, viditelných i skrytých. (Department). 
+        /// </summary>
+        /// <returns>
+        ///     Funkce vrátí List[Product].  
+        /// </returns>     
+        ///
         public List<Product> GetAllProducts (){
             try{
                 using (var db = new AppDb()){
                     db.Connection.Open();
                     using(MySqlCommand cmd = new MySqlCommand()){
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, ContactID, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products";
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products";
                         var reader = cmd.ExecuteReader();
                         if(!reader.HasRows){
                             return new List<Product>();
@@ -221,7 +658,6 @@ namespace accela.Data
                         string descr = null;
                         string link = null;
                         bool vis = false;
-                        int contID = 0;
                         int bID = 0;
                         int catID = 0;
                         string vidUrl = null;
@@ -239,12 +675,11 @@ namespace accela.Data
                             try { descr = reader.GetString(5); }catch(Exception){ descr = null; }
                             try { link = reader.GetString(6);}catch(Exception){link = null; }
                             try { vis = reader.GetBoolean(7);}catch(Exception){vis = false; }
-                            try { contID = reader.GetInt16(8);} catch(Exception){ contID = 0; }
-                            try { bID = reader.GetInt16(9);}catch(Exception){ bID = 0; }
-                            try { catID = reader.GetInt16(10);}catch(Exception){catID = 0;}
-                            try { vidUrl = reader.GetString(11);}catch(Exception){vidUrl = null;}
-                            try { referenceLink = reader.GetString(12);}catch(Exception){referenceLink = null;}
-                            try { managerID = reader.GetInt16(13); }catch(Exception){ managerID = 0;}
+                            try { bID = reader.GetInt16(8);}catch(Exception){ bID = 0; }
+                            try { catID = reader.GetInt16(9);}catch(Exception){catID = 0;}
+                            try { vidUrl = reader.GetString(10);}catch(Exception){vidUrl = null;}
+                            try { referenceLink = reader.GetString(11);}catch(Exception){referenceLink = null;}
+                            try { managerID = reader.GetInt16(12); }catch(Exception){ managerID = 0;}
                             if(managerID != 0){
                                 mng = this.GetManagerByID(managerID);
                             }
@@ -292,6 +727,127 @@ namespace accela.Data
                 Console.WriteLine("[GetAllDepartments] "+ex.Message);
                 return new List<Department>(); 
             }
+        }
+
+        ///
+        ///<summary>
+        ///     Funkce pro získání všech novinek z databáze, skrytých i viditelných.
+        ///</summary>
+        ///<returns>
+        ///     Funkce vrací pole ve formátu List[News].
+        ///</returns>
+        public List<News> GetAllNews()
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL FROM News";
+                        var reader = cmd.ExecuteReader();
+
+                        if(reader.HasRows == false)
+                        {
+                            return new List<News>();
+                        }
+
+                        int id = 0;
+                        string title = null;
+                        int bid = 0;
+                        int cid = 0;
+                        string imgbig = null;
+                        string imgsml = null;
+                        string content = null;
+                        string contentsml = null;
+                        DateTime Created = DateTime.Now;
+                        string videourl = null;
+                        List<News> news = new List<News>();
+
+                        while(reader.Read())
+                        {
+                            try{ id = reader.GetInt32(0);}catch(Exception ex){ id = 0;}
+                            try{ title = reader.GetString(1);}catch(Exception ex){ title = null;}
+                            try{ bid = reader.GetInt32(2);}catch(Exception ex){ bid = 0;}
+                            try{ cid = reader.GetInt32(3);}catch(Exception){ cid = 0;}
+                            try{ imgbig = reader.GetString(4);}catch(Exception){ imgbig = null;}
+                            try{ imgsml = reader.GetString(5);}catch(Exception){ imgsml = null;}
+                            try{ content = reader.GetString(6);}catch(Exception){ content = null;}
+                            try{ contentsml = reader.GetString(7);}catch(Exception){ contentsml = null;}
+                            try{ Created = reader.GetDateTime(8);}catch(Exception){ Created = DateTime.Now;}
+                            try{ videourl = reader.GetString(9);}catch(Exception){ videourl = null;}
+                            news.Add(new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl));
+                        }
+                        return news;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetAllNews] "+ex.Message);
+                return new List<News>();
+            }
+        }
+
+        ///
+        ///<summary>
+        ///     Funkce pro získání konkrétní novinky. Jako vstup je potřeba zadat ID novinky.
+        ///</summary>
+        ///<returns>
+        ///     Funkce vrací objekt News. Pokud nebyla novinka nalezena, vrací se prázdný objekt s ID = 0.
+        ///</returns>
+        public News GetNew(int nid)
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL FROM News WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@id", nid);
+                        var reader = cmd.ExecuteReader();
+
+                        if(reader.HasRows == false)
+                        {
+                            return new News();
+                        }
+
+                        int id = 0;
+                        string title = null;
+                        int bid = 0;
+                        int cid = 0;
+                        string imgbig = null;
+                        string imgsml = null;
+                        string content = null;
+                        string contentsml = null;
+                        DateTime Created = DateTime.Now;
+                        string videourl = null;
+
+                        while(reader.Read())
+                        {
+                            try{ id = reader.GetInt32(0);}catch(Exception ex){ id = 0;}
+                            try{ title = reader.GetString(1);}catch(Exception ex){ title = null;}
+                            try{ bid = reader.GetInt32(2);}catch(Exception ex){ bid = 0;}
+                            try{ cid = reader.GetInt32(3);}catch(Exception){ cid = 0;}
+                            try{ imgbig = reader.GetString(4);}catch(Exception){ imgbig = null;}
+                            try{ imgsml = reader.GetString(5);}catch(Exception){ imgsml = null;}
+                            try{ content = reader.GetString(6);}catch(Exception){ content = null;}
+                            try{ contentsml = reader.GetString(7);}catch(Exception){ contentsml = null;}
+                            try{ Created = reader.GetDateTime(8);}catch(Exception){ Created = DateTime.Now;}
+                            try{ videourl = reader.GetString(9);}catch(Exception){ videourl = null;}
+                        }
+                        return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl);
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetNew] "+ex.Message);
+                return new News();
+            }            
         }
 
         public List<Department> GetVisibleDepartments(){
@@ -367,6 +923,112 @@ namespace accela.Data
             
         }
 
+        ///
+        ///<summary>
+        ///     Funkce pro aktualizaci manažera. Jako vstupní parametr se očekává naplněný objekt Managera. 
+        ///</summary>
+        ///<returns>
+        ///     Notifikaci ve formátu SystemMessage.
+        ///</returns>
+        ///
+        public SystemMessage UpdateManager(Manager mng)
+        {
+            if(this.VerifyManagerExistence(mng) == false)
+            {
+                return new SystemMessage("Updating manager", "Manager with this ID was not found.", "Error");
+            }
+
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "UPDATE Managers SET Firstname = @fname, Lastname = @lname, Email = @mail, Phone = @phone, Img = @img, Description = @desc, Visibility = @vis, Position = @pos, DepartmentID = @dep WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@id", mng.ID);
+                        cmd.Parameters.AddWithValue("@fname", mng.Firstname);
+                        cmd.Parameters.AddWithValue("@lname", mng.Lastname);
+                        cmd.Parameters.AddWithValue("@mail", mng.Email);
+                        cmd.Parameters.AddWithValue("@phone", mng.Phone);
+                        cmd.Parameters.AddWithValue("@img", mng.ImageRelativeURL);
+                        cmd.Parameters.AddWithValue("@desc", mng.Description);
+                        cmd.Parameters.AddWithValue("@vis", mng.Visibility);
+                        cmd.Parameters.AddWithValue("@pos", mng.Position);
+                        cmd.Parameters.AddWithValue("@dep", mng.Department.ID);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Updating Manager", "Manager "+mng.Firstname +" "+mng.Lastname+" was successfully updated.", "OK");    
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[UpdateManager] "+ex.Message);
+                return new SystemMessage("Updating manager", "Critical failure: "+ex.Message, "Error");
+            }
+            
+        }
+
+        public SystemMessage UpdateBrand(Brand bt)
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "UPDATE Brands SET Name = @name, URL = @url, Visibility = @vis, Position = @pos, Image = @img WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@name", bt.Name);
+                        cmd.Parameters.AddWithValue("@url", bt.URL);
+                        cmd.Parameters.AddWithValue("@vis", bt.Visibility);
+                        cmd.Parameters.AddWithValue("@pos", bt.Position);
+                        cmd.Parameters.AddWithValue("@img", bt.ImageRelativeURL);
+                        cmd.Parameters.AddWithValue("@id", bt.ID);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Updating Brand", "Brand was successfully updated", "OK");
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[UpdateBrand] "+ex.Message);
+                return new SystemMessage("Updating Brand", ex.Message, "Error");   
+            }
+        }
+
+        public SystemMessage UpdateDepartment(Department dp) 
+        {
+             if(this.VerifyDepartmentExistence(dp) == false)
+            {
+                return new SystemMessage("Updating department", "Department with this ID was not found.", "Error");
+            }
+
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "UPDATE Departments SET Name = @name, URL = @url, Visibility = @vis, Position = @pos WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@id", dp.ID);
+                        cmd.Parameters.AddWithValue("@name", dp.Name);
+                        cmd.Parameters.AddWithValue("@url", dp.URL);
+                        cmd.Parameters.AddWithValue("@vis", dp.Visibility);
+                        cmd.Parameters.AddWithValue("@pos", dp.Position);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Updating Department", "Department "+dp.Name +" was successfully updated.", "OK");    
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[UpdateDepartment] "+ex.Message);
+                return new SystemMessage("Updating department", "Critical failure: "+ex.Message, "Error");
+            }
+        }
+
         public SystemMessage AddDepartment(Department dp){
             if(this.VerifyDepartmentExistence(dp)){
                 return new SystemMessage("Adding new Department", "Department with this name alredy exists.", "Error");
@@ -394,18 +1056,13 @@ namespace accela.Data
                     db.Connection.Open();
                     using(MySqlCommand cmd = new MySqlCommand()){
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "INSERT INTO Products (Name, URL, Subtitle, Small_desc, Description, Visibility, ContactID, BrandID, CategoryID, VideoURL,ReferenceLink, ManagerID) VALUES (@name, @url, @sub, @smalld, @desc, @vis, @contId, @brandId, @catId, @videoUrl, @referLink, @manId)";
+                        cmd.CommandText = "INSERT INTO Products (Name, URL, Subtitle, Small_desc, Description, Visibility, BrandID, CategoryID, VideoURL,ReferenceLink, ManagerID) VALUES (@name, @url, @sub, @smalld, @desc, @vis,@brandId, @catId, @videoUrl, @referLink, @manId)";
                         cmd.Parameters.AddWithValue("@name", product.Name);
                         cmd.Parameters.AddWithValue("@url", product.URL);
                         cmd.Parameters.AddWithValue("@sub", product.Subtitle);
                         cmd.Parameters.AddWithValue("@smalld", product.SmallDescription);
                         cmd.Parameters.AddWithValue("@desc", product.Description);
                         cmd.Parameters.AddWithValue("@vis", product.Visibility);
-                        if(product.Manager.ID == 0){
-                            cmd.Parameters.AddWithValue("@contId", null);
-                        }else{
-                            cmd.Parameters.AddWithValue("@contId", product.Manager.ID);
-                        }
                         cmd.Parameters.AddWithValue("@brandId", product.Producer.ID);
                         cmd.Parameters.AddWithValue("@catId", product.Category.ID);
                         cmd.Parameters.AddWithValue("@videoUrl", product.VideoURL);
@@ -439,7 +1096,7 @@ namespace accela.Data
                         cmd.Parameters.AddWithValue("@desc", brand.Description);
                         cmd.Parameters.AddWithValue("@vis", brand.Visibility);
                         cmd.Parameters.AddWithValue("@pos", brand.Position);
-                        cmd.Parameters.AddWithValue("@referLink", brand.ReferenceLink);
+                        cmd.Parameters.AddWithValue("@link", brand.ReferenceLink);
                         cmd.ExecuteNonQuery();
                         return new SystemMessage("Adding new brand", "Brand was succesfully added", "OK");
                     }
@@ -450,13 +1107,165 @@ namespace accela.Data
             }
         }
 
+        public List<Category> GetAllCategories()
+        {
+            try{
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, PoolID, ContactID, Name, Url, Description, Img, Visibility, Position FROM Categories";
+                        var reader = cmd.ExecuteReader();
+                        if(!reader.HasRows)
+                        {
+                            return new List<Category>();
+                        }
+
+                        int id = 0;
+                        int pid = 0;
+                        int cid = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        string img = null;
+                        bool vis = false;
+                        int pos = 0;
+                        List<Category> cats = new List<Category>();
+
+                        while(reader.Read())
+                        {
+                            try{id = reader.GetInt32(0);}catch(Exception){ id = 0;}
+                            try{pid = reader.GetInt32(1);}catch(Exception){ pid = 0;}
+                            try{cid = reader.GetInt32(2);}catch(Exception){ cid = 0;}
+                            try{name = reader.GetString(3);}catch(Exception){ name = null;}
+                            try{url = reader.GetString(4);}catch(Exception){ url = null;}
+                            try{desc = reader.GetString(5);}catch(Exception){desc = null;}
+                            try{img = reader.GetString(6);}catch(Exception){img = null;}
+                            try{vis = reader.GetBoolean(7);}catch(Exception){vis = false;}
+                            try{pos = reader.GetInt32(8);}catch(Exception){pos = 0;}
+                            //Bez možnosti přidat pool (zatim)
+                            cats.Add(new Category(id, this.GetPool(pid), name, url, desc, img, desc, pos, vis, this.GetManagerByID(cid)));
+                        }
+                        return cats;
+                    }
+                }
+            }catch(Exception ex){
+                Console.WriteLine("[GetAllCategories] "+ex.Message);
+                return new List<Category>();
+            }
+        }
+
+        public Category GetPool(int id)
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, Url, Description, Visibility, Position, Img, ContactID FROM Pools WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@id", id);
+                        var reader = cmd.ExecuteReader();
+
+                        if(reader.HasRows == false)
+                        {
+                            return new Category();
+                        }
+
+                        int ID = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        bool vis = false;
+                        int pos = 0;
+                        string img = null;
+                        int conid = 0;
+
+                        while(reader.Read())
+                        {
+                            try{ ID = reader.GetInt32(0);}catch(Exception){ ID = 0;}
+                            try{ name = reader.GetString(1);}catch(Exception) { name = null;}
+                            try{ url = reader.GetString(2);}catch(Exception){ url = null;}
+                            try{ desc = reader.GetString(3);}catch(Exception){ desc= null;}
+                            try{ vis = reader.GetBoolean(4);}catch(Exception){ vis = false;}
+                            try{ pos = reader.GetInt32(5);}catch(Exception){ pos = 0;}
+                            try{ img = reader.GetString(6);}catch(Exception){ img = null;}
+                            try{ conid = reader.GetInt32(7);}catch(Exception){ conid = 0;}
+                        }
+                        return new Category(ID, name, url, desc, img, "", pos, vis, this.GetManagerByID(conid));
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetPool] "+ex.Message);
+                return new Category();
+            }
+        }
+
+        public Category GetCategory(int id)
+        {
+             try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, Url, Description, Visibility, Position, Img, ContactID, PoolID FROM Categories WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@id", id);
+                        var reader = cmd.ExecuteReader();
+
+                        if(reader.HasRows == false)
+                        {
+                            return new Category();
+                        }
+
+                        int ID = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        bool vis = false;
+                        int pos = 0;
+                        string img = null;
+                        int conid = 0;
+                        int poolid = 0;
+
+                        while(reader.Read())
+                        {
+                            try{ ID = reader.GetInt32(0);}catch(Exception){ ID = 0;}
+                            try{ name = reader.GetString(1);}catch(Exception) { name = null;}
+                            try{ url = reader.GetString(2);}catch(Exception){ url = null;}
+                            try{ desc = reader.GetString(3);}catch(Exception){ desc= null;}
+                            try{ vis = reader.GetBoolean(4);}catch(Exception){ vis = false;}
+                            try{ pos = reader.GetInt32(5);}catch(Exception){ pos = 0;}
+                            try{ img = reader.GetString(6);}catch(Exception){ img = null;}
+                            try{ conid = reader.GetInt32(7);}catch(Exception){ conid = 0;}
+                            try{ poolid = reader.GetInt32(8);}catch(Exception){ poolid = 0;}
+                        }
+                        return new Category(ID, this.GetPool(poolid), name, url, desc, img, "", pos, vis, this.GetManagerByID(conid));
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetCategory] "+ex.Message);
+                return new Category();
+            }
+        }
+
         public List<Product> GetVisibleProducts(){
             try{
                 using (var db = new AppDb()){
                     db.Connection.Open();
                     using(MySqlCommand cmd = new MySqlCommand()){
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, ContactID, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE Visibility = 1 ORDER BY Position ASC";
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility,BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE Visibility = 1 ORDER BY Position ASC";
                         var reader = cmd.ExecuteReader();
                         if(!reader.HasRows){
                             return new List<Product>();
@@ -469,7 +1278,6 @@ namespace accela.Data
                         string descr = null;
                         string link = null;
                         bool vis = false;
-                        int contID = 0;
                         int bID = 0;
                         int catID = 0;
                         string vidUrl = null;
@@ -487,12 +1295,11 @@ namespace accela.Data
                             try { descr = reader.GetString(5); }catch(Exception){ descr = null; }
                             try { link = reader.GetString(6);}catch(Exception){link = null; }
                             try { vis = reader.GetBoolean(7);}catch(Exception){vis = false; }
-                            try { contID = reader.GetInt16(8);} catch(Exception){ contID = 0; }
-                            try { bID = reader.GetInt16(9);}catch(Exception){ bID = 0; }
-                            try { catID = reader.GetInt16(10);}catch(Exception){catID = 0;}
-                            try { vidUrl = reader.GetString(11);}catch(Exception){vidUrl = null;}
-                            try { referenceLink = reader.GetString(12);}catch(Exception){referenceLink = null;}
-                            try { managerID = reader.GetInt16(13); }catch(Exception){ managerID = 0;}
+                            try { bID = reader.GetInt16(8);}catch(Exception){ bID = 0; }
+                            try { catID = reader.GetInt16(9);}catch(Exception){catID = 0;}
+                            try { vidUrl = reader.GetString(10);}catch(Exception){vidUrl = null;}
+                            try { referenceLink = reader.GetString(11);}catch(Exception){referenceLink = null;}
+                            try { managerID = reader.GetInt16(12); }catch(Exception){ managerID = 0;}
                             if(managerID != 0){
                                 mng = this.GetManagerByID(managerID);
                             }
@@ -513,7 +1320,7 @@ namespace accela.Data
                     db.Connection.Open();
                     using(MySqlCommand cmd = new MySqlCommand()){
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, ContactId, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE ID = @id";
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE ID = @id";
                         cmd.Parameters.AddWithValue("@id", productID);
                         var reader = cmd.ExecuteReader();
                         if(!reader.HasRows){
@@ -528,7 +1335,6 @@ namespace accela.Data
                         string descr = null;
                         string link = null;
                         bool vis = false;
-                        int contID = 0;
                         int bID = 0;
                         int catID = 0;
                         string vidUrl = null;
@@ -545,12 +1351,11 @@ namespace accela.Data
                             try { descr = reader.GetString(5); }catch(Exception){ descr = null; }
                             try { link = reader.GetString(6);}catch(Exception){link = null; }
                             try { vis = reader.GetBoolean(7);}catch(Exception){vis = false; }
-                            try { contID = reader.GetInt16(8);} catch(Exception){ contID = 0; }
-                            try { bID = reader.GetInt16(9);}catch(Exception){ bID = 0; }
-                            try { catID = reader.GetInt16(10);}catch(Exception){catID = 0;}
-                            try { vidUrl = reader.GetString(11);}catch(Exception){vidUrl = null;}
-                            try { referenceLink = reader.GetString(12);}catch(Exception){referenceLink = null;}
-                            try { managerID = reader.GetInt16(13); }catch(Exception){ managerID = 0;}
+                            try { bID = reader.GetInt16(8);}catch(Exception){ bID = 0; }
+                            try { catID = reader.GetInt16(9);}catch(Exception){catID = 0;}
+                            try { vidUrl = reader.GetString(10);}catch(Exception){vidUrl = null;}
+                            try { referenceLink = reader.GetString(11);}catch(Exception){referenceLink = null;}
+                            try { managerID = reader.GetInt16(12); }catch(Exception){ managerID = 0;}
                             if(managerID != 0){
                                 mng = this.GetManagerByID(managerID);
                             }
@@ -563,7 +1368,131 @@ namespace accela.Data
                 return new Product();
             }
         }
+        ///
+        ///<summary>
+        ///     Funkce pro získání listu produktů se specifickým ManagerID
+        ///</summary>
+        ///<returns>
+        ///     Vrací pole produktů (List[Product]).
+        ///</returns>
+        public List<Product> GetProductsForManager(int managerID)
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, BrandID, CategoryID, VideoURL, ReferenceLink FROM Products WHERE ManagerID = @bid";
+                        cmd.Parameters.AddWithValue("@bid", managerID);
+                        var reader = cmd.ExecuteReader();
 
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string subtitle = null;
+                        string smalld = null;
+                        string descr = null;
+                        string link = null;
+                        bool vis = false;
+                        int bID = 0;
+                        int catID = 0;
+                        string vidUrl = null;
+                        string referenceLink = null;
+                        Manager mng = new Manager();
+                        List<Product> products = new List<Product>();
+
+                        while(reader.Read()){
+                            try { id = reader.GetInt16(0); }catch(Exception){ id = 0;}
+                            try { name = reader.GetString(1); }catch(Exception){name = null;}
+                            try { url = reader.GetString(2); }catch(Exception){url = null;}
+                            try { subtitle = reader.GetString(3); }catch(Exception){ subtitle = null; }
+                            try { smalld = reader.GetString(4); }catch(Exception){ smalld = null; }
+                            try { descr = reader.GetString(5); }catch(Exception){ descr = null; }
+                            try { link = reader.GetString(6);}catch(Exception){link = null; }
+                            try { vis = reader.GetBoolean(7);}catch(Exception){vis = false; }
+                            try { bID = reader.GetInt16(8);}catch(Exception){ bID = 0; }
+                            try { catID = reader.GetInt16(9);}catch(Exception){catID = 0;}
+                            try { vidUrl = reader.GetString(10);}catch(Exception){vidUrl = null;}
+                            try { referenceLink = reader.GetString(11);}catch(Exception){referenceLink = null;}
+                            try { managerID = reader.GetInt16(12); }catch(Exception){ managerID = 0;}
+
+                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, mng, vidUrl, vis));
+                        }
+                        return products;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetProductsForManager] "+ex.Message);
+                return new List<Product>();
+            }  
+        }
+
+        public List<Manager> LoadManagersForDepartment(int DepartmentID)
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Firstname, Lastname, Email, Phone, Img, Description, Visibility, Position, DepartmentID FROM Managers WHERE DepartmentID = @id";
+                        cmd.Parameters.AddWithValue("@id", DepartmentID);
+                        var reader = cmd.ExecuteReader();
+                        if(!reader.HasRows){
+                            return new List<Manager>();
+                        }
+
+                        int id = 0;
+                        string fname = null;
+                        string lname = null;
+                        string email = null;
+                        string phone = null;
+                        string img = null;
+                        string desc = null;
+                        bool vis = false;
+                        int pos = 0;
+                        int depID = 0;
+                        List<Manager> mngrs = new List<Manager>();
+
+                        while(reader.Read()){
+                            try { id = reader.GetInt16("ID"); }catch(Exception){ id = 0;}
+                            try { fname = reader.GetString("Firstname");} catch(Exception){fname = null;}
+                            try { lname = reader.GetString("Lastname");} catch(Exception){lname = null;}
+                            try { email = reader.GetString("Email");} catch(Exception){email = null;}
+                            try { phone = reader.GetString("Phone");} catch(Exception){phone = null;}
+                            try { img = reader.GetString("Img");}catch(Exception){img = null;}
+                            try { desc = reader.GetString("Description");}catch(Exception){desc = null;}
+                            try { vis = reader.GetBoolean("Visibility");}catch(Exception){vis = false;}
+                            try { pos = reader.GetInt16("Position");}catch(Exception){pos = 0;}
+                            try { depID = reader.GetInt32("DepartmentID");}catch(Exception){depID = 0;}
+                            mngrs.Add(new Manager(id, fname, lname, email, phone, desc, img, vis, pos));
+                        }
+                        return mngrs;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[LoadManagersForDepartment] "+ex.Message);
+                return new List<Manager>();
+            }
+        }
+
+
+        ///
+        ///<summary>
+        ///     Funkce pro načtení detailů manažera na základě zadaného ID.
+        ///</summary>
+        ///<returns>
+        ///     Funkce vrací naplněnou instanci třídy Manager. V případě selhání, nebo nenalezení manažera
+        ///     se vrací objekt s ID = 0;
+        ///</returns>
+        ///
         public Manager GetManagerByID(int managerID){
             try{
                 using(var db = new AppDb()){
@@ -600,10 +1529,12 @@ namespace accela.Data
                             try { pos = reader.GetInt16(8);}catch(Exception){pos = 0;}
                             try { depID = reader.GetInt32(9);}catch(Exception){depID = 0;}
                         }
+
                         Department department = new Department();
                         if(depID != 0){
                             department = this.GetDepartmentDetails(depID);
                         }
+
                         return new Manager(id, fname, lname, email, department, phone, desc, img, vis, pos);
                     }
                 }
@@ -619,7 +1550,7 @@ namespace accela.Data
                     db.Connection.Open();
                     using(MySqlCommand cmd = new MySqlCommand()){
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility FROM Brands WHERE ID = @id";
+                        cmd.CommandText = "SELECT ID, ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility, Image FROM Brands WHERE ID = @id";
                         cmd.Parameters.AddWithValue("@id", brandID);
                         var reader = cmd.ExecuteReader();
                         if(!reader.HasRows){
@@ -635,6 +1566,8 @@ namespace accela.Data
                         string link = null;
                         int pos = 0;
                         bool vis = false;
+                        string img = null;
+
                         while(reader.Read()){
                             try { id = reader.GetInt32(0); }catch(Exception){ id = 0;}
                             try { contID = reader.GetInt32(1); }catch(Exception){ contID = 0;}
@@ -645,12 +1578,13 @@ namespace accela.Data
                             try { link = reader.GetString(6);}catch(Exception){ link = null; }
                             try { pos = reader.GetInt32(7);}catch(Exception){ pos = 0;}
                             try { vis = reader.GetBoolean(8);}catch(Exception){ vis = false;}
+                            try { img = reader.GetString(9);}catch(Exception){ img = null;}
                         }
                         Manager contact = new Manager();
                         if(contID != 0){
                             contact = this.GetManagerByID(contID);
                         }
-                        return new Brand(id, name, link ,url, desc, smalld, contact, pos, vis);
+                        return new Brand(id, name, link ,url, desc, smalld, contact, pos, vis, img);
                     }
                 }
             }catch(Exception ex){
@@ -665,7 +1599,7 @@ namespace accela.Data
                     db.Connection.Open();
                     using(MySqlCommand cmd = new MySqlCommand()){
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility FROM Brands";
+                        cmd.CommandText = "SELECT ID, ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility, Image FROM Brands";
                         var reader = cmd.ExecuteReader();
                         if(!reader.HasRows){
                             return new List<Brand>();
@@ -680,6 +1614,7 @@ namespace accela.Data
                         string link = null;
                         int pos = 0;
                         bool vis = false;
+                        string img = null;
                         List<Brand> brands = new List<Brand>();
                         while(reader.Read()){
                             try { id = reader.GetInt32(0); }catch(Exception){ id = 0;}
@@ -691,11 +1626,12 @@ namespace accela.Data
                             try { link = reader.GetString(6);}catch(Exception){ link = null; }
                             try { pos = reader.GetInt32(7);}catch(Exception){ pos = 0;}
                             try { vis = reader.GetBoolean(8);}catch(Exception){ vis = false;}
+                            try { img = reader.GetString(9);}catch(Exception){ img = null;}
                             Manager contact = new Manager();
                             if(contID != 0){
                                 contact = this.GetManagerByID(contID);
                             }
-                            brands.Add(new Brand(id, name, link ,url, desc, smalld, contact, pos, vis));
+                            brands.Add(new Brand(id, name, link ,url, desc, smalld, contact, pos, vis, img));
                         }
                         return brands;
                     }
@@ -800,6 +1736,31 @@ namespace accela.Data
             }
             
         }
+
+          /*
+            #Funkce pro deaktivaci kontroly cizích klíčů.
+            #Tato funkce by neměla být nikdy použita, pokud je použita, dochází k zapsání neexistujícího cizího klíče
+        */
+        private void _disableForeignChecks()
+        {
+            try
+            {
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SET FOREIGN_KEY_CHECK=0";
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[_disableForeignChecks] "+ ex.Message);
+            }
+        }
+
 
         public string ResultMessage { get { return _resultMessage; } } 
     }

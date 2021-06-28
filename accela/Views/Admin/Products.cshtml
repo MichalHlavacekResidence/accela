@@ -1,19 +1,19 @@
 <div class="row">
     <div class="mx-auto">
-        <h1> Product management </h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <a class="btn btn-primary" asp-action="AddProduct" asp-controller="Admin"> Add new product </a>
+        <h1 class="text-center"> Product management </h1>
     </div>
 </div>
 <div class="row">
     <div class="mx-auto">
+        <div class="row">
+            <div class="col">
+                <a class="btn float-end btn-primary" asp-action="AddProduct" asp-controller="Admin"> Add new product </a>
+            </div>
+        </div>
     @{
         List<Product> products = ViewBag.ProductList;
         if(products.Count() != 0){
-            <table class="table table-striped table-hover">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th> ID </th>
@@ -50,7 +50,7 @@
             </table>
         }else{
             <div class="page-container height-500">
-                <h3 style="margin-top: 48%; padding: 0px 60px" class="bg-danger text-white"> No products found. </h3>
+                <h3 class="bg-danger text-white"> No products found. </h3>
             </div>
         }
     }

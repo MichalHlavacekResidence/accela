@@ -1,8 +1,14 @@
 @model accela.Models.Manager
 <div class="mx-auto">
-    <h1 class="text-center"> Add new Manager </h1>
+    @{
+      if(@Model.ID != 0){
+        <h1 class="text-center"> Update Manager </h1>
+      }else{
+        <h1 class="text-center"> Add new Manager </h1>
+      }
+    }
 </div>
-<form class="needs-validation" method="post" asp-action="AddManager" asp-controller="Admin" novalidate>
+<form class="needs-validation" enctype="multipart/form-data" method="post" asp-action="AddManager" asp-controller="Admin" novalidate>
   <div class="mb-3">
     <label asp-for="@Model.Firstname" class="form-label">Firstname</label>
     <input asp-for="@Model.Firstname" type="text" class="form-control" aria-describedby="nameHelp" required>
@@ -41,9 +47,20 @@
     </div>
     <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. <span class="form-mandatory"> This field is mandatory. </span> </div>
   </div>
+    <div class="mb-3">
+    <label asp-for="@Model.Phone" class="form-label"> Phone of the Manager. </label>
+    <input type="phone" class="form-control" aria-describedby="linkHelp" asp-for="@Model.Phone" required/>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+    <div class="invalid-feedback">
+        This field is mandatory, fill it please.
+    </div>
+    <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. <span class="form-mandatory"> This field is mandatory. </span> </div>
+  </div>
   <div class="mb-3">
     <select asp-for="@Model.Department.ID" class="form-select">
-        <option selected>Click here and select Department</option>
+        <option selected disabled value="null">Click here and select Department</option>
         @{
             foreach(Department department in ViewBag.DepartmentList){
                 <option value="@department.ID"> @department.Name </option>
@@ -63,5 +80,10 @@
         <label class="form-check-label" asp-for="@Model.Visibility"> Should be Manager visible? <span class="form-mandatory"> This field is mandatory. </span> </label>
     </div>
   </div>
+  <div class="mb-3">
+    <label class="form-label" for="ImageFile"> Upload profile picture of manager </label>
+    <input type="file" name="ImageFile" class="form-control"/>
+  </div>
+  <input type="hidden" asp-for="@Model.ID" value="@Model.ID"/>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

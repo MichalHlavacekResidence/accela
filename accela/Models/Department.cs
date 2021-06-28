@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using accela.Extensions;
+using accela.Data;
 
 namespace accela.Models
 {
@@ -12,6 +13,7 @@ namespace accela.Models
         private string _url;
         private bool _visibility;
         private int _position;
+        private List<Manager> _managers = new List<Manager>();
 
         public Department()
         {
@@ -37,10 +39,27 @@ namespace accela.Models
             return true;
         }
 
+
+        ///
+        ///<summary>
+        ///     Metoda načítá z databáze všechny manažery, kteří jsou svázání s tímto oddělením.
+        ///</summary>
+        ///<returns>
+        ///     Metoda je návratového typu Void, tedy nevrací žádnou hodnotu. Metoda jako výsledek zapíše získané
+        ///     manažery do atributu třídy: Managers
+        ///</returns>
+        ///
+        public void LoadManagers()
+        {
+            Database db = new Database();
+            this._managers = db.LoadManagersForDepartment(this._id);
+        }
+
         public int ID { get { return _id; } set { _id = value; } }
         public string Name { get { return _name; } set { _name = value ;} }
         public string URL { get { return _url; } set { _url = value; } }
         public bool Visibility { get { return _visibility; } set { _visibility = value; } }
         public int Position { get { return _position; } set { _position = value; } }
+        public List<Manager> Managers { get { return _managers;} set { _managers = value; }}
     }
 }

@@ -1,0 +1,46 @@
+@model accela.Models.Department
+<div class="row">
+    <div class="mx-auto">
+        <h1 class="text-center"> @Model.Name </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="mx-auto" style="margin-top: 5vh">
+        <div class="row">
+            <table class="mx-auto small-table table table-success table-stripped">
+                <tbody>
+                    <tr>
+                        <td> Numeric identifier (ID) </td>
+                        <td> @Model.ID </td>
+                    </tr>
+                    <tr>
+                        <td> URL </td>
+                        <td> @Model.URL </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row margin-top-40">
+            <h3 class="text-center"> Managers linked with this department. </h3>
+            @{
+                if(Model.Managers.Count() == 0)
+                {
+                    <p class="text-center text-danger"> No managers were added to this Department yet. </p>
+                }else{
+                    foreach(Manager prd in Model.Managers)
+                    {
+                        <div class="card" style="width: 18rem;">
+                            <img src="~/file/uploaded/images/@prd.ImageRelativeURL" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">@prd.Firstname @prd.Lastname</h5>
+                                <p class="card-text">@prd.Description</p>
+                                <a href="#" class="btn btn-primary">Show product</a>
+                            </div>
+                        </div>
+                    }
+                }
+                
+            }
+        </div>
+    </div>
+</div>

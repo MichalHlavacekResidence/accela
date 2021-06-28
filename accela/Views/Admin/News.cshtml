@@ -1,17 +1,17 @@
 <div class="row">
     <div class="mx-auto">
-        <h1 class="text-center"> Department management </h1>
+        <h1 class="text-center"> News overview </h1>
     </div>
 </div>
 <div class="row">
     <div class="mx-auto" style="margin-top: 5vh">
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary float-end" asp-action="AddDepartment" asp-controller="Admin"> Add new department </a>
+                <a class="btn btn-primary float-end" asp-action="AddNews" asp-controller="Admin"> Add new News </a>
             </div>
         </div>
         @{
-        List<Department> dpm = ViewBag.DepartmentList;
+        List<News> dpm = ViewBag.NewsList;
             if(dpm.Count() != 0){
                 <table class="table table-hover">
                     <thead>
@@ -25,16 +25,14 @@
                     </thead>
                     <tbody>
                         @{
-                            foreach(Department dep in ViewBag.DepartmentList){
+                            foreach(News dep in ViewBag.NewsList){
                             <tr>
                                 <td>@dep.ID</td>
-                                <td>@dep.Name</td>
-                                <td>@dep.Visibility</td>
-                                <td>@dep.Position</td>
-                                <td> 
-                                    <a class="btn btn-primary" href="~/Admin/Department?did=@dep.ID"> show </a>
-                                    <a class="btn btn-warning" href="~/Admin/AddDepartment?did=@dep.ID"> edit </a>      
-                                </td>
+                                <td>@dep.Title</td>
+                                <td>@dep.Created</td>
+                                <td>@dep.PlannedToPublish</td>
+                                <td> show 
+                                    <a class="btn btn-warning" href="~/Admin/AddDepartment?did=@dep.ID"> edit </a> </td>
                             </tr>
                             }
                         }
@@ -42,7 +40,7 @@
                 </table>
             }else{
                 <div class="page-container height-500">
-                    <h3 style="padding: 0px 60px" class="bg-danger text-white"> No departments found. </h3>
+                    <h3 style="padding: 0px 60px" class="bg-danger text-center text-white"> No news found. </h3>
                 </div> 
             }
         }        
