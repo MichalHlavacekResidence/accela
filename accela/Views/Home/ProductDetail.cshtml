@@ -1,0 +1,428 @@
+﻿@{
+    ViewData["Title"] = "ProductDetail";
+}
+
+
+
+<div class="row pageRow">
+   
+
+    <div class="pageContentMain">
+        <div class="col-lg-10 offset-lg-1 technologiDetail">
+            <div class="row">
+                <div class="col-lg-4 col-12 mr-lg-2 mr-0 bg-dark">
+                    <div class="row productLeftPannel">
+
+
+
+
+
+
+
+                        <!-- Font Awesome -->
+                        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+                              rel="stylesheet" />
+                        <!-- Google Fonts -->
+                        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+                              rel="stylesheet" />
+                        <!-- MDB -->
+                        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css"
+                              rel="stylesheet" />
+                        <!-- MDB -->
+                        <script type="text/javascript"
+                                src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script>
+
+
+
+
+
+
+                        <!-- Carousel wrapper -->
+                        <div id="carouselExampleIndicators" class="carousel slide carousel-fade">
+                            <!-- Slides -->
+                            <div class="carousel-inner mb-5" id="myCarousel">
+                                <div class="carousel-item active">
+                                    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg"
+                                         class="d-block w-100"
+                                         alt="..." />
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(121).jpg"
+                                         class="d-block w-100"
+                                         alt="..." />
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(31).jpg"
+                                         class="d-block w-100"
+                                         alt="..." />
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="~/file/pictures/foot_logo.png"
+                                         class="d-block w-100"
+                                         alt="..." />
+                                </div>
+                            </div>
+                            <!-- Slides -->
+                            <!-- Controls -->
+                            <button class="carousel-control-prev"
+                                    type="button"
+                                    data-mdb-target="#carouselExampleIndicators"
+                                    data-mdb-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next"
+                                    type="button"
+                                    data-mdb-target="#carouselExampleIndicators"
+                                    data-mdb-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                            <!-- Controls -->
+                            <!-- Thumbnails -->
+                            <div class="carousel-indicators" style="margin-bottom: -20px;">
+                                <button type="button" data-mdb-target="#carouselExampleIndicators" data-mdb-slide-to="0" class="active carusel-indicator-item" aria-current="true" aria-label="Slide 1">
+                                    <img class="d-block w-100 img-fluid" src="https://mdbootstrap.com/img/Photos/Others/Carousel-thumbs/img%20(88).jpg" />
+                                </button>
+                                <button class="carusel-indicator-item" type="button" data-mdb-target="#carouselExampleIndicators" data-mdb-slide-to="1" aria-label="Slide 2">
+                                    <img class="d-block w-100 img-fluid" src="https://mdbootstrap.com/img/Photos/Others/Carousel-thumbs/img%20(121).jpg" />
+                                </button>
+                                <button class="carusel-indicator-item img-fluid" type="button" data-mdb-target="#carouselExampleIndicators" data-mdb-slide-to="2" aria-label="Slide 3">
+                                    <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Others/Carousel-thumbs/img%20(31).jpg" />
+                                </button>
+                                <button class="carusel-indicator-item img-fluid" type="button" data-mdb-target="#carouselExampleIndicators" data-mdb-slide-to="3" aria-label="Slide 4">
+                                    <img class="d-block w-100" src="~/file/pictures/foot_logo.png" />
+                                </button>
+
+                            </div>
+                            <!-- Thumbnails -->
+                        </div>
+                        <!-- Carousel wrapper -->
+                        <!--references-->
+                        <div class="productReferencesContainer">
+                            <div class="prodrefc">
+                                <div class="prodref">
+                                    <div class="prodreftext"><p>"<em>ImageStream is a very Powerful tool for studying insect cells. This technique gave us the unique possibility for very fast and precise evaluation of the viability of honeybee (Apis mellifera) spermatozoa. In the near future the Imaging Cytometry will be a "gold standard" technique in the field of insects reproduction research</em>".</p></div>
+                                    <div class="prodrefl">
+                                        <p class="author">Dr. Filipp Savvulidi</p>
+                                        <p class="company">Charles University, Prague, Czech Republic</p>
+                                    </div>
+                                    <div class="prodrefr">
+                                        <div class="prodrefi">
+                                            <img src="https://www.accela.eu/files/references/19/uk-1-version1-afoto.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <!--end references-->
+
+
+
+
+
+
+
+
+
+                    </div>
+                    <p> g dfg dfg df</p>
+                </div>
+                <div class="col-lg-4 col-12 mr-lg-2 mr-0">
+                    <h1>@ViewData["Title"]</h1>
+                    <div class="ptext">
+                        <h1>Amnis ImageStream X MkII - Luminex</h1>
+                        <p class="h1desc">High resolution microscopy in flow</p>
+                        <div class="text" id="prod_text">
+                            <p style="text-align: justify;">The Luminex ImageStreamX&nbsp;Mark II imaging flow cytometer combines&lnbsp;the speed, sensitivity, and phenotyping abilities of flow cytometry&nbsp;with the detailed imagery and functional insights of microscopy. This&nbsp;unique combination enables a broad range of applications that would be&nbsp;impossible using either technique alone.</p>
+                            <p style="text-align: justify;">The Mark II produces multiple high resolution images of every cell directly in flow, including brightfield, darkfield (SSC) and up to 10 fluorescent markers with sensitivity exceeding conventional flow cytometers. Compared to the original ImageStreamX, the Mark II offers a streamlined workflow, greater flexibility, and optimizations for rare cell applications.</p>
+                            <p style="text-align: justify;">Taken together, the capabilities of the ImageStreamX&nbsp;Mark II make it&nbsp;superior for traditional flow applications while greatly expanding the scope&nbsp;of flow cytometry. Applications include the study of cell-cell interactions,&nbsp;phagocytosis, colocalization, apoptosis and autophagy, the characterization of circulating&nbsp;tumor cells, and many others.</p>
+                            <p style="text-align: justify;"><strong>The Mark II is:</strong></p>
+                            <ul>
+                                <li>Faster: Up to 5000 cells/sec with real-time intensity compensation</li>
+                                <li>Easier: Simple user interface with real-time plotting and graphical gating</li>
+                                <li>More flexible: Accepts up to 7 lasers and works with sample volumes of 20-200 ul</li>
+                                <li>More efficient: Up to 95% sample utilization for high yields with rare cell samples</li>
+                            </ul>          <div class="ptextover hide" id="prod_text_over"></div>
+                        </div>
+                        <p class="show">
+                            <a class="show_all hide" id="show_more" href="javascript:">Show more</a>
+                        </p>
+
+
+                        <p class="blink">More info at:</p>
+                        <a class="blink" href="https://www.luminexcorp.com/imagestreamx-mk-ii/" target="_blank">https://www.luminexcorp.com/imagestreamx-mk-ii/</a>
+                        <div class="pfiles files">
+                            <p class="docu">Documentation</p>
+                            <p class="file file_pdf">
+                                <a href="https://www.accela.eu/files/products/9/amnis-imaging-flow-cytometers-brochure.pdf" rel="" target="_blank" data-type="pdf" class="file pdf">amnis-imaging-flow-cytometers-brochure (2,55&nbsp;MB)</a>
+                            </p>
+                            <p class="file file_pdf">
+                                <a href="https://www.accela.eu/files/products/9/biochemistry_publications.pdf" rel="" target="_blank" data-type="pdf" class="file pdf">biochemistry_publications (1,94&nbsp;MB)</a>
+                            </p>
+                            <p class="file file_pdf">
+                                <a href="https://www.accela.eu/files/products/9/clinical_research_publications.pdf" rel="" target="_blank" data-type="pdf" class="file pdf">clinical_research_publications (5,30&nbsp;MB)</a>
+                            </p>
+                            <p class="file file_pdf">
+                                <a href="https://www.accela.eu/files/products/9/immunology_publications.pdf" rel="" target="_blank" data-type="pdf" class="file pdf">immunology_publications (2,12&nbsp;MB)</a>
+                            </p>
+                            <p class="file file_pdf">
+                                <a href="https://www.accela.eu/files/products/9/microbiology_publications.pdf" rel="" target="_blank" data-type="pdf" class="file pdf">microbiology_publications (1,99&nbsp;MB)</a>
+                            </p>
+                            <p class="file file_pdf">
+                                <a href="https://www.accela.eu/files/products/9/nanotechnology_publications.pdf" rel="" target="_blank" data-type="pdf" class="file pdf">nanotechnology_publications (309&nbsp;kB)</a>
+                            </p>
+                            <p class="file file_pdf">
+                                <a href="https://www.accela.eu/files/products/9/oncology_cancer_research_publications.pdf" rel="" target="_blank" data-type="pdf" class="file pdf">oncology_cancer_research_publications (2,07&nbsp;MB)</a>
+                            </p>
+                            <p class="file file_pdf">
+                                <a href="https://www.accela.eu/files/products/9/sperm-cells-pna-differentiation.PDF" rel="" target="_blank" data-type="pdf" class="file pdf">sperm-cells-pna-differentiation (734&nbsp;kB)</a>
+                            </p>
+                        </div>
+                        <div class="pfiles">
+                            <p class="docu">Discover more</p>
+                            <a class="newslink" href="https://www.accela.eu/discover/quantitating-critical-subcellular-events-in-significant-populations-using-imaging-flow-cytometry">Quantitating critical subcellular events in significant populations using Imaging flow cytometry</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/identification-and-measurement-of-bacterial-size-using-the-imagestream">Identification and measurement of bacterial size using the ImageStream</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/co-localization-of-an-antibody-drug-conjugate-to-endosomes-or-lysosomes">Co-localization of an antibody-drug conjugate to endosomes or lysosomes</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/f-i-s-h-analysis-using-imagestream-multispectral-imaging-flow-cytometry">F.I.S.H. analysis using ImageStream, multispectral imaging flow cytometry</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/analysis-of-mitochondrial-function-and-localisation-during-human-embryonic-stem-cell-differentiation">Analysis of mitochondrial function and localisation during human embryonic stem cell differentiation</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/imaging-flow-cytometry-for-automated-detection-of-hypoxia-induced-erythrocyte-shape-change">Imaging flow cytometry for automated detection of Hypoxia-Induced Erythrocyte shape change</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/measuring-immunological-synapse-using-the-flowsight-imaging-flow-cytometer">Measuring immunological synapse using the FlowSight imaging flow cytometer</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/imaging-flow-cytometry-webinar-aging-cells-giant-viruses-using-amnis-platform">Imaging Flow Cytometry webinar: aging cells, giant viruses using AMNIS platform</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/cutting-edge-analysis-of-extracellular-microparticles-using-imagestream-imaging-flow-cytometry">Cutting-edge analysis of Extracellular Microparticles using ImageStream Imaging Flow Cytometry</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/covid-19-flow-cytometry-supporting-the-new-challenge-for-global-health">COVID‐19: Flow cytometry supporting the new challenge for global health</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/immunophenotyping-extracellular-vesicles-using-amnis-cellstream">Immunophenotyping Extracellular Vesicles using Amnis CellStream</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/introducing-amnis-ai-image-analysis-software">Introducing Amnis AI Image Analysis software</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/using-dna-repair-and-machine-learning-to-improve-cancer-risk-prediction">Using DNA repair and machine learning to improve cancer risk prediction</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/high-gain-mode-now-available-on-the-amnis-imagestreamx-mk-ii">High gain mode now available on the Amnis ImageStreamX Mk II</a>
+                            <a class="newslink" href="https://www.accela.eu/discover/imaging-flow-cytometry-luminex-learning-sessions">Imaging Flow Cytometry Luminex learning sessions</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3 col-12 bg-primary manTechDetail">
+                    <div class="fixme" id="myDiv">
+                        <div class="manic">
+                            <div class="cell_88_100"></div>
+                            <div class="mani">
+                                <img alt="Igor Valerián" src="https://www.accela.eu/files/managers/8/igor-valerian.jpg" />
+                            </div>
+                        </div>
+                        <div class="manr">
+                            <p class="func">Business director</p>
+                            <p class="name">Igor</p>
+                            <p class="name">Valerián</p>
+                        </div>
+                        <div class="mancon">
+                            <p class="phone con">+420 603 223 602</p>
+                            <p class="email con">valerian@accela.eu</p>
+                        </div>
+                        <div class="outerS productOuterS">
+                            <a href="#">
+                                <div class="button">
+                                    <div class="text"> send message   <span class="buttonImage buttonImageProduct"></span></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="pdemo">
+                            <p class="desc">Setup a demonstration<br />with our specialist</p>
+
+                            <div class="outerS productOuterS ">
+                                <a href="#">
+                                    <div class="button button_red">
+                                        <div class="text"> Request a demo<span class="buttonImage buttonImageProduct buttonImageRed"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                  
+                </div>
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+        <div class="techdel proddel">
+            <div class="techdelc">
+
+            </div>
+        </div>
+        <div class="col-lg-10 offset-1 col-12">
+            <div class="flex-container column">
+                <div class="flex-item">
+                    <div class="row prodItem">
+                        <div class="col-lg-12 col-5 bg-success">
+                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                            <h3 class="prodName"><a> F DSFG SDG</a></h3>
+                        </div>
+                        <div class="col-lg-12 col-7 MprodItemBottom bg-warning">
+                            <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                            <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outerM">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div class="prodItemBottom">
+                            <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outer productOuterS">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage buttonImageProduct"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <div class="row prodItem">
+                        <div class="col-lg-12 col-5 bg-success">
+                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                            <h3 class="prodName"><a> F DSFG SDG</a></h3>
+                        </div>
+                        <div class="col-lg-12 col-7 MprodItemBottom bg-warning">
+                            <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                            <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outerM">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div class="prodItemBottom">
+                            <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outer productOuterS">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage buttonImageProduct"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <div class="row prodItem">
+                        <div class="col-lg-12 col-5 bg-success">
+                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                            <h3 class="prodName"><a> F DSFG SDG</a></h3>
+                        </div>
+                        <div class="col-lg-12 col-7 MprodItemBottom bg-warning">
+                            <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                            <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outerM">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div class="prodItemBottom">
+                            <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outer productOuterS">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage buttonImageProduct"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <div class="row prodItem">
+                        <div class="col-lg-12 col-5 bg-success">
+                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                            <h3 class="prodName"><a> F DSFG SDG</a></h3>
+                        </div>
+                        <div class="col-lg-12 col-7 MprodItemBottom bg-warning">
+                            <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                            <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outerM">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div class="prodItemBottom">
+                            <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outer productOuterS">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage buttonImageProduct"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <div class="row prodItem">
+                        <div class="col-lg-12 col-5 bg-success">
+                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                            <h3 class="prodName"><a> F DSFG SDG</a></h3>
+                        </div>
+                        <div class="col-lg-12 col-7 MprodItemBottom bg-warning">
+                            <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                            <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outerM">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div class="prodItemBottom">
+                            <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                            <div class="outer productOuterS">
+                                <a href="#">
+                                    <div class="button">
+                                        <div class="text row">show detail <span class="buttonImage buttonImageProduct"></span></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
