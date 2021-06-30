@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using accela.Extensions;
+using accela.Data;
 
 namespace accela.Models
 {
@@ -16,7 +17,9 @@ namespace accela.Models
         private bool _visibiliy;
         private Manager _contact;
         private Category _pool;
+        private List<Category> _poolCategories;
 
+        //CTOR pro pooly
         public Category(int id, string name, string url, string desc, string img, string text, int position, bool visibility, Manager contact)
         {
             _id = id;
@@ -27,7 +30,9 @@ namespace accela.Models
             _text = text;
             _position = position;
             _visibiliy = visibility;
-            _contact = contact;
+            _contact = contact;   
+
+            this._getCategoriesForPool();
         }
 
         public Category(int id, Category pid, string name, string url, string desc, string img, string text, int position, bool visibility, Manager contact)
@@ -48,6 +53,8 @@ namespace accela.Models
         {
             _id = 0;
             _contact = new Manager();
+            _pool = new Category();
+            _poolCategories = new List<Category>();
         }
 
         public int ID { get { return _id; } set { _id = value; } }
@@ -60,6 +67,7 @@ namespace accela.Models
         public Manager Contact { get { return _contact; } set { _contact = value; }}
         public Category Pool { get { return _pool; } set { _pool = value; }}
         public int Position { get { return _position; } set { _position = value; }}
+        public List<Category> PoolCategories { get { return _poolCategories;} set { _poolCategories = value;}}
 
         public bool CheckDetails()
         {
@@ -75,6 +83,12 @@ namespace accela.Models
         public void GenerateUrl()
         {
             this._url = Slugify.URLFriendly(this._name);
+        }
+
+        private void _getCategoriesForPool()
+        {
+            Database db = new Database();
+            this._poolCategories = db.GetCategoriesForPool(this._id);
         }
     }
 }
