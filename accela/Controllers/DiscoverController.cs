@@ -16,9 +16,10 @@ namespace accela.Controllers
         {
             return View();
         }
-
-        public IActionResult Detail()
+        [Route ("/Discover/{discoverUrl}")]
+        public IActionResult Detail( string discoverUrl)
         {
+
             return View();
         }
     }

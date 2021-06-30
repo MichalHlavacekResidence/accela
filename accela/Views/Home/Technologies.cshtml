@@ -24,31 +24,48 @@
                 <div class="container">
                     <div class="card-columns">
                         <!--technologie start-->
-                        <div class="card techsi">
-                            <div class="techsi_img">
-                                <div class="cell_96_107"></div>
-                                <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
-                            </div>
-                            <div class="card-body">
-                                <h2>
-                                    <a href="https://www.accela.eu/technologies/molecular-technologies">Molecular technologies</a>
-                                </h2>
-                                <p class="link">
-                                    <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">Targeted DNA/protein size collection</a>
-                                </p>
-                                <p class="link">
-                                    <a href="https://www.accela.eu/technologies/molecular-technologies/ultra-and-high-performance-centrifuges">Ultra and high performance centrifuges</a>
-                                </p>
-                                <div class="outerS">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        @{
+                            /*foreach (Category pool in ViewBag.PoolList)
+                            {
+
+                                <div class="card techsi">
+                                    <div class="techsi_img">
+                                        <div class="cell_96_107"></div>
+                                        <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
+                                    </div>
+                                    <div class="card-body">
+                                        <h2>
+                                            <a href="https://www.accela.eu/technologies/molecular-technologies">@pool.Name</a>
+                                        </h2>
+                                        @{
+                                            foreach (Category categ in ViewBag.PoolList)
+                                            {
+                                                if (pool.ID == categ.Pool.ID) { }
+                                            }
+                                        }
+                                        <p class="link">
+                                            <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">Targeted DNA/protein size collection</a>
+                                        </p>
+                                        <p class="link">
+                                            <a href="https://www.accela.eu/technologies/molecular-technologies/ultra-and-high-performance-centrifuges">Ultra and high performance centrifuges</a>
+                                        </p>
+                                        <div class="outerS">
+                                            <a href="#">
+                                                <div class="button">
+                                                    <div class="text row">show detail <span class="buttonImage"></span></div>
+                                                </div>
+                                            </a>
                                         </div>
-                                    </a>
+
+                                    </div>
                                 </div>
 
-                            </div>
-                        </div>
+
+                             }*/
+                        }
+
+
+
                         <!--technologie konec-->
                         <div class="card p-3">
                             <blockquote class="blockquote mb-0 card-body">

@@ -16,6 +16,37 @@
                 <p class="col-lg-10 offset-lg-1 brandText">As a leading supplier of Life-Science Technologies in the territory of Central and Eastern Europe, we have developed trust and strong relationship with our partners - companies, manufacturing the most advanced High Tech – State Of The Art technologies. The mutual commitment to deliver the first class support to our customers makes us a credible team.</p>
             </div>
             <div class="row">
+                @{
+                    foreach (Product brand in ViewBag.BrandList)
+                    {
+                        <div class="col-12 col-lg-4 hpProdItemM">
+                            <div class="row">
+                                <div class="brandItem col-lg-4 col-12">
+                                    <a href="#">
+                                        <div class="brandItemImage">
+                                            <img src="~/file/pictures/@brand.Image" />
+
+                                        </div>
+
+                                    </a>
+                                </div>
+                                <div class="brandItemText col-lg-8 col-12">
+                                    <h3 class="brandSubTitle col-12">
+                                        <a href="https://www.accela.eu/agilent-technologies">@brand.Name</a>
+                                    </h3>
+                                    <div class="text">
+                                        <p style="text-align: justify;">
+                                            @brand.SmallDescription
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
                 <!--Brand start-->
                 <div class="col-12 col-lg-4 hpProdItemM">
                     <div class="row">

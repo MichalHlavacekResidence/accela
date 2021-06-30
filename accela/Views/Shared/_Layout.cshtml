@@ -19,137 +19,82 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse menu-collapse menuContainer" id="main_nav">
-                        <ul class="navbar-nav">
+                        <ul class="navbar-nav slideMenu">
                             <li class="nav-item active"> <a class="nav-link" asp-action="Discover" asp-controller="Home">Discover </a> </li>
-                            <li class="nav-item dropdown js_linkToTech">
+                            <li class="nav-item dropdown js_linkToTech" id="technologiesMenuActivator">
                                 <a class="nav-link  dropdown-toggle" href="#" data-bs-toggle="dropdown">  Technologies  </a>
-                                <ul class="dropdown-menu dropdown-menuContainerTech">
-                                    <!--<li><a class="dropdown-item" asp-action="References" asp-controller="Home"> Submenu item 1</a></li>
+                                <!--<ul class="dropdown-menu dropdown-menuContainerTech">-->
+                                <!--<li><a class="dropdown-item" asp-action="References" asp-controller="Home"> Submenu item 1</a></li>
     <li><a class="dropdown-item" href="#"> Submenu item 2 </a></li>
     <li><a class="dropdown-item" href="#"> Submenu item 3 </a></li>-->
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 offset-1 mtech">
-                                                <div class="mtechic">
-                                                    <div class="cell_38_42"></div>
-                                                    <div class="mtechi">
-                                                        <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
-                                                    </div>
-                                                </div>
-                                                <div class="mtechtit">
-                                                    <p>
-                                                        <a href="https://www.accela.eu/technologies/molecular-technologies">Molecular technologies</a>
-                                                    </p>
-                                                </div>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">Targeted DNA/protein size collection</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/molecular-technologies/ultra-and-high-performance-centrifuges">Ultra and high performance centrifuges</a>
-                                                </p>
+                                <!--
+        <li>
+        <div class="row">
 
-                                                <a class="dropdown-item" asp-action="References" asp-controller="Home"> Submenu item 1</a><p>dfsdfsd</p>
-                                            </div>
-                                            <div class="col-2 mtech">
-                                                <div class="mtechic">
-                                                    <div class="cell_38_42"></div>
-                                                    <div class="mtechi">
-                                                        <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
-                                                    </div>
-                                                </div>
-                                                <div class="mtechtit">
-                                                    <p>
-                                                        <a href="https://www.accela.eu/technologies/molecular-technologies">Molecular technologies</a>
-                                                    </p>
-                                                </div>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/live-cell-imaging">Live cell imaging</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/automated-microscopy-and-image-analysis">Automated microscopy and image analysis</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/super-resolution-microscopy">Super resolution microscopy</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/cell-counting">Cell counting</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/real-time-label-free-cell-analysis">Real-time, label free cell analysis</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/cell-interaction-studies">Cell interaction studies</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/ctc-s-and-rare-cells-analysis">CTC´s and rare cells analysis</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/nano-and-micro-particle-analysis">Nano and micro particle analysis</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/3d-cell-culture-rotary-system">3D cell culture rotary system</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/3d-bioprinting">3D Bioprinting</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/physiological-cell-culturing">Physiological cell culturing</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/hypoxia-and-o2-controlled-environment-isolators">Hypoxia and O2 controlled environment isolators</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/anaerobic-glove-boxes">Anaerobic boxes</a>
-                                                </p>
-                                                <p class="item">
-                                                    <a href="https://www.accela.eu/technologies/cellular-analysis/plant-growth-chambers">Plant growth chambers</a>
-                                                </p>
-                                            </div>
-                                            <div class="col-2">
-                                                <p>dfsdfsd</p>
-                                            </div>
-                                            <div class="col-2">
-                                                <p>dfsdfsd</p>
-                                            </div>
-                                            <div class="col-2">
-                                                <p>dfsdfsd</p>
-                                            </div>
-                                        </div>
+        </div>
 
-                                    </li>
-                                </ul>
+    </li>
+
+        -->
+                                <!--</ul>-->
                             </li>
-                            <li class="nav-item"><a class="nav-link"  asp-action="Product" asp-controller="Home"> Products </a></li>
-                            <li class="nav-item dropdown js_linkToBrand">
+                            <li class="nav-item"><a class="nav-link" asp-action="Product" asp-controller="Home"> Products </a></li>
+                            <li class="nav-item dropdown js_linkToBrand" id="brandMenuActivator">
+
                                 <a class="nav-link  dropdown-toggle" asp-action="Brand" asp-controller="Home" data-bs-toggle="dropdown">  Brands  </a>
-                                <ul class="dropdown-menu dropdown-menuContainerBrand">
+                                <!--
+                        <ul class="dropdown-menu dropdown-menuContainerBrand">
 
-                                    <div class="row">
-
-                                       
-
-                                                   
+                            <div class="row">
 
 
-
-                                        <div class="col-2 offset-1">
-                                            <a class="dropdown-item" asp-action="References" asp-controller="Home"> Submenu item 1</a><p>dfsdfsd</p>
-                                        </div>
-                                        <div class="col-2">
-                                            <p>dfsdfsd</p>
-                                        </div>
-                                        <div class="col-2">
-                                            <p>dfsdfsd</p>
-                                        </div>
-                                        <div class="col-2">
-                                            <p>dfsdfsd</p>
-                                        </div>
-                                        <div class="col-2">
-                                            <p>dfsdfsd</p>
-                                        </div>
+                                <div class="mbrand">
+                                    <div class="mbrandic">
+                                        <a href="https://www.accela.eu/agilent-technologies">
+                                            <div class="mbrandi">
+                                                <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" />
+                                            </div>
+                                        </a>
                                     </div>
+                                </div>
+                                <div class="mbrand">
+                                    <div class="mbrandic">
+                                        <a href="https://www.accela.eu/agilent-technologies">
+                                            <div class="mbrandi">
+                                                <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" />
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
 
-                                </ul>
+
+
+
+
+
+
+
+
+
+
+                                   <div class="col-2 offset-1">
+                                    <a class="dropdown-item" asp-action="References" asp-controller="Home"> Submenu item 1</a><p>dfsdfsd</p>
+                                </div>
+                                <div class="col-2">
+                                    <p>dfsdfsd</p>
+                                </div>
+                                <div class="col-2">
+                                    <p>dfsdfsd</p>
+                                </div>
+                                <div class="col-2">
+                                    <p>dfsdfsd</p>
+                                </div>
+                                <div class="col-2">
+                                    <p>dfsdfsd</p>
+                                </div>
+                            </div>
+
+                        </ul>-->
                             </li>
                             <li class="nav-item"><a class="nav-link" asp-action="References" asp-controller="Home"> References </a></li>
                             <li class="nav-item"><a class="nav-link" asp-action="Contact" asp-controller="Home"> Contact </a></li>
@@ -157,6 +102,247 @@
                     </div> <!-- navbar-collapse.// -->
                 </div> <!-- container-fluid.// -->
             </nav>
+            <div class="row" id="brandMenu">
+
+
+                <div class="col-10 offset-1">
+
+                    <div class="hex-row">
+                        <!--12-->
+                        <div class="hex">
+                            <a href="https://www.accela.eu/agilent-technologies">
+                                <div class="top"></div>
+                                <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                                <div class="bottom"></div>
+                            </a>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+
+                    </div>
+                    <div class="hex-row even">
+                        <!--11-->
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="hex">
+                            <div class="top"></div>
+                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
+                            <div class="bottom"></div>
+                        </div>
+                    </div>
+                    <div class="hex-row">
+                        <div class="hex"><div class="top"></div><div class="middle"></div><div class="bottom"></div></div>
+                        <div class="hex"><div class="top"></div><div class="middle"></div><div class="bottom"></div></div>
+                        <div class="hex"><div class="top"></div><div class="middle"></div><div class="bottom"></div></div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row" id="technologiesMenu">
+                <div class="col-10 offset-1">
+                    <div class="row">
+                        <div class="col-2 offset-1 mtech">
+                            <div class="mtechic">
+                                <div class="cell_38_42"></div>
+                                <div class="mtechi">
+                                    <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
+                                </div>
+                            </div>
+                            <div class="mtechtit">
+                                <p>
+                                    <a href="https://www.accela.eu/technologies/molecular-technologies">Molecular technologies</a>
+                                </p>
+                            </div>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">Targeted DNA/protein size collection</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/molecular-technologies/ultra-and-high-performance-centrifuges">Ultra and high performance centrifuges</a>
+                            </p>
+
+                        </div>
+                        <div class="col-2 mtech">
+                            <div class="mtechic">
+                                <div class="cell_38_42"></div>
+                                <div class="mtechi">
+                                    <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
+                                </div>
+                            </div>
+                            <div class="mtechtit">
+                                <p>
+                                    <a href="https://www.accela.eu/technologies/molecular-technologies">Molecular technologies</a>
+                                </p>
+                            </div>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/live-cell-imaging">Live cell imaging</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/automated-microscopy-and-image-analysis">Automated microscopy and image analysis</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/super-resolution-microscopy">Super resolution microscopy</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/cell-counting">Cell counting</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/real-time-label-free-cell-analysis">Real-time, label free cell analysis</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/cell-interaction-studies">Cell interaction studies</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/ctc-s-and-rare-cells-analysis">CTC´s and rare cells analysis</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/nano-and-micro-particle-analysis">Nano and micro particle analysis</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/3d-cell-culture-rotary-system">3D cell culture rotary system</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/3d-bioprinting">3D Bioprinting</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/physiological-cell-culturing">Physiological cell culturing</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/hypoxia-and-o2-controlled-environment-isolators">Hypoxia and O2 controlled environment isolators</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/anaerobic-glove-boxes">Anaerobic boxes</a>
+                            </p>
+                            <p class="item">
+                                <a href="https://www.accela.eu/technologies/cellular-analysis/plant-growth-chambers">Plant growth chambers</a>
+                            </p>
+                        </div>
+                        <div class="col-2">
+                            <p> fdsg dfg df gdf</p><br />
+                            <p> fdsg dfg df gdf</p><br />
+                        </div>
+                        <div class="col-2">
+                            <p> fdsg dfg df gdf</p><br />
+                            <p> fdsg dfg df gdf</p><br />
+                        </div>
+                        <div class="col-2">
+                            <p> fdsg dfg df gdf</p><br />
+                            <p> fdsg dfg df gdf</p><br />
+                        </div>
+
+                    </div>
+                    
+                   
+                </div>
+
+
+
+
+
+
+
+            </div>
 
         </div>
 
@@ -352,6 +538,39 @@
             });
 
         /*submenu*/
+
+            $("#brandMenuActivator").hover(
+                function () {
+                    $("#brandMenu").css("display", "block");
+                    $("#technologiesMenu").css("display", "none");
+                }, function () {
+                    
+                }
+            );
+            $("#brandMenu").hover(
+                function () {
+                    $("#brandMenu").css("display", "block");
+                }, function () {
+                    $("#brandMenu").css("display", "none");
+                }
+            ); 
+            $("#technologiesMenuActivator").hover(
+                function () {
+                    $("#technologiesMenu").css("display", "block");
+                    $("#brandMenu").css("display", "none");
+                }, function () {
+
+                }
+            );
+            $("#technologiesMenu").hover(
+                function () {
+                    $("#technologiesMenu").css("display", "block");
+                }, function () {
+                    $("#technologiesMenu").css("display", "none");
+                }
+            ); 
+           
+
 
         /*end Submenu*/
 
