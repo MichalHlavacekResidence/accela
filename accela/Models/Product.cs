@@ -48,7 +48,7 @@ namespace accela.Models
         }
 
         //
-        public Product(int id, string name, string url, string description, string subtitle, string smallDesc, string referenceLink, Brand producer, Manager manager, string videoUrl, bool visibility){
+        public Product(int id, string name, string url, string description, string subtitle, string smallDesc, string referenceLink, Brand producer, Manager manager, string videoUrl, bool visibility, string image){
             _id = id;
             _name = name;
             _url = url;
@@ -60,6 +60,7 @@ namespace accela.Models
             _manager = manager;
             _videoURL = videoUrl;
             _visibility = visibility;
+            _image = image;
         }
 
         public int ID { get { return _id;} set { _id = value; }}

@@ -663,6 +663,7 @@ namespace accela.Data
                         string vidUrl = null;
                         string referenceLink = null;
                         int managerID = 0;
+                        string image = null;
                         Manager mng = new Manager();
                         List<Product> products = new List<Product>();
 
@@ -680,10 +681,11 @@ namespace accela.Data
                             try { vidUrl = reader.GetString(10);}catch(Exception){vidUrl = null;}
                             try { referenceLink = reader.GetString(11);}catch(Exception){referenceLink = null;}
                             try { managerID = reader.GetInt16(12); }catch(Exception){ managerID = 0;}
+                            try { image = reader.GetString("Image");}catch(Exception){ image = null;}
                             if(managerID != 0){
                                 mng = this.GetManagerByID(managerID);
                             }
-                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis));
+                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis, image));
                         }
                         return products;
                     }
@@ -1259,13 +1261,110 @@ namespace accela.Data
             }
         }
 
+        public List<Category> GetCategoriesForPool(int poolID)
+        {
+            try{
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand command= new MySqlCommand())
+                    {
+                        command.Connection = db.Connection;
+                        command.CommandText = "SELECT ID, Name, Url, Description, Visibility, Position, Img, ContactID, PoolID FROM Categories WHERE PoolID = @id";
+                        command.Parameters.AddWithValue("@id", poolID);
+                        var reader = command.ExecuteReader();
+                        if(!reader.HasRows)
+                        {
+                            return new List<Category>();
+                        }
+
+                        int ID = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        bool vis = false;
+                        int pos = 0;
+                        string img = null;
+                        int conid = 0;
+                        int poolid = poolID;
+                        List<Category> poolCategories = new List<Category>();
+                        while(reader.Read())
+                        {
+                            try{ ID = reader.GetInt32(0);}catch(Exception){ ID = 0;}
+                            try{ name = reader.GetString(1);}catch(Exception) { name = null;}
+                            try{ url = reader.GetString(2);}catch(Exception){ url = null;}
+                            try{ desc = reader.GetString(3);}catch(Exception){ desc= null;}
+                            try{ vis = reader.GetBoolean(4);}catch(Exception){ vis = false;}
+                            try{ pos = reader.GetInt32(5);}catch(Exception){ pos = 0;}
+                            try{ img = reader.GetString(6);}catch(Exception){ img = null;}
+                            try{ conid = reader.GetInt32(7);}catch(Exception){ conid = 0;}
+                            try{ poolid = reader.GetInt32(8);}catch(Exception){ poolid = 0;}
+                            poolCategories.Add(new Category(ID, this.GetPool(poolid), name, url, desc, img, "", pos, vis, this.GetManagerByID(conid)));
+                        }
+                        return poolCategories;
+                   }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetCategoriesForPool] "+ex.Message);
+                return new List<Category>();
+            }
+        }
+
+        public List<Category> GetVisibleCategories()
+        {
+            try{
+                using(var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using(MySqlCommand command= new MySqlCommand())
+                    {
+                        command.Connection = db.Connection;
+                        command.CommandText = "SELECT ID, Name, Url, Description, Visibility, Position, Img, ContactID, PoolID FROM Categories WHERE Visibility = 1";
+                        var reader = command.ExecuteReader();
+                        if(!reader.HasRows)
+                        {
+                            return new List<Category>();
+                        }
+
+                        int ID = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        bool vis = false;
+                        int pos = 0;
+                        string img = null;
+                        int conid = 0;
+                        List<Category> poolCategories = new List<Category>();
+                        while(reader.Read())
+                        {
+                            try{ ID = reader.GetInt32(0);}catch(Exception){ ID = 0;}
+                            try{ name = reader.GetString(1);}catch(Exception) { name = null;}
+                            try{ url = reader.GetString(2);}catch(Exception){ url = null;}
+                            try{ desc = reader.GetString(3);}catch(Exception){ desc= null;}
+                            try{ vis = reader.GetBoolean(4);}catch(Exception){ vis = false;}
+                            try{ pos = reader.GetInt32(5);}catch(Exception){ pos = 0;}
+                            try{ img = reader.GetString(6);}catch(Exception){ img = null;}
+                            try{ conid = reader.GetInt32(7);}catch(Exception){ conid = 0;}
+                            poolCategories.Add(new Category(ID,name, url, desc, img, "", pos, vis, this.GetManagerByID(conid)));
+                        }
+                        return poolCategories;
+                   }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[GetCategories] "+ex.Message);
+                return new List<Category>();
+            }
+        }
+
         public List<Product> GetVisibleProducts(){
             try{
                 using (var db = new AppDb()){
                     db.Connection.Open();
                     using(MySqlCommand cmd = new MySqlCommand()){
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility,BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE Visibility = 1 ORDER BY Position ASC";
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility,BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID, Image FROM Products WHERE Visibility = 1 ORDER BY Position ASC";
                         var reader = cmd.ExecuteReader();
                         if(!reader.HasRows){
                             return new List<Product>();
@@ -1283,6 +1382,7 @@ namespace accela.Data
                         string vidUrl = null;
                         string referenceLink = null;
                         int managerID = 0;
+                        string image = null;
                         Manager mng = new Manager();
                         List<Product> products = new List<Product>();
 
@@ -1300,10 +1400,11 @@ namespace accela.Data
                             try { vidUrl = reader.GetString(10);}catch(Exception){vidUrl = null;}
                             try { referenceLink = reader.GetString(11);}catch(Exception){referenceLink = null;}
                             try { managerID = reader.GetInt16(12); }catch(Exception){ managerID = 0;}
+                            try { image = reader.GetString("Image");}catch(Exception) { image = null; }
                             if(managerID != 0){
                                 mng = this.GetManagerByID(managerID);
                             }
-                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis));
+                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis, image));
                         }
                         return products;
                     }
@@ -1340,6 +1441,7 @@ namespace accela.Data
                         string vidUrl = null;
                         string referenceLink = null;
                         int managerID = 0;
+                        string image= null;
                         Manager mng = new Manager();
 
                         while(reader.Read()){
@@ -1356,11 +1458,12 @@ namespace accela.Data
                             try { vidUrl = reader.GetString(10);}catch(Exception){vidUrl = null;}
                             try { referenceLink = reader.GetString(11);}catch(Exception){referenceLink = null;}
                             try { managerID = reader.GetInt16(12); }catch(Exception){ managerID = 0;}
+                            try { image = reader.GetString("Image");}catch(Exception) { image = null;}                            
                             if(managerID != 0){
                                 mng = this.GetManagerByID(managerID);
                             }
                         }
-                        return new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis);
+                        return new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis, image);
                     }
                 }
             }catch(Exception ex){
