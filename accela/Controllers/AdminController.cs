@@ -39,6 +39,7 @@ namespace Controllers
             return View();
         }
 
+        [Route("/Admin/Manager/{mid}")]
         [HttpGet]
         public IActionResult Manager(int mid)
         {
@@ -171,6 +172,7 @@ namespace Controllers
             }
             ViewBag.ManagerList = db.GetVisibleManagers();
             ViewBag.ProductList = db.GetVisibleProducts();
+           
             return View(brand);
         }
 
@@ -233,7 +235,6 @@ namespace Controllers
             brand.LoadProducts();
             return View(brand);
         }
-
         public IActionResult Products() {
             Database db = new Database();
             ViewBag.ProductList = db.GetAllProducts();
