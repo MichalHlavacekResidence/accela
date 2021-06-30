@@ -52,6 +52,9 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
     height: 53px;
     color:green;
 }
+.nav-link {
+    color: #252525 !important;
+}
 @media all and (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {
         display: none;
@@ -153,6 +156,9 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
     padding-right: 0px!important;
     /*max-width: 1600px;*/
 }
+.discoverContainer{
+    margin-top:15px;
+}
 header {
     padding: 0px;
     /*max-width: 1600px;*/
@@ -226,6 +232,12 @@ footer {
     display: block;
     width: 100%;
     text-align: center;
+}
+.pfil{
+    top:-175px;
+}
+.discover {
+    background-color: #adadad;
 }
 /*new button*/
 
@@ -931,8 +943,16 @@ input {
     padding-top: 40px;
     vertical-align: middle;
     text-align: center;
-    max-width: 90px;
+    max-width: 80px;
     max-height: 70px;
+}
+.fieldps h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #00953f;
+    text-transform: uppercase;
+    margin-top: 65px;
 }
 img {
     max-width: 100%;
@@ -1891,7 +1911,29 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
 .hpAccelerateToDiscover {
     background-color: #e6e7e9;
 }
-
+.discoverSearchContainer {
+    background-color: white;
+}
+.pfil input {
+    -webkit-appearance: checkbox;
+}
+.discoverSearchContainer input.pfilkeyword {
+    box-sizing: border-box;
+    float: left;
+    display: block;
+    width: 277px;
+    padding-left: 15px;
+    font-size: 14px;
+    height: 36px;
+    border: 1px;
+    border-color: #ededed;
+    border-style: solid;
+    border-radius: 18px;
+    margin-top: 5px;
+}
+.discoverFirstDiscover{
+    margin-left:15px;
+}
 
 
 
@@ -2139,6 +2181,9 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
         }
         .menu-collapse {
             height: auto; 
+        }
+        .pfil{
+            top:0px;
         }
            
 
@@ -2807,15 +2852,17 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
     line-height: 18px;
 }
 .mtechtit p:hover{
-    text-decoration:underline;
+    text-decoration:underline !important;
+}
+p.item a :hover{
+    text-decoration:underline !important;
 }
 .mbrand {
     margin-top: 46px;
     width: 105px;
-    margin-right: 17px;
+    margin-right: 1px;
     float: left;
     display: block;
-    margin-left: 40px;
 }
 .mbrandic {
     background-image: url('../file/pictures/brand_cell.png');
@@ -2849,3 +2896,85 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
     width: 100%;
     margin-left: 0px !important;
 }
+.techsi p.link a:hover{
+    text-decoration:underline !important;
+}
+.mbrandicOne{
+    margin-left:20px;
+}
+#brandMenu {
+    display: none;
+    transition: 5.2s;
+    height: 500px;
+    margin: 0 auto;
+    background-color: #e2e4e6;
+}
+#technologiesMenu {
+    display: none;
+    transition: 5.2s;
+    height: 620px;
+    margin: 0 auto;
+    background-color: #e2e4e6;
+    float:left;
+    width:100%;
+}
+
+
+
+
+/*ssss*/
+
+
+.hex {
+    float: left;
+    margin-left: 3px;
+    margin-bottom: -26px;
+}
+.hex:hover .top {
+    border-bottom: 30px solid #dcdcdc;
+}
+.hex:hover .middle {
+    background: #dcdcdc;
+}
+.hex:hover .bottom {
+    border-top: 30px solid #dcdcdc;
+}
+
+.hex .top {
+    width: 0;
+    border-bottom: 30px solid #fff;
+    border-left: 52px solid transparent;
+    border-right: 52px solid transparent;
+}
+
+.hex .middle {
+    width: 104px;
+    height: 60px;
+    background: #fff;
+}
+.hex .bottom {
+    width: 0;
+    border-top: 30px solid #fff;
+    border-left: 52px solid transparent;
+    border-right: 52px solid transparent;
+    margin-top: 60px;
+}
+.hex-row {
+   clear:left;
+}
+.hex-row.even {
+    margin-left: 53px;
+}
+.mbrandic img {
+    width: 87px;
+    height: 40px;
+    margin-top:5px;
+    margin-left:2px;
+}
+
+
+
+
+
+
+/*end sssss*/

@@ -21,13 +21,25 @@ namespace accela.Controllers
 
         public IActionResult Index()
         {
+            Database database = new Database();
+            // ViewBag.BrandList = database.GetVisibleBrands();
+            // ViewBag.DiscoverList = database.GetVisibleDIscover();
+            /*List<Product> prods = database.GetVisibleProducts();
+            Random rng = new Random();
+            List<Product> selectedProds = new List<Product>();
+            List<int> cisla = new List<int>();
+            while (cisla.Count < 3)
+            {
+                int cislo = rng.Next(0, prods.Count);
+                if (!cisla.Contains(cislo))
+                {
+                    cisla.Add(cislo);
+                    selectedProds.Add(prods[cislo]);
 
-            return View();
-        }
+                }
+            }
+            ViewBag.SelectedProduct = selectedProds;*/
 
-        [Route("/Mailing")]
-        public IActionResult Mailing()
-        {
             return View();
         }
 
@@ -35,18 +47,31 @@ namespace accela.Controllers
         {
             return View();
         }
-        [Route("/Brand")]
+
         public IActionResult Brand()
         {
+            Database database = new Database();
+            // ViewBag.BrandList = database.GetVisibleBrands();
             return View();
         }
-
+        public IActionResult Discover()
+        {
+            Database database = new Database();
+            // ViewBag.DiscoverList = database.GetVisibleDiscover();
+            return View();
+        }
         public IActionResult References()
         {
+            Database database = new Database();
+            // ViewBag.ReferencesList = database.GetVisibleRefeences();
             return View();
         }
         public IActionResult Technologies()
         {
+            Database database = new Database();
+            // ViewBag.PoolList = database.GetAllPools();
+            // ViewBag.CategoryList = database.GetVisibleCategory();
+
             return View();
         }
         public IActionResult Contact()
@@ -67,7 +92,14 @@ namespace accela.Controllers
         }
         public IActionResult Product()
         {
+            /* Database database = new Database();
+             ViewBag.ProductList = database.GetVisibleProducts();*/
+            
+            List<Product> ProductList = new List<Product>();
+            ProductList.Add(new Product(0,"test", "test", "test", "test", "test", "imagestream_x_mkii_24.png", new Manager(), "test",true));
+            ViewBag.ProductList = ProductList;
             return View();
+
         }
         public IActionResult Support()
         {
@@ -87,6 +119,13 @@ namespace accela.Controllers
         }
         public IActionResult Career()
         {
+            return View();
+        }
+        public IActionResult BrandDetail()
+        {
+            /* Database database = new Database();
+             ViewBag.RelatedProductBrandList = database.GetRelatedProductBrand();*/
+
             return View();
         }
 
