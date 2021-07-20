@@ -21,13 +21,14 @@ namespace accela.Models
         private List<News> _relatedNews;
         private string _imageBig;
         private string _imageSmall;
+        private string _imageNew;
 
         public News()
         {
             _id = 0;
         }
 
-        public News(int id, string title, Brand brand, Manager contact, string ImageBig, string ImageSmall, string Content, string ContentSmall, DateTime Created, string VideoURL)
+        public News(int id, string title, Brand brand, Manager contact, string ImageBig, string ImageSmall, string Content, string ContentSmall, DateTime Created, string VideoURL, string ImageNew)
         {
             _id = id;
             _title = title;
@@ -39,6 +40,7 @@ namespace accela.Models
             _contentSmall = ContentSmall;
             _created = Created;
             _videoUrl = VideoURL;
+            _imageNew = ImageNew;
         }
 
         public int ID { get { return _id; } set { _id = value; } }

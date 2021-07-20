@@ -748,7 +748,7 @@ namespace accela.Data
                     using(MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL FROM News";
+                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL, imageNew FROM News";
                         var reader = cmd.ExecuteReader();
 
                         if(reader.HasRows == false)
@@ -767,6 +767,7 @@ namespace accela.Data
                         DateTime Created = DateTime.Now;
                         string videourl = null;
                         List<News> news = new List<News>();
+                        string imgnew = null;
 
                         while(reader.Read())
                         {
@@ -780,7 +781,8 @@ namespace accela.Data
                             try{ contentsml = reader.GetString(7);}catch(Exception){ contentsml = null;}
                             try{ Created = reader.GetDateTime(8);}catch(Exception){ Created = DateTime.Now;}
                             try{ videourl = reader.GetString(9);}catch(Exception){ videourl = null;}
-                            news.Add(new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl));
+                            try { imgnew = reader.GetString(5); } catch (Exception) { imgnew = null; }
+                            news.Add(new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew));
                         }
                         return news;
                     }
@@ -809,7 +811,7 @@ namespace accela.Data
                     using(MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL FROM News WHERE ID = @id";
+                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL, imageNew FROM News WHERE ID = @id";
                         cmd.Parameters.AddWithValue("@id", nid);
                         var reader = cmd.ExecuteReader();
 
@@ -828,8 +830,9 @@ namespace accela.Data
                         string contentsml = null;
                         DateTime Created = DateTime.Now;
                         string videourl = null;
+                        string imgnew = null;
 
-                        while(reader.Read())
+                        while (reader.Read())
                         {
                             try{ id = reader.GetInt32(0);}catch(Exception ex){ id = 0;}
                             try{ title = reader.GetString(1);}catch(Exception ex){ title = null;}
@@ -841,8 +844,9 @@ namespace accela.Data
                             try{ contentsml = reader.GetString(7);}catch(Exception){ contentsml = null;}
                             try{ Created = reader.GetDateTime(8);}catch(Exception){ Created = DateTime.Now;}
                             try{ videourl = reader.GetString(9);}catch(Exception){ videourl = null;}
+                            try { imgnew = reader.GetString(4); } catch (Exception) { imgnew = null; }
                         }
-                        return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl);
+                        return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew);
                     }
                 }
             }catch(Exception ex)
@@ -1742,6 +1746,159 @@ namespace accela.Data
             }catch(Exception ex){
                 Console.WriteLine("[GetBrands] "+ex.Message);
                 return new List<Brand>();
+            }
+        }
+        public List<Brand> GetVisibleBrands()
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility, Image FROM Brands WHERE Visibility = 1";
+                        var reader = cmd.ExecuteReader();
+                        if (!reader.HasRows)
+                        {
+                            return new List<Brand>();
+                        }
+
+                        int id = 0;
+                        int contID = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        string smalld = null;
+                        string link = null;
+                        int pos = 0;
+                        bool vis = false;
+                        string img = null;
+                        List<Brand> brands = new List<Brand>();
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
+                            try { contID = reader.GetInt32(1); } catch (Exception) { contID = 0; }
+                            try { name = reader.GetString(2); } catch (Exception) { name = null; }
+                            try { url = reader.GetString(3); } catch (Exception) { url = null; }
+                            try { desc = reader.GetString(4); } catch (Exception) { desc = null; }
+                            try { smalld = reader.GetString(5); } catch (Exception) { smalld = null; }
+                            try { link = reader.GetString(6); } catch (Exception) { link = null; }
+                            try { pos = reader.GetInt32(7); } catch (Exception) { pos = 0; }
+                            try { vis = reader.GetBoolean(8); } catch (Exception) { vis = false; }
+                            try { img = reader.GetString(9); } catch (Exception) { img = null; }
+                            Manager contact = new Manager();
+                            if (contID != 0)
+                            {
+                                contact = this.GetManagerByID(contID);
+                            }
+                            brands.Add(new Brand(id, name, link, url, desc, smalld, contact, pos, vis, img));
+                        }
+                        return brands;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetVisibleBrands] " + ex.Message);
+                return new List<Brand>();
+            }
+        }
+        public List<References> GetAllReferences()
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, Company,Img, Visibility,Position,Description FROM Ref";
+                        var reader = cmd.ExecuteReader();
+                        if (!reader.HasRows)
+                        {
+                            return new List<References>();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string company = null;
+                        string img = null;
+                        int pos = 0;
+                        bool vis = false;
+                        string desc = null;
+                        List<References> referenced = new List<References>();
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
+                            try { img = reader.GetString(9); } catch (Exception) { img = null; }
+                            try { name = reader.GetString(2); } catch (Exception) { name = null; }
+                            try { company = reader.GetString(2); } catch (Exception) { company = null; }
+                            try { pos = reader.GetInt32(7); } catch (Exception) { pos = 0; }
+                            try { vis = reader.GetBoolean(8); } catch (Exception) { vis = false; }
+                            try { desc = reader.GetString(4); } catch (Exception) { desc = null; }
+
+                           
+                            referenced.Add(new References(id, name,  company,img,pos, vis, desc));
+                        }
+                        return referenced;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetReferences] " + ex.Message);
+                return new List<References>();
+            }
+        }
+        public List<References> GetVisibleRefeences()
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, Company,Img, Visibility,Position,Description FROM Ref WHERE Visibility = 1";
+                        var reader = cmd.ExecuteReader();
+                        if (!reader.HasRows)
+                        {
+                            return new List<References>();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string company = null;
+                        string img = null;
+                        int pos = 0;
+                        bool vis = false;
+                        string desc = null;
+                        List<References> referenced = new List<References>();
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
+                            try { name = reader.GetString(2); } catch (Exception) { name = null; }
+                            try { company = reader.GetString(2); } catch (Exception) { company = null; }
+                            try { img = reader.GetString(3); } catch (Exception) { img = null; }
+                            try { pos = reader.GetInt32(7); } catch (Exception) { pos = 0; }
+                            try { vis = reader.GetBoolean(8); } catch (Exception) { vis = false; }
+                            try { desc = reader.GetString(4); } catch (Exception) { desc = null; }
+
+
+                            referenced.Add(new References(id, name, company, img, pos, vis, desc));
+                        }
+                        return referenced;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetReferences] " + ex.Message);
+                return new List<References>();
             }
         }
 
