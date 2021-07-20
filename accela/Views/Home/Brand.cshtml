@@ -17,14 +17,14 @@
             </div>
             <div class="row">
                 @{
-                    foreach (Product brand in ViewBag.BrandList)
+                    foreach (Brand brand in ViewBag.BrandList)
                     {
                         <div class="col-12 col-lg-4 hpProdItemM">
                             <div class="row">
                                 <div class="brandItem col-lg-4 col-12">
                                     <a href="#">
                                         <div class="brandItemImage">
-                                            <img src="~/file/pictures/@brand.Image" />
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" />
 
                                         </div>
 
@@ -36,7 +36,7 @@
                                     </h3>
                                     <div class="text">
                                         <p style="text-align: justify;">
-                                            @brand.SmallDescription
+                                            @brand.SmallText
                                         </p>
                                     </div>
 
@@ -74,7 +74,11 @@
                     </div>
                 </div>
                 <!--Brand end-->
-                <div class="col-12 col-lg-4 hpProdItemM">
+
+
+
+
+                <!--<div class="col-12 col-lg-4 hpProdItemM">
                     <div class="row">
                         <div class="brandItem col-lg-4 col-12">
                             <a href="#">
@@ -448,7 +452,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div>-->
 
 
 

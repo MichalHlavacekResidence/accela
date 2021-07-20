@@ -10,9 +10,9 @@ namespace accela.Data
         public AppDb()
         {
 
-            Connection = new MySqlConnection("host=127.0.0.1;port=3306;user id=accela;password=mysql-123-heslo;database=Accela");
+            //Connection = new MySqlConnection("host=127.0.0.1;port=3306;user id=accela;password=mysql-123-heslo;database=Accela");
             //Connection = new MySqlConnection("host=mysql;port=3306;user id=root;password=mysql-123-heslo;database=Accela");
-            //Connection = new MySqlConnection("host=31.31.73.21;port=3306;user id=root;password=mysql-123-heslo;database=Accela");
+            Connection = new MySqlConnection("host=31.31.73.21;port=3306;user id=root;password=mysql-123-heslo;database=Accela");
 
 
         }

@@ -47,11 +47,11 @@ namespace accela.Controllers
         {
             return View();
         }
-
+                
         public IActionResult Brand()
         {
             Database database = new Database();
-            // ViewBag.BrandList = database.GetVisibleBrands();
+            ViewBag.BrandList = database.GetVisibleBrands();
             return View();
         }
         public IActionResult Discover()
@@ -63,7 +63,7 @@ namespace accela.Controllers
         public IActionResult References()
         {
             Database database = new Database();
-            // ViewBag.ReferencesList = database.GetVisibleRefeences();
+            ViewBag.ReferencesList = database.GetVisibleRefeences();
             return View();
         }
         public IActionResult Technologies()
@@ -92,12 +92,12 @@ namespace accela.Controllers
         }
         public IActionResult Product()
         {
-            /* Database database = new Database();
-             ViewBag.ProductList = database.GetVisibleProducts();*/
-            
-            List<Product> ProductList = new List<Product>();
+             Database database = new Database();
+             ViewBag.ProductList = database.GetVisibleProducts();
+
+            /*List<Product> ProductList = new List<Product>();
             ProductList.Add(new Product(0,"test", "test", "test", "test", "test", "imagestream_x_mkii_24.png", new Manager(), "test",true));
-            ViewBag.ProductList = ProductList;
+            ViewBag.ProductList = ProductList;*/
             return View();
 
         }

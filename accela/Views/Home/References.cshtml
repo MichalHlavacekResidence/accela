@@ -12,12 +12,47 @@
     <div class="pageContentMain references">
         <div class="col-lg-10 offset-lg-1">
             <div class="row">
+
+                @{
+                    foreach (References references in ViewBag.ReferencesList)
+                    {
+
+                        <div class="refContainerF">
+                            <div class="refImage">
+
+
+
+                                @{
+                                    if (references.Img == null || references.Img == "")
+                                    {
+                                        // <img src="~/file/pictures/@prod.Producer.ImageRelativeURL" />
+
+                                    }
+                                    else
+                                    {
+                                        <img src="~/file/img/References/@references.Img" />
+                                    }
+                                }
+                            </div>
+                            <p class="desc">@references.Name</p>
+                        </div>
+
+                    }
+                }
+
+
+
+                <!--
                 <div class="refContainerF">
                     <div class="refImage">
                         <img src="~/file/pictures/muol.png" />
                     </div>
                     <p class="desc">sdfds  gdfg dfh d hgh gfh gfh gfh gf  gfdg df gdf g</p>
                 </div>
+
+
+
+
                 <div class="refContainer">
                     <div class="refImage">
                         <img src="~/file/pictures/muol.png" />
@@ -85,7 +120,7 @@
                         <img src="~/file/pictures/muol.png" />
                     </div>
                     <p class="desc">sdfds gfdg df gdf g</p>
-                </div>
+                </div> -->
 
             </div>
 

@@ -25,56 +25,61 @@
 
                 <div class="flex-container column">
                     @{
-                        foreach (Product prod in ViewBag.ProductList)
+                        if (Enumerable.Count(ViewBag.ProductList) > 0)
                         {
+                            <p>aaa</p>
+                        }
+                        else
+                        {
+                            <p>bbbb</p>
+                        }
+                           
+                    foreach (Product prod in ViewBag.ProductList)
+                    {
 
+                        <div class="flex-item">
+                            <div class="row prodItem">
+                                <div class="col-lg-12 col-5">
+                                    @{
+                                        if (prod.Image == null || prod.Image == "")
+                                        {
+                                            // <img src="~/file/pictures/@prod.Producer.ImageRelativeURL" />
 
-                            <div class="flex-item">
-                                <div class="row prodItem">
-                                    <div class="col-lg-12 col-5">
-                                        @{
-                                            if (prod.Image == null || prod.Image == "")
-                                            {
-                                               // <img src="~/file/pictures/@prod.Producer.ImageRelativeURL" />
-
-                                            }
-                                            else
-                                            {
-                                                <img src="~/file/pictures/@prod.Image" />
-                                            }
                                         }
-                                        <h3 class="prodName"><a> @prod.Name</a></h3>
-                                    </div>
-                                    <div class="col-lg-12 col-7 MprodItemBottom">
-                                        <h3 class="prodSubtitle"><a>@prod.Subtitle</a></h3>
-                                        <p class="h3desc">@prod.SmallDescription</p>
-                                        <div class="outerM">
-                                            <a href="#">
-                                                <div class="button">
-                                                    <div class="text row">show detail <span class="buttonImage"></span></div>
-                                                </div>
-                                            </a>
-                                        </div>
+                                        else
+                                        {
+                                            <img src="~/file/pictures/@prod.Image" />
+                                        }
+                                    }
+                                    <h3 class="prodName"><a> @prod.Name</a></h3>
+                                </div>
+                                <div class="col-lg-12 col-7 MprodItemBottom">
+                                    <h3 class="prodSubtitle"><a>@prod.Subtitle</a></h3>
+                                    <p class="h3desc">@prod.SmallDescription</p>
+                                    <a class="newButton">
+                                        Show more
+                                        <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                        <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                    </a>
 
-                                    </div>
+                                </div>
 
-                                    <div class="prodItemBottom">
-                                        <p class="h3desc hide h3descProduct">@prod.SmallDescription</p>
-                                        <div class="outer">
-                                            <a href="#">
-                                                <div class="button">
-                                                    <div class="text row">show detail <span class="buttonImage"></span></div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-
+                                <div class="prodItemBottom">
+                                    <p class="h3desc hide h3descProduct">@prod.SmallDescription</p>
+                                    <a class="newButton">
+                                        Show more
+                                        <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                        <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                    </a>
                                 </div>
 
                             </div>
 
-                        }
+                        </div>
+
                     }
+                    }
+
 
 
                     <div class="flex-item">
@@ -86,25 +91,21 @@
                             <div class="col-lg-12 col-7 MprodItemBottom">
                                 <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
                                 <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
+                                <a class="newButton">
+                                    Show more
+                                    <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                    <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                </a>
 
                             </div>
 
                             <div class="prodItemBottom">
                                 <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outer">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
+                                <a class="newButton">
+                                    Show more
+                                    <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                    <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                </a>
                             </div>
 
                         </div>
