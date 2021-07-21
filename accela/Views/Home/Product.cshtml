@@ -25,17 +25,10 @@
 
                 <div class="flex-container column">
                     @{
-                        if (Enumerable.Count(ViewBag.ProductList) > 0)
-                        {
-                            <p>aaa</p>
-                        }
-                        else
-                        {
-                            <p>bbbb</p>
-                        }
-                           
+      
                     foreach (Product prod in ViewBag.ProductList)
                     {
+                           
 
                         <div class="flex-item">
                             <div class="row prodItem">
@@ -44,6 +37,7 @@
                                         if (prod.Image == null || prod.Image == "")
                                         {
                                             // <img src="~/file/pictures/@prod.Producer.ImageRelativeURL" />
+                                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
 
                                         }
                                         else
@@ -82,7 +76,7 @@
 
 
 
-                    <div class="flex-item">
+                    <!--<div class="flex-item">
                         <div class="row prodItem">
                             <div class="col-lg-12 col-5">
                                 <img src="~/file/pictures/imagestream_x_mkii_24.png" />
@@ -341,7 +335,7 @@
 
                         </div>
 
-                    </div>
+                    </div>-->
 
                 </div>
 
