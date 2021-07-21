@@ -781,7 +781,7 @@ namespace accela.Data
                             try{ contentsml = reader.GetString(7);}catch(Exception){ contentsml = null;}
                             try{ Created = reader.GetDateTime(8);}catch(Exception){ Created = DateTime.Now;}
                             try{ videourl = reader.GetString(9);}catch(Exception){ videourl = null;}
-                            try { imgnew = reader.GetString(5); } catch (Exception) { imgnew = null; }
+                            try { imgnew = reader.GetString(10); } catch (Exception) { imgnew = null; }
                             news.Add(new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew));
                         }
                         return news;
@@ -844,7 +844,7 @@ namespace accela.Data
                             try{ contentsml = reader.GetString(7);}catch(Exception){ contentsml = null;}
                             try{ Created = reader.GetDateTime(8);}catch(Exception){ Created = DateTime.Now;}
                             try{ videourl = reader.GetString(9);}catch(Exception){ videourl = null;}
-                            try { imgnew = reader.GetString(4); } catch (Exception) { imgnew = null; }
+                            try { imgnew = reader.GetString(10); } catch (Exception) { imgnew = null; }
                         }
                         return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew);
                     }
@@ -1833,12 +1833,12 @@ namespace accela.Data
                         while (reader.Read())
                         {
                             try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
-                            try { img = reader.GetString(9); } catch (Exception) { img = null; }
-                            try { name = reader.GetString(2); } catch (Exception) { name = null; }
+                            try { img = reader.GetString(3); } catch (Exception) { img = null; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
                             try { company = reader.GetString(2); } catch (Exception) { company = null; }
-                            try { pos = reader.GetInt32(7); } catch (Exception) { pos = 0; }
-                            try { vis = reader.GetBoolean(8); } catch (Exception) { vis = false; }
-                            try { desc = reader.GetString(4); } catch (Exception) { desc = null; }
+                            try { pos = reader.GetInt32(5); } catch (Exception) { pos = 0; }
+                            try { vis = reader.GetBoolean(4); } catch (Exception) { vis = false; }
+                            try { desc = reader.GetString(6); } catch (Exception) { desc = null; }
 
                            
                             referenced.Add(new References(id, name,  company,img,pos, vis, desc));
@@ -1881,12 +1881,12 @@ namespace accela.Data
                         while (reader.Read())
                         {
                             try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
-                            try { name = reader.GetString(2); } catch (Exception) { name = null; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
                             try { company = reader.GetString(2); } catch (Exception) { company = null; }
                             try { img = reader.GetString(3); } catch (Exception) { img = null; }
-                            try { pos = reader.GetInt32(7); } catch (Exception) { pos = 0; }
-                            try { vis = reader.GetBoolean(8); } catch (Exception) { vis = false; }
-                            try { desc = reader.GetString(4); } catch (Exception) { desc = null; }
+                            try { pos = reader.GetInt32(5); } catch (Exception) { pos = 0; }
+                            try { vis = reader.GetBoolean(4); } catch (Exception) { vis = false; }
+                            try { desc = reader.GetString(6); } catch (Exception) { desc = null; }
 
 
                             referenced.Add(new References(id, name, company, img, pos, vis, desc));

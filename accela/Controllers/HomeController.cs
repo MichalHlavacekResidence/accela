@@ -69,8 +69,8 @@ namespace accela.Controllers
         public IActionResult Technologies()
         {
             Database database = new Database();
-            // ViewBag.PoolList = database.GetAllPools();
-            // ViewBag.CategoryList = database.GetVisibleCategory();
+            //ViewBag.PoolList = database.GetVisiblePools();
+            //ViewBag.CategoryList = database.GetVisibleCategories();
 
             return View();
         }

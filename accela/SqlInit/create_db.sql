@@ -14,7 +14,7 @@ CREATE TABLE Pools (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, Name Varchar
 
 CREATE TABLE Categories (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, PoolID int(11) NOT NULL, FOREIGN KEY (PoolID) REFERENCES Pools(ID), ContactID int(11) NOT NULL, FOREIGN KEY (ContactID) REFERENCES Managers(ID), Name Varchar(255) NOT NULL, Url Varchar(255) NOT NULL, Description Text, Img Text, Visibility boolean NOT NULL, Position int(10) NOT NULL);
 
-CREATE TABLE Products (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, Name Varchar(255) NOT NULL, URL Varchar(255) NOT NULL, Subtitle Text, Small_desc Text, Description Text, Link Text, Visibility boolean NOT NULL, BrandID int(11) NOT NULL, FOREIGN KEY (BrandID) REFERENCES Brands(ID), CategoryID int(11) NOT NULL, FOREIGN KEY (CategoryID) REFERENCES Categories(ID), VideoURL Text, ReferenceLink Text, ManagerID int(11), FOREIGN KEY (ManagerID) REFERENCES Managers(ID), Image TEXT);
+CREATE TABLE Products (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, Name Varchar(255) NOT NULL, URL Varchar(255) NOT NULL, Subtitle Text, Small_desc Text, Description Text, Link Text, Visibility boolean NOT NULL, BrandID int(11) NOT NULL, FOREIGN KEY (BrandID) REFERENCES Brands(ID), CategoryID int(11) NOT NULL, FOREIGN KEY (CategoryID) REFERENCES Categories(ID), VideoURL Text, ReferenceLink Text, ManagerID int(11), FOREIGN KEY (ManagerID) REFERENCES Managers(ID), Image TEXT,Position int(10) NOT NULL);
 
 CREATE TABLE ProductAttachements (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, ProductID int(20) NOT NULL, FOREIGN KEY (ProductID) REFERENCES Products(ID), Link Text NOT NULL, Type Varchar(255) NOT NULL);
 /*pool brands ne data o brandech se budou brat z produktu*/
