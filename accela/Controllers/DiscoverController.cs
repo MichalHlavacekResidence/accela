@@ -19,8 +19,14 @@ namespace accela.Controllers
         [Route ("/Discover/{discoverUrl}")]
         public IActionResult Detail( string discoverUrl)
         {
-
+            //ViewBag.Massage = discoverUrl;
+            Database database = new Database();
+            //ViewBag.newsList = database.GetNewByUrlWithTags(discoverUrl);
+            ViewBag.NewsList = database.GetNewByUrl(discoverUrl);
+            ViewBag.TagList = database.GetTagsByNews(ViewBag.NewsList.ID);
+            ViewBag.NewsWithTags = database.GetNewByUrlWithTags(discoverUrl);
             return View();
+
         }
     }
 }

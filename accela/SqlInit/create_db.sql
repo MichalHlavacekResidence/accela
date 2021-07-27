@@ -21,25 +21,24 @@ CREATE TABLE ProductAttachements (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL
 CREATE TABLE PoolBrands (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, BrandID int(20) NOT NULL, FOREIGN KEY (BrandID) REFERENCES Brands(ID), PoolID int(11) NOT NULL, FOREIGN KEY (PoolID) REFERENCES Pools(ID), Position int(5) NOT NULL);
 
 CREATE TABLE CustomerMessages (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, Name varchar(255) NOT NULL, Email varchar(255) NOT NULL, Text text NOT NULL, FormURL varchar(255) NOT NULL, Created DateTime DEFAULT CURRENT_TIMESTAMP);
-/*ne pouzivat druhy Tags*/
+/*ne, pouzivat druhy Tags*/
 CREATE TABLE Tags (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, Name VARCHAR(60));
 
 CREATE TABLE Tags (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, Name VARCHAR(60), Url VARCHAR(60),  Position int(5) NOT NULL, Visibility boolean NOT NULL);
 
 CREATE TABLE News (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, 
 Title VARCHAR(255) NOT NULL, 
-Visibility Boolean, 
-BrandID int(11) NOT NULL, FOREIGN KEY (BrandID) REFERENCES Brands(ID), 
+Visibility Boolean,
+BrandID int(11) NOT NULL, FOREIGN KEY (BrandID) REFERENCES Brands(ID),
 ContactID int(11) NOT NULL, FOREIGN KEY (ContactID) REFERENCES Managers(ID),
-ImageBig text, 
+ImageBig text,
 ImageSmall text, 
 Content text NOT NULL, 
 ContentSmall text, 
 Created Datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, 
 VideoURL text,
 ButtonText VARCHAR(25),
-ButtonUrl text,
-Perex text,
+ButtonUrl text,Perex text,
 imageNew text);
 
 CREATE TABLE NewsTags (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, NewsID int(11) NOT NULL, TagID int(11) NOT NULL, FOREIGN KEY (NewsID) REFERENCES News(ID), FOREIGN KEY (TagID) REFERENCES Tags(ID));
@@ -47,3 +46,5 @@ CREATE TABLE NewsTags (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, NewsID in
 CREATE TABLE ProductNew (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, ProductID int(11) NOT NULL, FOREIGN KEY (ProductID) REFERENCES Products(ID),NewID int(11) NOT NULL, FOREIGN KEY (NewID) REFERENCES News(ID), Position int(5) NOT NULL );
 
 CREATE TABLE Ref (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,Name varchar(100) NOT NULL,Company text,Img Text,Visibility Boolean,Position int(5) NOT NULL,Description text );
+
+CREATE TABLE NewProducts (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, NewID int(20) NOT NULL, FOREIGN KEY (NewID) REFERENCES News(ID), ProductID int(11) NOT NULL, FOREIGN KEY (ProductID) REFERENCES Products(ID), Position int(5) NOT NULL);

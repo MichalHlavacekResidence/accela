@@ -17,6 +17,7 @@ namespace accela.Models
         private List<Product> _products;
 
         private Department _department;
+        private List<Brand> _brands;
 
         public Manager()
         {
@@ -53,6 +54,7 @@ namespace accela.Models
             this._visibility = visibility;
             this._position = position;
             this._products = new List<Product>();
+           // this._getbrandsForManager();
         }
 
         public string Description { get { return _description;} set { _description = value; } }
@@ -63,6 +65,7 @@ namespace accela.Models
         public int Position { get { return _position;} set { _position = value; } }
         public bool Visibility { get { return _visibility;} set { _visibility = value; }}
         public List<Product> Products { get { return _products; } set { _products = value; }}
+        public List<Brand> Brands { get { return _brands; } set { _brands = value; } }
 
         public bool CheckDetails(){
             bool result = true;
@@ -87,6 +90,11 @@ namespace accela.Models
         {
             Database db = new Database();
             this._products = db.GetProductsForManager(this.ID);
+        }
+        private void _getbrandsForManager()
+        {
+          /*  Database db = new Database();
+            this._brands = db.GetBrandByManagerID(this.ID);*/
         }
 
     }

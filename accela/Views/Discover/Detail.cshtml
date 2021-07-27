@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "DiscoverDetail";
+    News news = new News();
+    news = ViewBag.NewsList;
 }
 
 
@@ -19,26 +21,44 @@
 
 
                     <div class="row newsi">
-                        <img src="https://www.accela.eu/files/news/726/880x200.jpg" title="ACCELA Educational webinar series: IntraVital Microscopy (IVM): In Vivo Live Cell Imaging Platform" title="ACCELA Educational webinar series: IntraVital Microscopy (IVM): In Vivo Live Cell Imaging Platform" />
+                        <img src="https://www.accela.eu/files/news/726/880x200.jpg" title="ACCELA Educational webinar series: IntraVital Microscopy (IVM): In Vivo Live Cell Imaging Platform" />
 
                     </div>
                     <div class="newscon">
-                        <h1>@ViewData["Title"]</h1>
-
-                        <p class="date">Jun 11, 2021</p>
-
-                        <div class="newstext"><p style="text-align: justify;"><span style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;">During the last decade, the intravital microscopy has become a highly valuable, indispensable technique in wide areas of biomedical sciences such as immunology, neuroscience, developmental and tumor biology. In vivo visualizations of gene expression, protein activity, cell trafficking, cell-cell / cell-microenvironment interactions and various physiological responses to external stimuli have been achieved. Additionally, it&rsquo;s a unique tool in the development of new therapeutics and diagnostics by providing improved accuracy and reliability in in vivo target validation with delivery monitoring and efficacy assessment. It has been used to directly analyze the delivery and efficacy of new biopharmaceuticals such as antibodies, cell therapy, gene therapy, nucleic acids and exosome in an in vivo microenvironment.</span><br style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;" /><br style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;" /><span style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;">In this talk, a real-time laser-scanning intravital confocal/two-photon microscopy system will be introduced. The imaging system has been extensively optimized for in vivo cellular-level imaging of internal organs in live animal model for various human diseases, which can acquire a real-time multi-color fluorescence microscopic image in sub-micron resolution. Intravital microscopic imaging of various organs including skin, liver, spleen, pancreas, kidney, small intestine, colon, retina, lung, heart, lymph node, and bone marrow will be briefly introduced.</span><br style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;" /><br style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;" /><strong><span style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;">Tuesday, June 29th, 11:00 CET</span></strong><br style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;" /><strong><span style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;">Dr. Pilhan Kim, Korea Advanced Institute of Science and Technology (KAIST)</span></strong><br style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;" /><strong><span style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;"><a href="https://zoom.us/meeting/register/tJcrf-GrrDssEtJ0iyGi9ZRoQeNmHOropa2G">Register now!</a><br /></span></strong></p></div>
+                        <!--<h1>@ViewData["Title"]</h1>-->
+                        <h1>@news.Title</h1>
+                        <p class="date">@news.Created</p>
+                        
+                        <div class="newstext"><p style="text-align: justify;"><span style="color: #232333; font-size: 14px; font-family: Lato, Helvetica, Arial;">@news.Content gfg dfgh gf</span></p></div>
 
                         <div class="row">
 
-
                             <div class="ntags col-12">
-                                <div class="ntag">
+                                @{
+                                    //if (Enumerable.Count(ViewBag.TagList) > 0)
+                                    //{
+                                    foreach(Tags tags in news.Tags)
+                                    {
+                                        
+                                        <div class="ntag">
+                                            <span>Application</span>
+                                        </div>
+                                            }
+                                            /*}
+                                            else
+                                            {
+                                                <div class="ntag">
+                                                    <span>@ViewBag.TagList.Name</span>
+                                                </div>
+                                            }*/
+
+                                }
+                                <!--<div class="ntag">
                                     <span>Application</span>
                                 </div>
                                 <div class="ntag ntaglast">
                                     <span>Webinar</span>
-                                </div>
+                                </div>-->
                             </div>
 
                             <div class="newstechs col-12">
@@ -49,17 +69,17 @@
                                 <div class="manic">
                                     <div class="cell_88_100"></div>
                                     <div class="mani">
-                                        <img alt="Miroslav Vecheta" src="https://www.accela.eu/files/managers/21/dsc_7269a.jpg" />
+                                        <img alt="Miroslav Vecheta" src="~/file/img/Managers/@news.Manager.ImageRelativeURL" />
                                     </div>
                                 </div>
                                 <div class="manr">
-                                    <p class="func">Support specialist</p>
-                                    <p class="name">Miroslav</p>
-                                    <p class="name">Vecheta</p>
+                                    <p class="func">@news.Manager.Department.Name </p>
+                                    <p class="name">@news.Manager.Firstname </p>
+                                    <p class="name">@news.Manager.Lastname </p>
                                 </div>
                                 <div class="mancon">
-                                    <p class="phone con">+420 255 700 886</p>
-                                    <p class="email con">service@accela.eu</p>
+                                    <p class="phone con">@news.Manager.Phone</p>
+                                    <p class="email con">@news.Manager.Email</p>
                                 </div>
                                 <div class="outerS">
                                     <a href="#">
@@ -77,20 +97,20 @@
                                     <p class="title">Brand profile</p>
                                     <div class="brandsb">
                                         <div class="brandsbic">
-                                            <a href="https://www.accela.eu/ivim-technology">
+                                            <a href="/Brand/@news.Producer.URL">
                                                 <div class="brandsbi">
-                                                    <img src="https://www.accela.eu/files/brands/78/yafdxc.png" alt="IVIM Technology" />
+                                                    <img src="~/file/img/Brands/@news.Producer.ImageRelativeURL" alt="@news.Producer.Name" />
                                                 </div>
                                             </a>
                                         </div>
                                         <div class="brandsbr">
                                             <h2>
-                                                <a href="https://www.accela.eu/ivim-technology">IVIM Technology</a>
+                                                <a href="/Brand/@news.Producer.URL"> @news.Producer.Name </a>
                                             </h2>
-                                            <div class="text"><p><span style="font-size: 18px;">IntraVital Microscopy is a technique that enables you to directly observe the movement of live cells that make up living tissue <em>in vivo</em></span><em style="font-size: 18px;">.</em></p></div>
+                                            <div class="text"><p><span style="font-size: 18px;">@news.Producer.SmallText </span></p></div>
                                             <p class="blink">
                                                 More info at:<br />
-                                                <a href="http://www.ivimtech.com/" target="_blank">www.ivimtech.com/</a>
+                                                <a href="@news.Producer.ReferenceLink" target="_blank">@news.Producer.ReferenceLink </a>
                                             </p>
                                         </div>
                                     </div>
@@ -123,6 +143,7 @@
                         <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
                     </a>
                     <p class="title">Related topics</p>
+
                     <div class="newsrelas1">
                         <div class="newsrela">
                             <p class="ntitle">
@@ -145,6 +166,15 @@
                 <div class="col-lg-10 col-12 discoverDetailProductContainer">
                    
                     <div class="flex-container column">
+                        @{
+                           // foreach (Product prod in news.RelatedProducts) {
+                               // @prod.Name
+                           // }
+                        }
+
+
+
+
                        
                         <div class="flex-item">
                             <div class="row prodItem">
@@ -177,6 +207,9 @@
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div class="flex-item">
                             <div class="row prodItem">
                                 <div class="col-lg-12 col-5">

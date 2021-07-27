@@ -7,7 +7,7 @@
 <div class="row pageRow">
     <div class="row bannerNoStyle bannerContainer">
         <h1 class="pTop text-center">@ViewData["Title"]</h1>
-       
+
     </div>
     <div class="pageContentMain">
         <div class="col-lg-10 pageContent offset-1">
@@ -104,41 +104,60 @@
                 </div>
 
             </div>
-            <div class="row">
-                <h2 class="text-center">CUSTOMER SUPPORT</h2>
+            
 
+
+        </div>
+    </div>
+    <div class="pageContentMain customerSupportContainer">
+        <div class="col-10 offset-1 ">
+            <div class="row">
+                <h2 class="text-center">CUSTOMER SUPPORT</h2>     
             </div>
 
-
-        </div>
-        <div class="col-lg-1">
-
-
-        </div>
-        <div class="col-10 offset-1">
             <div class="contactContainer">
-                <div class="contactItem">
-                    <div class="expandItem bg-success manabs">
+                @{
+                    foreach (Manager manager in ViewBag.ManagerList)
+                    {
+                        <div class="contactItem">
+                            <div class="expandItem manabs">
 
-                        <div class="manic">
-                            <div class="cell_88_100"></div>
-                            <div class="mani">
-                                <img alt="Igor Valerián" src="https://www.accela.eu/files/managers/8/igor-valerian.jpg" />
-                            </div>
-                        </div>
-                        <div class="manr">
-                            <p class="func">Business director</p>
-                            <p class="name">Igor</p>
-                            <p class="name">Valerián</p>
-                        </div>
-                        <div class="mancon">
-                            <p class="phone con">+420 603 223 602</p>
-                            <p class="email con">valerian@accela.eu</p>
-                        </div>
-                        <div class="maninfo hide">
-                            <div class="mantext text"></div>
-                            <div class="manbrs">
-                                <div class="manbr">
+                                <div class="manic">
+                                    <div class="cell_88_100"></div>
+                                    <div class="mani">
+                                        <!-- <img alt="Igor Valerián" src="https://www.accela.eu/files/managers/8/igor-valerian.jpg" />-->
+                                        <img alt="Igor Valerián" src="~/file/img/Managers/@manager.ImageRelativeURL" />
+                                    </div>
+                                </div>
+                                <div class="manr">
+                                    <p class="func">@manager.Department.Name</p>
+                                    <p class="name">@manager.Firstname</p>
+                                    <p class="name">@manager.Lastname</p>
+                                </div>
+                                <div class="mancon">
+                                    <p class="phone con">@manager.Phone</p>
+                                    <p class="email con">@manager.Email</p>
+                                </div>
+                                <div class="maninfo hide">
+                                    <div class="mantext text">@manager.Description</div>
+                                    <div class="manbrs">
+
+                                        @{
+                                            foreach (Brand brands in ViewBag.BrandList)
+                                            {
+                                                if (manager.ID == brands.Contact.ID)
+                                                {
+                                                    <div class="manbr">
+
+                                                        <a href="https://www.accela.eu/clf-plant-climatics">
+                                                            <img alt="CLF Plant Climatics" src="~/file/img/Brands/@brands.ImageRelativeURL" />
+                                                        </a>
+                                                    </div>
+                                                }
+                                            }
+
+                                        }
+                                        <!--<div class="manbr">
                                     <a href="https://www.accela.eu/clf-plant-climatics">
                                         <img alt="CLF Plant Climatics" src="https://www.accela.eu/files/brands/47/logo-clf-1.gif" />
                                     </a>
@@ -183,81 +202,166 @@
                                         <img alt="Tonbo Biosciences" src="https://www.accela.eu/files/brands/69/tonbohorzoutlinedv2cymk-1.bmp" />
                                     </a>
 
-                                </div>
-                            </div>
-                            <div class="outerS">
-                                <a href="#">
-                                    <div class="button">
-                                        <div class="text row">send message <span class="buttonImage"></span></div>
+                                </div>-->
                                     </div>
-                                </a>
+                                    <div class="outerS">
+                                        <a href="#">
+                                            <div class="button">
+                                                <div class="text row">send message <span class="buttonImage"></span></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+
                             </div>
                         </div>
+                    }
+                }
 
+                <!--
+        <div class="contactItem">
+            <div class="expandItem bg-success manabs">
 
-
+                <div class="manic">
+                    <div class="cell_88_100"></div>
+                    <div class="mani">
+                        <img alt="Igor Valerián" src="https://www.accela.eu/files/managers/8/igor-valerian.jpg" />
                     </div>
                 </div>
-                <div class="contactItem">
-                    <div class="expandItem bg-light">
-                        <div id="d3"></div>
-                        <p>f gfg df ggfdgdf</p>
-                        <div class="maninfo hide">
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                <div class="manr">
+                    <p class="func">Business director</p>
+                    <p class="name">Igor</p>
+                    <p class="name">Valerián</p>
+                </div>
+                <div class="mancon">
+                    <p class="phone con">+420 603 223 602</p>
+                    <p class="email con">valerian@accela.eu</p>
+                </div>
+                <div class="maninfo hide">
+                    <div class="mantext text"></div>
+                    <div class="manbrs">
+                        <div class="manbr">
+                            <a href="https://www.accela.eu/clf-plant-climatics">
+                                <img alt="CLF Plant Climatics" src="https://www.accela.eu/files/brands/47/logo-clf-1.gif" />
+                            </a>
+                        </div>
+                        <div class="manbr">
+                            <a href="https://www.accela.eu/hitachi-koki">
+                                <img alt="Hitachi Koki" src="https://www.accela.eu/files/brands/27/hitachi2.png" />
+                            </a>
+                        </div>
+                        <div class="manbr manbr3">
+                            <a href="https://www.accela.eu/ivim-technology">
+                                <img alt="IVIM Technology" src="https://www.accela.eu/files/brands/78/yafdxc.png" />
+                            </a>
+                        </div>
+                        <div class="manbr">
+                            <a href="https://www.accela.eu/izon">
+                                <img alt="IZON" src="https://www.accela.eu/files/brands/29/izon_hero_colour.png" />
+                            </a>
+                        </div>
+                        <div class="manbr">
+                            <a href="https://www.accela.eu/medikors">
+                                <img alt="MEDIKORS" src="https://www.accela.eu/files/brands/74/medikors.png" />
+                            </a>
+                        </div>
+                        <div class="manbr manbr3">
+                            <a href="https://www.accela.eu/photon">
+                                <img alt="Photon" src="https://www.accela.eu/files/brands/73/photon-logo.jpg" />
+                            </a>
+                        </div>
+                        <div class="manbr">
+                            <a href="https://www.accela.eu/spectral-instruments-imaging">
+                                <img alt="Spectral Instruments Imaging" src="https://www.accela.eu/files/brands/66/imaging_reimagined_new.jpg" />
+                            </a>
+                        </div>
+                        <div class="manbr">
+                            <a href="https://www.accela.eu/synthecon">
+                                <img alt="Synthecon" src="https://www.accela.eu/files/brands/64/synthecomn-logo.png" />
+                            </a>
+                        </div>
+                        <div class="manbr manbr3">
+                            <a href="https://www.accela.eu/tonbo-biosciences">
+                                <img alt="Tonbo Biosciences" src="https://www.accela.eu/files/brands/69/tonbohorzoutlinedv2cymk-1.bmp" />
+                            </a>
 
                         </div>
-
-
+                    </div>
+                    <div class="outerS">
+                        <a href="#">
+                            <div class="button">
+                                <div class="text row">send message <span class="buttonImage"></span></div>
+                            </div>
+                        </a>
                     </div>
                 </div>
-                <div class="contactItem">
-                    <div class="expandItem bg-light">
-                        <div id="d3"></div>
-                        <p>f gfg df ggfdgdf</p>
-                        <div class="maninfo hide">
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-
-                        </div>
 
 
-                    </div>
+
+            </div>
+        </div>
+        <div class="contactItem">
+            <div class="expandItem bg-light">
+                <div id="d3"></div>
+                <p>f gfg df ggfdgdf</p>
+                <div class="maninfo hide">
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+
                 </div>
-                <div class="contactItem">
-                    <div class="expandItem bg-light">
-                        <div id="d3"></div>
-                        <p>f gfg df ggfdgdf</p>
-                        <div class="maninfo hide">
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-                            <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
-
-                        </div>
 
 
-                    </div>
+            </div>
+        </div>
+        <div class="contactItem">
+            <div class="expandItem bg-light">
+                <div id="d3"></div>
+                <p>f gfg df ggfdgdf</p>
+                <div class="maninfo hide">
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+
                 </div>
+
+
+            </div>
+        </div>
+        <div class="contactItem">
+            <div class="expandItem bg-light">
+                <div id="d3"></div>
+                <p>f gfg df ggfdgdf</p>
+                <div class="maninfo hide">
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+                    <p>n vjkfvj fjvdf v df vdf vdf v df vdfvjdf vdfvdfjv df</p>
+
+                </div>
+
+
+            </div>
+        </div>-->
 
 
 
@@ -269,9 +373,9 @@
         </div>
 
     </div>
-   
 
 
-    
-    
+
+
+
 </div>
