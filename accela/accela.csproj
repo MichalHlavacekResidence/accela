@@ -18,6 +18,8 @@
   <ItemGroup>
     <Folder Include="Models\ViewModels\" />
     <Folder Include="wwwroot\file\font\" />
+    <Folder Include="wwwroot\file\img\Managers\" />
+    <Folder Include="wwwroot\file\img\Pools\" />
     <Folder Include="wwwroot\file\img\References\" />
     <Folder Include="wwwroot\file\product\ing\" />
     <Folder Include="wwwroot\file\product\pdf\" />

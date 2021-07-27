@@ -1,3 +1,4 @@
+using accela.Data;
 using System;
 using System.Collections.Generic;
 
@@ -22,6 +23,7 @@ namespace accela.Models
         private string _imageBig;
         private string _imageSmall;
         private string _imageNew;
+        private List<Tags> _tags;
 
         public News()
         {
@@ -43,6 +45,22 @@ namespace accela.Models
             _imageNew = ImageNew;
         }
 
+        public News(int id, string title, Brand brand, Manager contact, string ImageBig, string ImageSmall, string Content, string ContentSmall, DateTime Created, string VideoURL, string ImageNew,List<Tags> tags)
+        {
+            _id = id;
+            _title = title;
+            _producer = brand;
+            _manager = contact;
+            _imageBig = ImageBig;
+            _imageSmall = ImageSmall;
+            _content = Content;
+            _contentSmall = ContentSmall;
+            _created = Created;
+            _videoUrl = VideoURL;
+            _imageNew = ImageNew;
+            _tags = tags;
+        }
+
         public int ID { get { return _id; } set { _id = value; } }
         public string Title { get { return _title; } set { _title = value; } }
         public string Subtitle { get { return _subtitle; } set { _subtitle = value; } }
@@ -56,5 +74,8 @@ namespace accela.Models
         public List<Product> RelatedProducts { get { return _relatedProducts; } set { _relatedProducts = value; } }
         public List<News> RelatedNews { get { return _relatedNews; } set { _relatedNews = value; } }
         public DateTime Created { get { return _created; } set { _created = value; }}
+        public List<Tags> Tags { get { return _tags; } set { _tags = value; } }
+
+       
     }
 }

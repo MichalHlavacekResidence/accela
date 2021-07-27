@@ -21,141 +21,136 @@
                     </div>
                 </div>
 
-                <div class="container">
+                <div class="container discoverContainer">
                     <div class="card-columns">
                         <!--technologie start-->
                         @{
-                           
-                            /*foreach (Category pool in ViewBag.PoolList)
+                            foreach (Category pool in ViewBag.PoolList)
                             {
-
                                 <div class="card techsi">
-                                    <div class="techsi_img">
+                                    <div class="techsi_img card-top">
                                         <div class="cell_96_107"></div>
-                                        <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
+                                        <!--<img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />-->
+                                        <img alt="Molecular technologies" src="~/file/img/Pools/@pool.Image" />
                                     </div>
                                     <div class="card-body">
+
                                         <h2>
                                             <a href="https://www.accela.eu/technologies/molecular-technologies">@pool.Name</a>
                                         </h2>
+
                                         @{
-                                            foreach (Category categ in ViewBag.PoolList)
+                                            foreach (Category categ in pool.PoolCategories)
                                             {
-                                                if (pool.ID == categ.Pool.ID) { }
+                                                if (categ.Visibility == true)
+                                                { <p class="link">
+                                                        <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">@categ.Name @categ.ID</a>
+                                                    </p>
+
+                                                }
+
+
                                             }
                                         }
-                                        <p class="link">
-                                            <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">Targeted DNA/protein size collection</a>
-                                        </p>
-                                        <p class="link">
-                                            <a href="https://www.accela.eu/technologies/molecular-technologies/ultra-and-high-performance-centrifuges">Ultra and high performance centrifuges</a>
-                                        </p>
-                                        <div class="outerS">
-                                            <a href="#">
-                                                <div class="button">
-                                                    <div class="text row">show detail <span class="buttonImage"></span></div>
-                                                </div>
-                                            </a>
-                                        </div>
+                                        <a class="newButton buttonTechnologi">
+                                            Show detail
+                                            <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                            <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                        </a>
+
 
                                     </div>
                                 </div>
 
+                            }
 
-                             }*/
                         }
 
 
-                        <div class="card techsi">
-                            <div class="techsi_img">
-                                <div class="cell_96_107"></div>
-                                <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
+                        <!--<div class="card techsi">
+                <div class="techsi_img">
+                    <div class="cell_96_107"></div>
+                    <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
+                </div>
+                <div class="card-body">
+                    <h2>
+                        <a href="https://www.accela.eu/technologies/molecular-technologies">dsadasddsada das das das</a>
+                    </h2>
+
+                    <p class="link">
+                        <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">Targeted DNA/protein size collection</a>
+                    </p>
+                    <p class="link">
+                        <a href="https://www.accela.eu/technologies/molecular-technologies/ultra-and-high-performance-centrifuges">Ultra and high performance centrifuges</a>
+                    </p>
+                    <div class="outerS">
+                        <a href="#">
+                            <div class="button">
+                                <div class="text row">show detail <span class="buttonImage"></span></div>
                             </div>
-                            <div class="card-body">
-                                <h2>
-                                    <a href="https://www.accela.eu/technologies/molecular-technologies">dsadasddsada das das das</a>
-                                </h2>
-                              
-                                <p class="link">
-                                    <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">Targeted DNA/protein size collection</a>
-                                </p>
-                                <p class="link">
-                                    <a href="https://www.accela.eu/technologies/molecular-technologies/ultra-and-high-performance-centrifuges">Ultra and high performance centrifuges</a>
-                                </p>
-                                <div class="outerS">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
+                        </a>
+                    </div>
 
-                            </div>
-                        </div>
-
-
-
+                </div>
+            </div>-->
                         <!--technologie konec-->
-                        <div class="card p-3">
-                            <blockquote class="blockquote mb-0 card-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                                <footer class="blockquote-footer">
-                                    <small class="text-muted">
-                                        Someone famous in <cite title="Source Title">Source Title</cite>
-                                    </small>
-                                </footer>
-                            </blockquote>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top" src="http://via.placeholder.com/1600x450/9400D3/ffffff?text=Card+2" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                        <div class="card bg-primary text-white text-center p-3">
-                            <blockquote class="blockquote mb-0">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
-                                <footer class="blockquote-footer">
-                                    <small>
-                                        Someone famous in <cite title="Source Title">Source Title</cite>
-                                    </small>
-                                </footer>
-                            </blockquote>
-                        </div>
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img" src="http://via.placeholder.com/1600x1600/FF1493/ffffff?text=Card+3" alt="Card image">
-                        </div>
-                        <div class="card p-3 text-right">
-                            <blockquote class="blockquote mb-0">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                                <footer class="blockquote-footer">
-                                    <small class="text-muted">
-                                        Someone famous in <cite title="Source Title">Source Title</cite>
-                                    </small>
-                                </footer>
-                            </blockquote>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
+                        <!--<div class="card p-3">
+                <blockquote class="blockquote mb-0 card-body">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                    <footer class="blockquote-footer">
+                        <small class="text-muted">
+                            Someone famous in <cite title="Source Title">Source Title</cite>
+                        </small>
+                    </footer>
+                </blockquote>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="http://via.placeholder.com/1600x450/9400D3/ffffff?text=Card+2" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+            <div class="card bg-primary text-white text-center p-3">
+                <blockquote class="blockquote mb-0">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
+                    <footer class="blockquote-footer">
+                        <small>
+                            Someone famous in <cite title="Source Title">Source Title</cite>
+                        </small>
+                    </footer>
+                </blockquote>
+            </div>
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img" src="http://via.placeholder.com/1600x1600/FF1493/ffffff?text=Card+3" alt="Card image">
+            </div>
+            <div class="card p-3 text-right">
+                <blockquote class="blockquote mb-0">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                    <footer class="blockquote-footer">
+                        <small class="text-muted">
+                            Someone famous in <cite title="Source Title">Source Title</cite>
+                        </small>
+                    </footer>
+                </blockquote>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>-->
                     </div>
                 </div>
-
-
-
 
 
             </div>

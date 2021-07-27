@@ -47,7 +47,7 @@ namespace accela.Controllers
         {
             return View();
         }
-                
+
         public IActionResult Brand()
         {
             Database database = new Database();
@@ -69,13 +69,19 @@ namespace accela.Controllers
         public IActionResult Technologies()
         {
             Database database = new Database();
-            //ViewBag.PoolList = database.GetVisiblePools();
-            //ViewBag.CategoryList = database.GetVisibleCategories();
+            ViewBag.PoolList = database.GetVisiblePools();
+           
+
+            //Tahle funkce není potřeba, když GetVisiblePools vytvoří instanci třídy Category, automaticky je v kontroleru ta "problémová" funkce, která načte všechny kategorie pro danný pool
+            // ViewBag.CategoryList = database.GetVisibleCategories();
 
             return View();
         }
         public IActionResult Contact()
         {
+            Database database = new Database();
+            ViewBag.ManagerList = database.GetVisibleManagers();
+            ViewBag.BrandList = database.GetVisibleBrands();
             return View();
         }
         public IActionResult TechnologiDetail()
@@ -92,8 +98,8 @@ namespace accela.Controllers
         }
         public IActionResult Product()
         {
-             Database database = new Database();
-             ViewBag.ProductList = database.GetVisibleProducts();
+            Database database = new Database();
+            ViewBag.ProductList = database.GetVisibleProducts();
 
             /*List<Product> ProductList = new List<Product>();
             ProductList.Add(new Product(0,"test", "test", "test", "test", "test", "imagestream_x_mkii_24.png", new Manager(), "test",true));
