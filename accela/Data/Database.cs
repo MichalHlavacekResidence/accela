@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using accela.Models;
 using MySqlConnector;
 using accela.Data;
+using Newtonsoft.Json;
 
 namespace accela.Data
 {
@@ -998,12 +999,131 @@ namespace accela.Data
         }
         ///
         ///<summary>
-        ///     Funkce pro získání konkrétní novinky. Jako vstup je potřeba zadat ID novinky.
+        ///     Funkce pro získání novinkek. Vstup je pocet novinek a jeste nejakej dalsi ale to az ve vyhledavani..... to se musi dodelat....
         ///</summary>
         ///<returns>
-        ///     Funkce vrací objekt News. Pokud nebyla novinka nalezena, vrací se prázdný objekt s ID = 0.
+        ///     Funkce vrací string ve kterém jsou přes json zabalené objekty . Pokud nebyla novinka nalezena, vrací se prázdný objekt s ID = 0.
         ///</returns>
-        public News GetNewByUrl(string nurl)
+        public string AjaxGetNewToDiscover(int newsToWrite,int newsOnPage,string technology,string tags,string brand)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        brand = "50,22,33";
+                        //int[] evenNums = new int[] { 50,20};
+                        cmd.Connection = db.Connection;
+
+                        //string comandText = "SELECT News.ID, News.Title, News.BrandID, News.ContactID, News.ImageBig, News.ImageSmall, News.ContentSmall, News.Created, News.VideoURL, News.ImageNew,NewsTech.CategoryID FROM News JOIN NewsTech ON News.ID = NewsTech.NewID JOIN Categories ON Categories.ID = NewsTech.CategoryID JOIN NewsTags ON NewsTags.NewsID = News.ID WHERE News.BrandID IN (@brand) ORDER BY News.Created ASC LIMIT @limit OFFSET @offset";
+                        
+                        string comandText = "SELECT News.ID, News.Title, News.BrandID, News.ContactID, News.ImageBig, News.ImageSmall, News.ContentSmall, News.Created, News.VideoURL, News.ImageNew,NewsTech.CategoryID FROM News JOIN NewsTech ON News.ID = NewsTech.NewID JOIN Categories ON Categories.ID = NewsTech.CategoryID JOIN NewsTags ON NewsTags.NewsID = News.ID";
+                        int pom = 0;
+                        if (technology != null)
+                        {
+                            if (pom == 0) {
+                                comandText += " WHERE Categories.PoolID IN (@technology)";
+                                pom++;
+                            }
+                            else
+                            {
+                                comandText += " AND Categories.PoolID IN (@technology)";
+                            }
+                        }
+                        if (tags != null)
+                        {
+                            if (pom == 0)
+                            {
+                                comandText += " WHERE NewsTags.TagID IN (@tags)";
+                                pom++;
+                            }
+                            else
+                            {
+                                comandText += " AND NewsTags.TagID IN (@tags)";
+                            }
+                        }
+                        if (brand != null)
+                        {
+                            if (pom == 0)
+                            {
+                                comandText += " WHERE News.BrandID IN (@brand)";
+                                pom++;
+                            }
+                            else
+                            {
+                                comandText += " AND News.BrandID IN (@brand)";
+                            }
+                        }
+                        comandText += " ORDER BY News.Created ASC LIMIT @limit OFFSET @offset";
+                        Console.WriteLine(comandText);
+                        //Console.WriteLine(brand);
+                        cmd.CommandText = comandText;
+                        cmd.Parameters.AddWithValue("@limit", newsToWrite);
+                        cmd.Parameters.AddWithValue("@offset", newsOnPage);
+                        cmd.Parameters.AddWithValue("@technology", technology);
+                        cmd.Parameters.AddWithValue("@tags", tags);
+                        cmd.Parameters.AddWithValue("@brand", brand);
+                        //Console.WriteLine(cmd.CommandText);
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows == false)
+                        {
+                            return "No data";
+                        }
+
+                        int id = 0;
+                        string title = null;
+                        int bid = 0;
+                        int cid = 0;
+                        string imgbig = null;
+                        string imgsml = null;
+                        string contentsml = null;
+                        DateTime Created = DateTime.Now;
+                        string videourl = null;
+                        string imgnew = null;
+                        int categid = 0;
+                        List<News> news = new List<News>();
+                        string strserialize = "";
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception ex) { id = 0; }
+                            try { title = reader.GetString(1); } catch (Exception ex) { title = null; }
+                            try { bid = reader.GetInt32(2); } catch (Exception ex) { bid = 0; }
+                            try { cid = reader.GetInt32(3); } catch (Exception) { cid = 0; }
+                            try { imgbig = reader.GetString(4); } catch (Exception) { imgbig = null; }
+                            try { imgsml = reader.GetString(5); } catch (Exception) { imgsml = null; }
+                            try { contentsml = reader.GetString(6); } catch (Exception) { contentsml = null; }
+                            try { Created = reader.GetDateTime(7); } catch (Exception) { Created = DateTime.Now; }
+                            try { videourl = reader.GetString(8); } catch (Exception) { videourl = null; }
+                            try { imgnew = reader.GetString(9); } catch (Exception) { imgnew = null; }
+                            try { categid = reader.GetInt32(10); } catch (Exception) { categid = 0; }
+
+                            news.Add(new News(id, title, this.GetBrandByID(bid), imgbig, imgsml, contentsml, Created, imgnew, this.GetTagsByNews(id), this.GetCategory(categid)));
+                        }
+                        strserialize = JsonConvert.SerializeObject(news);
+                        return strserialize;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetNew] " + ex.Message);
+                string aa = ex.Message;
+                return aa;
+            }
+        }
+        ///
+        ///<summary>
+        ///     Funkce pro získání nahodné reference. 
+        ///</summary>
+        ///<returns>
+        ///     Funkce vrací string ve kterém jsou přes json zabalené objekty . Pokud nebyla novinka nalezena, vrací se prázdný objekt s ID = 0.
+        ///</returns>
+        ///
+        
+        public string AjaxGetRandomReferences()
         {
             try
             {
@@ -1013,49 +1133,44 @@ namespace accela.Data
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL, ImageNew FROM News WHERE Url = @url";
-                        cmd.Parameters.AddWithValue("@url", nurl);
+                        cmd.CommandText = "SELECT ID, Name, Company,Img, Visibility,Position,Description FROM Ref ORDER BY RAND() LIMIT 1";
                         var reader = cmd.ExecuteReader();
-
-                        if (reader.HasRows == false)
+                        if (!reader.HasRows)
                         {
-                            return new News();
+                            return "No data";
                         }
 
                         int id = 0;
-                        string title = null;
-                        int bid = 0;
-                        int cid = 0;
-                        string imgbig = null;
-                        string imgsml = null;
-                        string content = null;
-                        string contentsml = null;
-                        DateTime Created = DateTime.Now;
-                        string videourl = null;
-                        string imgnew = null;
-
+                        string name = null;
+                        string company = null;
+                        string img = null;
+                        int pos = 0;
+                        bool vis = false;
+                        string desc = null;
+                        List<References> referenced = new List<References>();
                         while (reader.Read())
                         {
-                            try { id = reader.GetInt32(0); } catch (Exception ex) { id = 0; }
-                            try { title = reader.GetString(1); } catch (Exception ex) { title = null; }
-                            try { bid = reader.GetInt32(2); } catch (Exception ex) { bid = 0; }
-                            try { cid = reader.GetInt32(3); } catch (Exception) { cid = 0; }
-                            try { imgbig = reader.GetString(4); } catch (Exception) { imgbig = null; }
-                            try { imgsml = reader.GetString(5); } catch (Exception) { imgsml = null; }
-                            try { content = reader.GetString(6); } catch (Exception) { content = null; }
-                            try { contentsml = reader.GetString(7); } catch (Exception) { contentsml = null; }
-                            try { Created = reader.GetDateTime(8); } catch (Exception) { Created = DateTime.Now; }
-                            try { videourl = reader.GetString(9); } catch (Exception) { videourl = null; }
-                            try { imgnew = reader.GetString(10); } catch (Exception) { imgnew = null; }
+                            try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
+                            try { company = reader.GetString(2); } catch (Exception) { company = null; }
+                            try { img = reader.GetString(3); } catch (Exception) { img = null; }
+                            try { vis = reader.GetBoolean(4); } catch (Exception) { vis = false; }
+                            try { pos = reader.GetInt32(5); } catch (Exception) { pos = 0; }
+                            try { desc = reader.GetString(6); } catch (Exception) { desc = null; }
+
+
+                            referenced.Add(new References(id, name, company, img, pos, vis, desc));
                         }
-                        return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew);
+                        string strserialize = JsonConvert.SerializeObject(referenced);
+
+                        return strserialize;
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("[GetNew] " + ex.Message);
-                return new News();
+                Console.WriteLine("[GetReferences] " + ex.Message);
+                return ex.Message;
             }
         }
         ///
@@ -1065,7 +1180,7 @@ namespace accela.Data
         ///<returns>
         ///     Funkce vrací objekt News. Pokud nebyla novinka nalezena, vrací se prázdný objekt s ID = 0.
         ///</returns>
-        public News GetNewByUrlWithTags(string nurl)
+        public News GetNewByUrlDetail(string nurl)
         {
             try
             {
@@ -1110,17 +1225,79 @@ namespace accela.Data
                             try { videourl = reader.GetString(9); } catch (Exception) { videourl = null; }
                             try { imgnew = reader.GetString(10); } catch (Exception) { imgnew = null; }
                         }
-                        return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew, this.GetTagsByNews(id));
+                        return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew, this.GetTagsByNews(id), this.GetProductByNewID(id));
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("[GetNew] " + ex.Message);
+                Console.WriteLine("[GetNewByUrlDetail] " + ex.Message);
                 return new News();
             }
         }
 
+        ///
+        ///<summary>
+        ///     Funkce pro získání konkrétní novinky. Jako vstup je potřeba zadat ID novinky.
+        ///</summary>
+        ///<returns>
+        ///     Funkce vrací objekt News. Pokud nebyla novinka nalezena, vrací se prázdný objekt s ID = 0.
+        ///</returns>
+        public List<News> GetNesForHomePage()
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, ContentSmall, Created, VideoURL, ImageNew FROM News ORDER BY Created ASC LIMIT 3 ";
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows == false)
+                        {
+                            return new List<News>();
+                        }
+
+                        int id = 0;
+                        string title = null;
+                        int bid = 0;
+                        int cid = 0;
+                        string imgbig = null;
+                        string imgsml = null;
+                        string contentsml = null;
+                        DateTime Created = DateTime.Now;
+                        string videourl = null;
+                        string imgnew = null;
+                        List<News> news = new List<News>();
+
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception ex) { id = 0; }
+                            try { title = reader.GetString(1); } catch (Exception ex) { title = null; }
+                            try { bid = reader.GetInt32(2); } catch (Exception ex) { bid = 0; }
+                            try { cid = reader.GetInt32(3); } catch (Exception) { cid = 0; }
+                            try { imgbig = reader.GetString(4); } catch (Exception) { imgbig = null; }
+                            try { imgsml = reader.GetString(5); } catch (Exception) { imgsml = null; }
+                            try { contentsml = reader.GetString(6); } catch (Exception) { contentsml = null; }
+                            try { Created = reader.GetDateTime(7); } catch (Exception) { Created = DateTime.Now; }
+                            try { videourl = reader.GetString(8); } catch (Exception) { videourl = null; }
+                            try { imgnew = reader.GetString(9); } catch (Exception) { imgnew = null; }
+                            news.Add(new News(id, title, this.GetBrandByID(bid), imgbig, imgsml,  contentsml, Created, imgnew, this.GetTagsByNews(id)));
+                        }
+                        return news;
+                       // return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew, this.GetTagsByNews(id), this.GetProductByNewID(id));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetNewByUrlDetail] " + ex.Message);
+                return new List<News>();
+            }
+        }
         public List<Department> GetVisibleDepartments()
         {
             try
@@ -1618,6 +1795,59 @@ namespace accela.Data
             }
         }
 
+        public List<Category> GetCategoriesByNewID(int newID)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand command = new MySqlCommand())
+                    {
+                        command.Connection = db.Connection;
+                        command.CommandText = "SELECT Categories.ID, Categories.Name, Categories.Url, Categories.Description, Categories.Visibility, Categories.Position, Categories.Img, Categories.ContactID, Categories.PoolID FROM Categories JOIN NewCategory ON NewCategory.CategoryID = Category.ID WHERE NewCategory.NewID = @id";
+                        command.Parameters.AddWithValue("@id", newID);
+                        var reader = command.ExecuteReader();
+                        if (!reader.HasRows)
+                        {
+                            return new List<Category>();
+                        }
+
+                        int ID = 0;
+                        string name = null;
+                        string url = null;
+                        string desc = null;
+                        bool vis = false;
+                        int pos = 0;
+                        string img = null;
+                        int conid = 0;
+                        int poolid = 0;
+                        List<Category> poolCategories = new List<Category>();
+                        while (reader.Read())
+                        {
+                            try { ID = reader.GetInt32(0); } catch (Exception) { ID = 0; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
+                            try { url = reader.GetString(2); } catch (Exception) { url = null; }
+                            try { desc = reader.GetString(3); } catch (Exception) { desc = null; }
+                            try { vis = reader.GetBoolean(4); } catch (Exception) { vis = false; }
+                            try { pos = reader.GetInt32(5); } catch (Exception) { pos = 0; }
+                            try { img = reader.GetString(6); } catch (Exception) { img = null; }
+                            try { conid = reader.GetInt32(7); } catch (Exception) { conid = 0; }
+                            try { poolid = reader.GetInt32(8); } catch (Exception) { poolid = 0; }
+                            //poolCategories.Add(new Category(ID, this.GetPool(poolid), name, url, desc, img, "", pos, vis, this.GetManagerByID(conid)));
+                            poolCategories.Add(new Category(ID, poolid, name, url, desc, img, "", pos, vis, conid));
+                        }
+                        return poolCategories;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetCategoriesForPool] " + ex.Message);
+                return new List<Category>();
+            }
+        }
+
         public List<Category> GetVisibleCategories()
         {
             try
@@ -1691,9 +1921,9 @@ namespace accela.Data
                         string url = null;
                         int pos = 0;
                         bool vis = false;
-                       
-    
 
+
+                        List<Tags> tagList = new List<Tags>();
                         while (reader.Read())
                         {
                             try { ID = reader.GetInt32(0); } catch (Exception) { ID = 0; }
@@ -1701,8 +1931,57 @@ namespace accela.Data
                             try { url = reader.GetString(2); } catch (Exception) { url = null; }
                             try { pos = reader.GetInt32(3); } catch (Exception) { pos = 0; }
                             try { vis = reader.GetBoolean(4); } catch (Exception) { vis = false; }
+                            
+                            tagList.Add(new Tags(ID, name, url, pos, vis));
                         }
-                        return new List<Tags>(ID, name, url, pos, vis );
+                        return tagList;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetTagsByNews] " + ex.Message);
+                return new List<Tags>();
+            }
+        }
+        public List<Tags> GetVisibleTags()
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID,Name,Url,Position,Visibility FROM Tags WHERE Visibility = 1";
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows == false)
+                        {
+                            return new List<Tags>();
+                        }
+
+                        int ID = 0;
+                        string name = null;
+                        string url = null;
+                        int pos = 0;
+                        bool vis = false;
+
+
+                        List<Tags> tagList = new List<Tags>();
+                        while (reader.Read())
+                        {
+                            try { ID = reader.GetInt32(0); } catch (Exception) { ID = 0; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
+                            try { url = reader.GetString(2); } catch (Exception) { url = null; }
+                            try { pos = reader.GetInt32(3); } catch (Exception) { pos = 0; }
+                            try { vis = reader.GetBoolean(4); } catch (Exception) { vis = false; }
+
+                            tagList.Add(new Tags(ID, name, url, pos, vis));
+                        }
+                        return tagList;
                     }
                 }
             }
@@ -1944,6 +2223,72 @@ namespace accela.Data
             {
                 Console.WriteLine("[GetProduct] " + ex.Message);
                 return new Product();
+            }
+        }
+        ///
+        ///<summary>
+        ///     Funkce pro získání listu produktů bez Managera a Brandu
+        ///</summary>
+        ///<returns>
+        ///     Vrací pole produktů (List[Product]).
+        ///</returns>
+        public List<Product> GetProductByNewID(int newID)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT Products.ID, Products.Name, Products.URL, Products.Subtitle, Products.Small_desc, Products.Description, Products.Link, Products.Visibility, Products.CategoryID, Products.VideoURL, Products.ReferenceLink FROM Products JOIN ProductNew ON Products.ID = ProductNew.ProductID WHERE ProductNew.NewID = @id";
+                        cmd.Parameters.AddWithValue("@id", newID);
+                        var reader = cmd.ExecuteReader();
+                        if (!reader.HasRows)
+                        {
+                            return new List<Product>();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string subtitle = null;
+                        string smalld = null;
+                        string descr = null;
+                        string link = null;
+                        bool vis = false;
+                        int catID = 0;
+                        string vidUrl = null;
+                        string referenceLink = null;
+                        string image = null;
+                        List<Product> products = new List<Product>();
+
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt16(0); } catch (Exception) { id = 0; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
+                            try { url = reader.GetString(2); } catch (Exception) { url = null; }
+                            try { subtitle = reader.GetString(3); } catch (Exception) { subtitle = null; }
+                            try { smalld = reader.GetString(4); } catch (Exception) { smalld = null; }
+                            try { descr = reader.GetString(5); } catch (Exception) { descr = null; }
+                            try { link = reader.GetString(6); } catch (Exception) { link = null; }
+                            try { vis = reader.GetBoolean(7); } catch (Exception) { vis = false; }
+                            try { catID = reader.GetInt16(9); } catch (Exception) { catID = 0; }
+                            try { vidUrl = reader.GetString(10); } catch (Exception) { vidUrl = null; }
+                            try { referenceLink = reader.GetString(11); } catch (Exception) { referenceLink = null; }
+                            try { image = reader.GetString("Image"); } catch (Exception) { image = null; }
+                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, vidUrl, vis, image));
+
+                        }
+                        return products;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetProduct] " + ex.Message);
+                return new List<Product>();
             }
         }
         ///

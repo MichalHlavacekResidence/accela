@@ -220,46 +220,115 @@
                 <p class="mx-auto hpSubTitle">Accelerate to discover</p>
             </div>
             <div class="row">
-                <div class="col-lg bg-primary hpDiscoverItemL">
-                    <div class="news">
-                        <div class="prodlbc newsbc">
-                            <div class="prodlbi newsbi">
-                                <a href="https://www.accela.eu/spectral-instruments-imaging">
-                                    <img alt="Spectral Instruments Imaging" src="https://www.accela.eu/files/brands/66/imaging_reimagined_new.jpg" />
-                                </a>
+                @{
+                    int countNews = 1;
+                    string newClass = "";
+                    foreach (News news in ViewBag.DiscoverList)
+                    {
+                        if (countNews == 1)
+                        {
+                            newClass = "hpDiscoverItemL";
+                            countNews++;
+                        }
+                        else if (countNews == 2)
+                        {
+                            newClass = "hpDiscoverItemM";
+                            countNews++;
+                        }
+                        else
+                        {
+                            newClass = "hpDiscoverItemR";
+                            countNews++;
+                        }
+                        <div class="col-lg @newClass hpDiscoverItemL">
+                            <div class="news">
+                                <div class="prodlbc newsbc">
+                                    <div class="prodlbi newsbi">
+                                        <a href="/Brand/@news.Producer.URL">
+                                            <img alt="@news.Producer.Name" src="~/file/img/Brands/@news.Producer.ImageRelativeURL" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="newsi">
+
+                                    <a href="/Discover/@news.URL">
+                                        <img src="https://www.accela.eu/files/news/728/420x180w25_hp.jpg" title="@news.Title Pretargeted delivery of PI3K/mTOR small-molecule inhibitor僕oaded nanoparticles" />
+                                    </a>
+                                </div>
+                                <div class="newscon">
+                                    <h2>
+                                        <a href="/Discover/@news.URL">@news.Title Pretargeted delivery of PI3K/mTOR small-molecule inhibitor-loaded nanoparticles</a>
+                                    </h2>
+
+                                    <!--<div class="newstext">@news.ContentSmall</div>-->
+                                    <p class="date">@news.Created</p>
+
+                                    <div class="ntags">
+                                        @{
+                                            foreach (Tags tag in news.Tags)
+                                            {
+                                                <div class="ntag">
+                                                    <span>@tag.Name</span>
+                                                </div>
+                                            }
+                                        }
+                                        <!--<div class="ntag">
+            <span>Scientific paper</span>
+        </div>
+        <div class="ntag ntaglast">
+            <span>Application</span>
+        </div>-->
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="newsi">
+                    }
 
-                            <a href="https://www.accela.eu/discover/pretargeted-delivery-of-pi3k-mtor-small-molecule-inhibitor-loaded-nanoparticles">
-                                <img src="https://www.accela.eu/files/news/728/420x180w25_hp.jpg" title="Pretargeted delivery of PI3K/mTOR small-molecule inhibitor僕oaded nanoparticles" title="Pretargeted delivery of PI3K/mTOR small-molecule inhibitor僕oaded nanoparticles" />
-                            </a>
-                        </div>
-                        <div class="newscon">
-                            <h2>
-                                <a href="https://www.accela.eu/discover/pretargeted-delivery-of-pi3k-mtor-small-molecule-inhibitor-loaded-nanoparticles">Pretargeted delivery of PI3K/mTOR small-molecule inhibitor-loaded nanoparticles</a>
-                            </h2>
 
-                            <div class="newstext"><p>Overactivation of the PI3K/mTOR signaling has been identified in non-Hodgkin&rsquo;s lymphoma. BEZ235 is an effective dual PI3K/mTOR inhibitor, but it was withdrawn from early-phase clinical trials owing to poor solubility and on-target/off-tumor toxicity.</p></div>
-                            <p class="date">Jun 23, 2021</p>
 
-                            <div class="ntags">
-                                <div class="ntag">
-                                    <span>Scientific paper</span>
-                                </div>
-                                <div class="ntag ntaglast">
-                                    <span>Application</span>
-                                </div>
-                            </div>
-                        </div>
+
+                }
+                <!--
+    <div class="col-lg bg-primary hpDiscoverItemL">
+        <div class="news">
+            <div class="prodlbc newsbc">
+                <div class="prodlbi newsbi">
+                    <a href="https://www.accela.eu/spectral-instruments-imaging">
+                        <img alt="Spectral Instruments Imaging" src="https://www.accela.eu/files/brands/66/imaging_reimagined_new.jpg" />
+                    </a>
+                </div>
+            </div>
+            <div class="newsi">
+
+                <a href="https://www.accela.eu/discover/pretargeted-delivery-of-pi3k-mtor-small-molecule-inhibitor-loaded-nanoparticles">
+                    <img src="https://www.accela.eu/files/news/728/420x180w25_hp.jpg" title="Pretargeted delivery of PI3K/mTOR small-molecule inhibitor僕oaded nanoparticles" />
+                </a>
+            </div>
+            <div class="newscon">
+                <h2>
+                    <a href="https://www.accela.eu/discover/pretargeted-delivery-of-pi3k-mtor-small-molecule-inhibitor-loaded-nanoparticles">Pretargeted delivery of PI3K/mTOR small-molecule inhibitor-loaded nanoparticles</a>
+                </h2>
+
+                <div class="newstext"><p>Overactivation of the PI3K/mTOR signaling has been identified in non-Hodgkin&rsquo;s lymphoma. BEZ235 is an effective dual PI3K/mTOR inhibitor, but it was withdrawn from early-phase clinical trials owing to poor solubility and on-target/off-tumor toxicity.</p></div>
+                <p class="date">Jun 23, 2021</p>
+
+                <div class="ntags">
+                    <div class="ntag">
+                        <span>Scientific paper</span>
+                    </div>
+                    <div class="ntag ntaglast">
+                        <span>Application</span>
                     </div>
                 </div>
-                <div class="col-lg bg-primary hpDiscoverItemM">
-                    <p>gfsd gdf g</p>
-                </div>
-                <div class="col-lg bg-primary hpDiscoverItemR">
-                    <p>aaaaaaaa aaa a aa aaaa a aaa </p>
-                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg bg-primary hpDiscoverItemM">
+        <p>gfsd gdf g</p>
+    </div>
+    <div class="col-lg bg-primary hpDiscoverItemR">
+        <p>aaaaaaaa aaa a aa aaaa a aaa </p>
+    </div>-->
             </div>
             <div class="row">
                 <div class="col-lg w-100 hpDiscoverItemL hpdiscobox hpdiscobox1">
@@ -302,112 +371,172 @@
                 <p class="mx-auto hpSubTitle">Featured products</p>
             </div>
             <div class="row">
-                <div class="col-lg-4 hpProdItemL">
-                    <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                @{
+                    int countProduct = 1;
+                    string clasData = "";
+                    foreach (Product prod in ViewBag.SelectedProduct)
+                    {
+                        /*  if (countProduct == 1){
+                              <div class="col-lg-4 hpProdItemL">
+                          }
+                          else if (countProduct == 2)
+                          {
+                              <div class="col-lg-4 hpProdItemM">
+                          }
+                          else
+                          {
+                                                  <div class="col-lg-4 hpProdItemR">
+                                                      }*/
+                        if(countProduct == 1)
+                        {
+                            clasData = "hpProdItemL";
+                            countProduct++;
+                        }
+                        else if(countProduct == 2) { clasData = "hpProdItemM";
+                            countProduct++;
+                        } else { clasData = "hpProdItemR";
+                            countProduct++;
+                        }
+                        <div class="col-lg-4 @clasData">
+                            <div class="flex-item">
+                                <div class="row prodItem">
+                                    <div class="col-lg-12 col-5">
+                                        <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                                        <h3 class="prodName"><a>@prod.Name</a></h3>
+                                    </div>
+                                    <div class="col-lg-12 col-7 MprodItemBottom">
+                                        <h3 class="prodSubtitle"><a> @prod.Name</a></h3>
+                                        <p class="h3desc">@prod.Subtitle</p>
+                                        <div class="outerM">
+                                            <a href="#">
+                                                <div class="button">
+                                                    <div class="text row">show detail <span class="buttonImage"></span></div>
+                                                </div>
+                                            </a>
                                         </div>
-                                    </a>
+
+                                    </div>
+
+                                    <div class="prodItemBottom">
+                                        <p class="h3desc hide h3descProduct">@prod.Subtitle</p>
+                                        <a href="seznam.cz" class="newButton prodButton hide">
+                                            Show more
+                                            <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                            <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                        </a>
+                                    </div>
+
                                 </div>
 
                             </div>
 
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <!--Button-->
-                                <a href="seznam.cz" class="newButton prodButton hide">
-                                    Show more
-                                    <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
-                                    <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
-                                </a>
-                                <!--End button-->
-                            </div>
-
                         </div>
+                        }
 
-                    </div>
 
-                </div>
-                <div class="col-lg-4 hpProdItemM">
-                    <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <!--Button-->
-                                <a href="seznam.cz" class="newButton prodButton hide">
-                                    Show more
-                                    <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
-                                    <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
-                                </a>
-                                <!--End button-->
-                            </div>
-
+}
+                <!--
+               <div class="col-lg-4 hpProdItemL">
+    <div class="flex-item">
+        <div class="row prodItem">
+            <div class="col-lg-12 col-5">
+                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                <h3 class="prodName"><a> F DSFG SDG</a></h3>
+            </div>
+            <div class="col-lg-12 col-7 MprodItemBottom">
+                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outerM">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
                         </div>
-
-                    </div>
+                    </a>
                 </div>
-                <div class="col-lg-4 hpProdItemR">
-                   <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
 
-                            </div>
+            </div>
 
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <!--Button-->
-                                <a href="seznam.cz" class="newButton prodButton hide">
-                                    Show more
-                                    <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
-                                    <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
-                                </a>
-                                <!--End button-->
-                            </div>
+            <div class="prodItemBottom">
+                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+           <a href="seznam.cz" class="newButton prodButton hide">
+               Show more
+               <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+               <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+           </a>
+       </div>
 
-                        </div>
+                   </div>
 
-                    </div>
-                </div>
+               </div>
+
+           </div>
+
+           <div class="col-lg-4 hpProdItemM">
+               <div class="flex-item">
+                   <div class="row prodItem">
+                       <div class="col-lg-12 col-5">
+                           <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                           <h3 class="prodName"><a> F DSFG SDG</a></h3>
+                       </div>
+                       <div class="col-lg-12 col-7 MprodItemBottom">
+                           <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                           <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                           <div class="outerM">
+                               <a href="#">
+                                   <div class="button">
+                                       <div class="text row">show detail <span class="buttonImage"></span></div>
+                                   </div>
+                               </a>
+                           </div>
+
+                       </div>
+
+                       <div class="prodItemBottom">
+                           <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                           <a href="seznam.cz" class="newButton prodButton hide">
+                               Show more
+                               <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                               <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                           </a>
+                       </div>
+
+                   </div>
+
+               </div>
+           </div>
+           <div class="col-lg-4 hpProdItemR">
+              <div class="flex-item">
+                   <div class="row prodItem">
+                       <div class="col-lg-12 col-5">
+                           <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                           <h3 class="prodName"><a> F DSFG SDG</a></h3>
+                       </div>
+                       <div class="col-lg-12 col-7 MprodItemBottom">
+                           <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                           <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                           <div class="outerM">
+                               <a href="#">
+                                   <div class="button">
+                                       <div class="text row">show detail <span class="buttonImage"></span></div>
+                                   </div>
+                               </a>
+                           </div>
+
+                       </div>
+
+                       <div class="prodItemBottom">
+                           <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                           <a href="seznam.cz" class="newButton prodButton hide">
+                               Show more
+                               <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                               <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                           </a>
+                       </div>
+
+                   </div>
+
+               </div>
+           </div>-->
 
             </div>
 
@@ -428,104 +557,336 @@
                 <p class="mx-auto hpSubTitle">Our brands</p>
             </div>
             <div class="row hpBrandContainer">
-                <div class="hpBrandFirstRow">
-                    <div class="hpBrandImage">
-                        <img src="~/file/pictures/agilent-technologies-logo.png" />
 
-                    </div>
-                </div>
-                <div class="hpBrandFirstRow">
+                @{
+                    int countBrand = 1;
+                    foreach (Brand brand in ViewBag.BrandList)
+                    {
 
-                </div>
-                <div class="hpBrandFirstRow hpBrandTablet">
+                        if (countBrand == 1 || countBrand == 2)
+                        {
+                            <div class="hpBrandFirstRow">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
 
-                </div>
-                <div class="hpBrandFirstRow hpBrandTablet">
+                                    </div>
+                                </a>
+                            </div>
 
-                </div>
-                <div class="hpBrandFirstRow hpBrandMobil">
+                        }
+                        if (countBrand >= 3 && countBrand <= 6)
+                        {
+                            <div class="hpBrandFirstRow hpBrandTablet">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
 
-                </div>
-                <div class="hpBrandFirstRow hpBrandMobil">
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        if (countBrand == 7)
+                        {
+                            <div class="hpBrandStandartItem hpBrandA">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
 
-                </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        }
+                        if (countBrand >= 8 && countBrand <= 17)
+                        {
+                            <div class="hpBrandStandartItem ">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        if (countBrand == 18)
+                        {
+                            <div class="hpBrandStandartItem hpBrandA hpBrandC">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        if (countBrand == 19)
+                        {
+                            <div class="hpBrandStandartItem hpBrandB">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
+
+                        if (countBrand >= 20 && countBrand <= 28)
+                        {
+                            <div class="hpBrandStandartItem ">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        if (countBrand == 29)
+                        {
+                            <div class="hpBrandStandartItem hpBrandA hpBrandC">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        if (countBrand == 30)
+                        {
+                            <div class="hpBrandStandartItem hpBrandB">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
+
+                        if (countBrand >= 31 && countBrand <= 39)
+                        {
+                            <div class="hpBrandStandartItem ">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        if (countBrand == 40)
+                        {
+                            <div class="hpBrandStandartItem hpBrandA hpBrandC">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        if (countBrand == 41)
+                        {
+                            <div class="hpBrandStandartItem hpBrandB">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
+
+                        if (countBrand >= 42 && countBrand <= 50)
+                        {
+                            <div class="hpBrandStandartItem ">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                    </div>
+                                </a>
+                            </div>
+                        }
 
 
 
-                <div class="hpBrandStandartItem hpBrandA">
+                        if (countBrand == 51)
+                        {
+                            <div class="hpBrandStandartItem hpBrandA hpBrandC">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
 
-                </div>
-                <div class="hpBrandStandartItem ">
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        if (countBrand == 52)
+                        {
+                            <div class="hpBrandStandartItem hpBrandB">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
 
-                </div>
-                <div class="hpBrandStandartItem">
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        if (countBrand >= 53 && countBrand <= 61)
+                        {
+                            <div class="hpBrandStandartItem ">
+                                <a href="/Brand/@brand.URL">
+                                    <div class="hpBrandImage">
+                                        <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
 
-                </div>
-                <div class="hpBrandStandartItem">
-
-                </div>
-                <div class="hpBrandStandartItem">
-
-                </div>
-
-
-                <div class="hpBrandStandartItem">
-
-                </div>
-                <div class="hpBrandStandartItem">
-
-                </div>
-                <div class="hpBrandStandartItem">
-
-                </div>
-                <div class="hpBrandStandartItem">
-
-                </div>
-                <div class="hpBrandStandartItem">
-
-                </div>
-                <div class="hpBrandStandartItem">
-
-                </div>
+                                    </div>
+                                </a>
+                            </div>
+                        }
 
 
-                <div class="hpBrandStandartItem hpBrandA hpBrandC">
+                        countBrand++;
+                    }
+                }
 
-                </div>
-                <div class="hpBrandStandartItem hpBrandB">
+                <!--<div class="hpBrandFirstRow">
+        <div class="hpBrandImage">
+            <img src="~/file/pictures/agilent-technologies-logo.png" />
 
-                </div>
-                <div class="hpBrandStandartItem">
+        </div>
+    </div>
+    <div class="hpBrandFirstRow">
 
-                </div>
-                <div class="hpBrandStandartItem">
+    </div>-->
+                <!-- <div class="hpBrandFirstRow hpBrandTablet">
 
-                </div>
-                <div class="hpBrandStandartItem">
+    </div>
+    <div class="hpBrandFirstRow hpBrandTablet">
 
-                </div>
+    </div>
+    <div class="hpBrandFirstRow hpBrandMobil">
+
+    </div>
+    <div class="hpBrandFirstRow hpBrandMobil">
+
+    </div>-->
+                <!--  <div class="hpBrandStandartItem ">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+
+
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+
+
+    <div class="hpBrandStandartItem hpBrandA hpBrandC">
+
+    </div>
+    <div class="hpBrandStandartItem hpBrandB">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
 
 
 
 
-                <div class="hpBrandStandartItem">
+    <div class="hpBrandStandartItem">
 
-                </div>
-                <div class="hpBrandStandartItem">
+    </div>
+    <div class="hpBrandStandartItem">
 
-                </div>
-                <div class="hpBrandStandartItem">
+    </div>
+    <div class="hpBrandStandartItem">
 
-                </div>
-                <div class="hpBrandStandartItem">
+    </div>
+    <div class="hpBrandStandartItem">
 
-                </div>
-                <div class="hpBrandStandartItem">
+    </div>
+    <div class="hpBrandStandartItem">
 
-                </div>
-                <div class="hpBrandStandartItem">
+    </div>
+    <div class="hpBrandStandartItem">
 
-                </div>
+    </div>
+
+
+
+    <div class="hpBrandStandartItem hpBrandA hpBrandC">
+
+    </div>
+    <div class="hpBrandStandartItem hpBrandB">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+
+
+
+
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>
+    <div class="hpBrandStandartItem">
+
+    </div>-->
+
+
 
             </div>
 
