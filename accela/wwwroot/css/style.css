@@ -55,6 +55,13 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
 .nav-link {
     color: #252525 !important;
 }
+p.author {
+    color: black;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold !important;
+}
 @media all and (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {
         display: none;
@@ -910,6 +917,10 @@ input {
 .pfilbi {
     max-height: 40px;
 }
+.pfilbi img{
+    max-height:80px;
+    max-width:110px;
+}
 .pfilf a.fil_field {
     font-size: 14px;
     color: #00953f;
@@ -1236,6 +1247,7 @@ p {
     background-repeat: no-repeat;
     background-position: left center;
     background-position: 10px 10px;
+    background-color: #00963f;
 }
 .card-top p {
     margin-left: 35px;
@@ -1933,6 +1945,7 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
 }
 .discoverSearchContainer {
     background-color: white;
+    height:100%;
 }
 .pfil input {
     -webkit-appearance: checkbox;
@@ -1953,6 +1966,12 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
 }
 .discoverFirstDiscover{
     margin-left:15px;
+}
+
+.newsbcsmall {
+    width: 77px;
+    height: 57px;
+ 
 }
 
 
@@ -2608,9 +2627,23 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
     z-index: 5;
     background-image: url('../file/pictures/product_brand_cell.png');
 }
-.discoverDetailPageContent{
-    padding-left:0px!important;
-    padding-right:0px!important;
+.prodlbcsmall {
+    width: 104px;
+    height: 73px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 5;
+    background-image: url('../file/pictures/product_brand_cell_small.png');
+    background-size: 100% 100%;
+}
+.discoverSmallBrand{
+    margin-left:-30px;
+    margin-top:-10px;
+}
+.discoverDetailPageContent {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 .prodlbi {
     display: table-cell;

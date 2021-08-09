@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - accela</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="~/css/style.css" rel="stylesheet" />
@@ -401,9 +402,10 @@
 
     @await RenderSectionAsync("Scripts", required: false)
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        //document.addEventListener("DOMContentLoaded", function () {
+            $(document).ready(function () {
             // make it as accordion for smaller screens
-            if (window.innerWidth > 992) {
+          /*  if (window.innerWidth > 992) {
 
                 document.querySelectorAll('.navbar .nav-item').forEach(function (everyitem) {
 
@@ -431,7 +433,7 @@
                     })
                 });
 
-            }
+            }*/
             // end if innerWidth  
 
 
@@ -442,14 +444,14 @@
                 window.location.href = "../Home/Technologies";
             });
 
-            $(document).ready(function () {
+            /*$(document).ready(function () {
                 $("#myCarousel").swiperight(function () {
                     $(this).carousel('prev');
                 });
                 $("#myCarousel").swipeleft(function () {
                     $(this).carousel('next');
                 });
-            });
+            });*/
             /*var w = window.innerWidth;
             if (w <= 1000) {
                 var fixmeTop = $('.fixme').offset().top;

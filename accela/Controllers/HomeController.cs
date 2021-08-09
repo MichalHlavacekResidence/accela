@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using accela.Data;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace accela.Controllers
 {
@@ -22,9 +24,9 @@ namespace accela.Controllers
         public IActionResult Index()
         {
             Database database = new Database();
-            // ViewBag.BrandList = database.GetVisibleBrands();
-            // ViewBag.DiscoverList = database.GetVisibleDIscover();
-            /*List<Product> prods = database.GetVisibleProducts();
+            ViewBag.BrandList = database.GetVisibleBrands();
+            ViewBag.DiscoverList = database.GetNesForHomePage();
+            List<Product> prods = database.GetVisibleProducts();
             Random rng = new Random();
             List<Product> selectedProds = new List<Product>();
             List<int> cisla = new List<int>();
@@ -38,7 +40,7 @@ namespace accela.Controllers
 
                 }
             }
-            ViewBag.SelectedProduct = selectedProds;*/
+            ViewBag.SelectedProduct = selectedProds;
 
             return View();
         }
@@ -57,8 +59,36 @@ namespace accela.Controllers
         public IActionResult Discover()
         {
             Database database = new Database();
-            // ViewBag.DiscoverList = database.GetVisibleDiscover();
+            //ViewBag.DiscoverList = database.GetVisibleDiscover();
+            ViewBag.TagsList = database.GetVisibleTags();
+            ViewBag.PoolList = database.GetVisiblePools();
+            ViewBag.BrandList = database.GetVisibleBrands();
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult getDiscoverToDiscover(string technology, string tags,string brand , int newstowrite, int newsonpage)
+        {
+            /*Console.WriteLine("a"+technology + "technolo");
+            Console.WriteLine(tags +" tag");
+            Console.WriteLine(brand + "brand");*/
+            //Console.WriteLine(newsonpage);
+            Console.WriteLine(brand);
+            Database database = new Database();
+            string news;
+            news = database.AjaxGetNewToDiscover(newstowrite, newsonpage, technology,tags,brand);
+
+
+            return Content(news);
+        }
+        [HttpPost]
+        public ActionResult getReferencesToDiscover()
+        {
+            Database database = new Database();
+            string references = "";
+            references = database.AjaxGetRandomReferences();
+
+            return Content(references);
         }
         public IActionResult References()
         {
@@ -134,7 +164,6 @@ namespace accela.Controllers
 
             return View();
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
