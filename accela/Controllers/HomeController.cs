@@ -129,7 +129,10 @@ namespace accela.Controllers
         public IActionResult Product()
         {
             Database database = new Database();
-            ViewBag.ProductList = database.GetVisibleProducts();
+            ViewBag.PoolList = database.GetVisiblePools();
+            ViewBag.BrandList = database.GetVisibleBrands();
+
+            ViewBag.ProductList = database.GetVisibleProducts(); // vypisovani pomoci javascriptu
 
             /*List<Product> ProductList = new List<Product>();
             ProductList.Add(new Product(0,"test", "test", "test", "test", "test", "imagestream_x_mkii_24.png", new Manager(), "test",true));
@@ -137,6 +140,21 @@ namespace accela.Controllers
             return View();
 
         }
+
+        [HttpPost]
+        public ActionResult getProducts(int prodstowrite , int prodsonpage)
+        {
+            Console.WriteLine(prodstowrite);
+            Console.WriteLine(prodsonpage);
+           Database database = new Database();
+            string prods;
+            prods = database.AjaxGetVisibleProducts(prodstowrite, prodsonpage);
+
+
+            return Content(prods);
+        }
+
+
         public IActionResult Support()
         {
             return View();
@@ -154,6 +172,10 @@ namespace accela.Controllers
             return View();
         }
         public IActionResult Career()
+        {
+            return View();
+        }
+        public IActionResult Test()
         {
             return View();
         }

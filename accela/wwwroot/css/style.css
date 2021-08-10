@@ -1181,7 +1181,7 @@ p {
     margin-top: 25px;
 }
 .hide {
-    display: none;
+    display: none !important;
 }
 .card-body p.date {
     margin-left: 25px;
@@ -2550,9 +2550,6 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
     clear: both;
     margin-top: 25px;
 }
-.hide {
-    display: none;
-}
 .offices span.iconadd {
     background-image: url('../file/pictures/icon_pin.png');
     width: 20px;
@@ -2636,6 +2633,31 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
     z-index: 5;
     background-image: url('../file/pictures/product_brand_cell_small.png');
     background-size: 100% 100%;
+}
+.pfilf a.toggle {
+    float: right;
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+}
+.pfilf a.togglem {
+    background-image: url('../file/pictures/icon_minus.png');
+}
+.box {
+    margin-bottom: 15px;
+}
+.pfilfti {
+    float: left;
+    display: block;
+    clear: left;
+    margin-top: 12px;
+}
+.pfilft {
+    float: left;
+    display: none;
+    clear: left;
+    margin-left: 25px;
 }
 .discoverSmallBrand{
     margin-left:-30px;

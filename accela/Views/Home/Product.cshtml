@@ -1,8 +1,183 @@
 ﻿@{
     ViewData["Title"] = "Products";
 }
+<link rel="stylesheet" href="~/file/Test/bricklayer.css">
+
+<script>
+    $(document).ready(function () {
+        var prodsToWrite = 8;
+        var prodsOnPage = 0;
+        GetProds();
+
+        $(".showMoreCategory").click(function () {
+            var poolID = $(this).attr("data-id");
+
+            if ($("#pool_" + poolID).is(":visible")) {
+                $("#pool_" + poolID).css("display", "none");
+            } else {
+                $("#pool_" + poolID).css("display", "block");
+            }
 
 
+        });
+
+        function newBox() {
+            //var randomColor = '#' + Math.random().toString(16).substr(-6);
+            //var heights = [50, 90, 150, 190, 230];
+            //var randomHeight = heights[Math.floor(Math.random() * heights.length)];
+            var box = document.createElement('div');
+            box.className = 'box';
+            //box.style.backgroundColor = randomColor;
+            //box.style.height = randomHeight + "px";
+            return box;
+        }
+        var bricklayer = new Bricklayer(document.querySelector('.bricklayer'))
+
+        bricklayer.on("breakpoint", function (e) {
+            console.log(e.detail.columnCount);
+        })
+
+        bricklayer.on("afterPrepend", function (e) {
+            var el = e.detail.item;
+            el.classList.add('is-prepend');
+            setTimeout(function () {
+                el.classList.remove('is-prepend');
+            }, 500);
+        })
+
+        bricklayer.on("afterAppend", function (e) {
+            var el = e.detail.item;
+            el.classList.add('is-append');
+            setTimeout(function () {
+                el.classList.remove('is-append');
+            }, 500);
+        });
+        function goToScroll(value) {
+            document.body.scrollTop = value
+        }
+
+        function GetProds() {
+            if (prodsToWrite == 0) {
+                prodsToWrite = 8;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/Home/getProducts',
+                data: { prodstowrite: prodsToWrite, prodsonpage: prodsOnPage },
+                // contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+
+                    if (result == null || result == "No data") {
+                        alert(result);
+                        //$("<p>No data<p>").appendTo("#js_firstNew");
+                        //$("#js_loadMore").hide();
+
+                    } else {
+                        result = JSON.parse(result);
+                        //alert(result);
+                        console.log(result);
+                        //WriteData(result);
+                        // $("#js_loadMore").show();
+
+                    }
+
+
+
+                }
+            });
+
+        }
+        function WriteData(result) {
+            var htmlContent = '';
+            $.each(result, function (prodKey, prodData) {
+                //alert(newKey + " " + newsOnPage + " " + newsToWrite)
+
+                if (prodsOnPage <= prodsToWrite) {
+
+
+                    var box = newBox();
+                    var htmlBoxContent = "aaa";
+                    /* var htmlBoxContent = '<div class="card"> <div class="prodlbcsmall newsbcsmall"><div class="prodlbi newsbi" ><a href="/Brand/' + newData.Producer.URL + '"><img alt="' + newData.Producer.Name + '" src="/file/img/Brands/' + newData.Producer.ImageRelativeURL + '" class="discoverSmallBrand" /></a></div ></div ><img class="card-img-top" src="http://via.placeholder.com/1600x900/483D8B/ffffff?text=Card+1" alt="Card image cap">';
+                     htmlBoxContent += '<div class="card-body"><div class="row"><a href="#"><h5 class="card-title">' + newData.Title + '</h5></a></div><p class="card-text">' + newData.Subtitle + '</p></div>';
+                     htmlBoxContent += '<div class="card-body row"><p class="date">' + newData.Created + '</p><div class="ntags">';
+
+                     htmlBoxContent += '</div></div></div>';*/
+
+                    //$(htmlCardNews).appendTo("#js_newsField");
+                    prodsOnPage = prodsOnPage + 1;
+                    box.innerHTML = (htmlBoxContent);
+                    bricklayer.append(box);
+                    goToScroll(document.body.scrollHeight)
+
+
+                    /*
+                    if (newKey == 0 && newsOnPage == 0) {
+                        var htmlFirstContent = '<div class="prodlbc newsbc discoverFirstDiscover"><div class="prodlbi newsbi"><a href="/Brand/' + newData.Producer.URL + '"><img alt="Cytek Biosciences" src="/file/img/Brands/' + newData.Producer.ImageRelativeURL + '" /></a></div></div>';
+                        htmlFirstContent += '<img class="w-100" src="/file/demo/880x220-kopie-3.jpg" />';
+                        htmlFirstContent += '<div class="newscon"><h2><a href="/Discover/' + newData.UTL + '">' + newData.Title + '</a></h2>';
+                        htmlFirstContent += '<div class="newstext"><p>' + newData.Subtitle + '</p></div><p class="date">' + newData.Created + '</p>';
+                        htmlFirstContent += '<div class="ntags">';
+                        $.each(newData.Tags, function (tagKey, tagData) {
+                            htmlFirstContent += '<div class="ntag"><span>' + tagData.Name + '</span></div>';
+                        });
+                        htmlFirstContent += '</div></div>';
+
+                        $(htmlFirstContent).appendTo("#js_firstNew");
+                        newsOnPage = newsOnPage + 1;
+
+                    } else {
+                        var randomNumber = Math.floor((Math.random() * 5) + 1);
+
+                        if (randomNumber == 4) {
+                            //alert(randomNumber);
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Home/getReferencesToDiscover',
+                                success: function (references) {
+                                    references = JSON.parse(references);
+                                    //console.log(references);
+                                    $.each(references, function (refKey, refData) {
+                                        //var
+                                        var box = newBox();
+                                        var htmlŔeferenceContent = '<div class="card"><div class="card-top"><p>Accelerate your biomedical research</p></div>';
+                                        htmlŔeferenceContent += '<div class="card-body"><div class="newsreftext"><p class="card-text"><em>' + refData.Description + '</em></p></div>';
+                                        htmlŔeferenceContent += '<p class="author">' + refData.Name + '</p><p class="company">' + refData.Company + '</p><div class="newsrefic"><div class="newsrefi"><img src="/file/img/References/' + refData.Img + '" /></div></div></div></div>';
+                                        //$(htmlReferences).appendTo("#js_newsField");
+                                        box.innerHTML = (htmlŔeferenceContent);
+                                        bricklayer.append(box);
+                                        goToScroll(document.body.scrollHeight)
+
+                                    });
+
+                                }
+                            });
+
+                        }
+                        var box = newBox();
+                        var htmlBoxContent = '<div class="card"> <div class="prodlbcsmall newsbcsmall"><div class="prodlbi newsbi" ><a href="/Brand/' + newData.Producer.URL + '"><img alt="' + newData.Producer.Name + '" src="/file/img/Brands/' + newData.Producer.ImageRelativeURL + '" class="discoverSmallBrand" /></a></div ></div ><img class="card-img-top" src="http://via.placeholder.com/1600x900/483D8B/ffffff?text=Card+1" alt="Card image cap">';
+                        htmlBoxContent += '<div class="card-body"><div class="row"><a href="#"><h5 class="card-title">' + newData.Title + '</h5></a></div><p class="card-text">' + newData.Subtitle + '</p></div>';
+                        htmlBoxContent += '<div class="card-body row"><p class="date">' + newData.Created + '</p><div class="ntags">';
+                        $.each(newData.Tags, function (tagKey, tagData) {
+                            htmlBoxContent += '<div class="ntag"><span>' + tagData.Name + '</span></div>';
+                        });
+                        htmlBoxContent += '</div></div></div>';
+
+                        //$(htmlCardNews).appendTo("#js_newsField");
+                        newsOnPage = newsOnPage + 1;
+                        box.innerHTML = (htmlBoxContent);
+                        bricklayer.append(box);
+                        goToScroll(document.body.scrollHeight)
+                    }
+                    */
+                } else {
+                    return false;
+                }
+
+            });
+        }
+
+    });
+</script>
 
 <div class="row pageRow">
     <div class="row bannerNoStyle bannerContainer">
@@ -12,8 +187,58 @@
 
     <div class="col-lg-10 offset-lg-1">
         <div class="row">
-            <div class="col-lg-3 bg-info">
-                <p>search sgdf gdfg df gdfg df </p>
+            <div class="col-lg-3">
+                <div class="pfil">
+                    <p class="title">Technologies</p>
+                    <div>
+                        @{
+                            foreach (Category pool in ViewBag.PoolList)
+                            {
+                                <div class="pfilf">
+                                    <input type="checkbox" value="@pool.ID" class="fil_fieldch filterch js_technologies" />
+                                    <a class="fil_field">@pool.Name @pool.ID</a>
+                                    <a data-id="@pool.ID" class="toggle togglep showMoreCategory"></a>
+                                    <div class="pfilft" id="pool_@pool.ID">
+                                        @{
+                                            foreach (Category categ in pool.PoolCategories)
+                                            {
+                                                <div class="pfilfti">
+                                                    <input type="checkbox" value="@categ.ID" class="fil_fieldch filterch" />
+                                                    <a class="fil_field">@categ.Name @categ.ID</a>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+
+                <div class="pfil">
+                    <p class="title">Brands</p>
+                    <div id="filter_brands" class="pfilbrands row">
+                        @{
+                            foreach (Brand brand in ViewBag.BrandList)
+                            {
+                                <div class="pfilb col-6">
+                                    <div class="pfilbic">
+                                        <div class="pfilbi">
+                                            <img alt="@brand.Name" src="~/file/img/Brands/@brand.ImageRelativeURL" />
+                                        </div>
+                                    </div>
+                                    <input type="checkbox" value="@brand.ID" class="fil_brandch filterch js_brand" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <a class="pfilshowbrands" id="show_brands">
+                        <span class="image"></span>
+                        <span class="desc">Show all brands</span>
+                    </a>
+                </div>
             </div>
             <div class="col-lg-9 col-12">
                 <div class="row pfilkey">
@@ -23,55 +248,55 @@
                 </div>
 
 
-                <div class="flex-container column">
+                <div class="flex-container column" id="productsContainer">
                     @{
-      
-                    foreach (Product prod in ViewBag.ProductList)
-                    {
-                           
+                        /*
+                                      foreach (Product prod in ViewBag.ProductList)
+                                      {
 
-                        <div class="flex-item">
-                            <div class="row prodItem">
-                                <div class="col-lg-12 col-5">
-                                    @{
-                                        if (prod.Image == null || prod.Image == "")
-                                        {
-                                            // <img src="~/file/pictures/@prod.Producer.ImageRelativeURL" />
-                                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
 
-                                        }
-                                        else
-                                        {
-                                            <img src="~/file/pictures/@prod.Image" />
-                                        }
-                                    }
-                                    <h3 class="prodName"><a> @prod.Name</a></h3>
-                                </div>
-                                <div class="col-lg-12 col-7 MprodItemBottom">
-                                    <h3 class="prodSubtitle"><a>@prod.Subtitle</a></h3>
-                                    <p class="h3desc">@prod.SmallDescription</p>
-                                    <a class="newButton">
-                                        Show more
-                                        <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
-                                        <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
-                                    </a>
+                                          <div class="flex-item">
+                                              <div class="row prodItem">
+                                                  <div class="col-lg-12 col-5">
+                                                      @{
+                                                          if (prod.Image == null || prod.Image == "")
+                                                          {
+                                                              // <img src="~/file/pictures/@prod.Producer.ImageRelativeURL" />
+                                                              <img src="~/file/pictures/imagestream_x_mkii_24.png" />
 
-                                </div>
+                                                          }
+                                                          else
+                                                          {
+                                                              <img src="~/file/pictures/@prod.Image" />
+                                                          }
+                                                      }
+                                                      <h3 class="prodName"><a> @prod.Name</a></h3>
+                                                  </div>
+                                                  <div class="col-lg-12 col-7 MprodItemBottom">
+                                                      <h3 class="prodSubtitle"><a>@prod.Subtitle</a></h3>
+                                                      <p class="h3desc">@prod.SmallDescription</p>
+                                                      <a class="newButton">
+                                                          Show more
+                                                          <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                                          <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                                      </a>
 
-                                <div class="prodItemBottom">
-                                    <p class="h3desc hide h3descProduct">@prod.SmallDescription</p>
-                                    <a class="newButton">
-                                        Show more
-                                        <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
-                                        <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
-                                    </a>
-                                </div>
+                                                  </div>
 
-                            </div>
+                                                  <div class="prodItemBottom">
+                                                      <p class="h3desc hide h3descProduct">@prod.SmallDescription</p>
+                                                      <a class="newButton">
+                                                          Show more
+                                                          <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                                          <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                                      </a>
+                                                  </div>
 
-                        </div>
+                                              </div>
 
-                    }
+                                          </div>
+
+                                      }*/
                     }
 
 
@@ -342,15 +567,7 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
+    <script src="~/file/Test/bricklayer.js"></script>
 
 </div>
 
