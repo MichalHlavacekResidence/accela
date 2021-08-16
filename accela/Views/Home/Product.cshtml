@@ -1,8 +1,185 @@
 ﻿@{
     ViewData["Title"] = "Products";
 }
+<link rel="stylesheet" href="~/file/Test/bricklayer.css">
+
+<script>
+    $(document).ready(function () {
+        var prodsToWrite = 8;
+        var prodsOnPage = 0;
+        var poolFilter = [];
+        var textPool = "";
+        var categFilter = [];
+        var textCateg = "";
+        GetProds();
+
+        $(".showMoreCategory").click(function () {
+            var poolID = $(this).attr("data-id");
+
+            if ($("#pool_" + poolID).is(":visible")) {
+                $("#pool_" + poolID).css("display", "none");
+            } else {
+                $("#pool_" + poolID).css("display", "block");
+            }
 
 
+        });
+
+        function newBox() {
+            //var randomColor = '#' + Math.random().toString(16).substr(-6);
+            //var heights = [50, 90, 150, 190, 230];
+            //var randomHeight = heights[Math.floor(Math.random() * heights.length)];
+            var box = document.createElement('div');
+            box.className = 'box';
+            //box.style.backgroundColor = randomColor;
+            //box.style.height = randomHeight + "px";
+            return box;
+        }
+        var bricklayer = new Bricklayer(document.querySelector('.bricklayer'))
+
+        bricklayer.on("breakpoint", function (e) {
+            console.log(e.detail.columnCount);
+        })
+        bricklayer.on("afterPrepend", function (e) {
+            var el = e.detail.item;
+            el.classList.add('is-prepend');
+            setTimeout(function () {
+                el.classList.remove('is-prepend');
+            }, 500);
+        })
+        bricklayer.on("afterAppend", function (e) {
+            var el = e.detail.item;
+            el.classList.add('is-append');
+            setTimeout(function () {
+                el.classList.remove('is-append');
+            }, 500);
+        });
+        function goToScroll(value) {
+            document.body.scrollTop = value
+        }
+
+        function GetProds() {
+            if (prodsToWrite == 0) {
+                prodsToWrite = 8;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/Home/getProducts',
+                data: {
+                    prodstowrite: prodsToWrite,
+                    prodsonpage: prodsOnPage,
+                    poolsFilter: textPool,
+                    categFilter: textCateg
+                },
+                // contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+
+                    if (result == null || result == "No data") {
+                        //alert(result);
+                        //$("<p>No data<p>").appendTo("#js_firstNew");
+                        //$("#js_loadMore").hide();
+
+                    } else {
+                        result = JSON.parse(result);
+                        //alert(result);
+                        console.log(result);
+                        WriteData(result);
+                        // $("#js_loadMore").show();
+
+                    }
+
+
+
+                }
+            });
+
+        }
+        function WriteData(result) {
+            var htmlContent = '';
+            $.each(result, function (prodKey, prodData) {
+
+                if (prodsOnPage <= prodsToWrite) {
+
+                    var box = newBox();
+                    var htmlBoxContent = '<div class=""><div class="row prodItem"><div class="col-lg-12 col-5 prodTopSpace"><img src="/file/pictures/imagestream_x_mkii_24.png" /><h3 class="prodName"><a>' + prodData.Name + '</a></h3></div>';
+                    htmlBoxContent += '<div class="col-lg-12 col-7 MprodItemBottom"><h3 class="prodSubtitle"><a>' + prodData.Name + '</a></h3><p class="h3desc">' + prodData.SmallDescription + '</p>';
+                    htmlBoxContent += '<a class="newButton">Show more<img class="btnIconWhite" src="/file/pictures/icon_rightw_button.png" /><img class="btnIconGreen" src="/file/pictures/icon_right_button.png" /></a></div>';
+                    htmlBoxContent += '<div class="prodItemBottom"><p class="h3desc h3descProduct">' + prodData.SmallDescription + '</p>';
+                    htmlBoxContent += '<a class="newButton">Show more<img class="btnIconWhite" src="/file/pictures/icon_rightw_button.png" /><img class="btnIconGreen" src="/file/pictures/icon_right_button.png" /></a></div></div></div>';
+        
+                    prodsOnPage = prodsOnPage + 1;
+                    box.innerHTML = (htmlBoxContent);
+                    bricklayer.append(box);
+                    goToScroll(document.body.scrollHeight)
+
+                } else {
+                    return false;
+                }
+
+            }); 
+        }
+        $('.js_pool').change(function () {
+            var poolID = $(this).val();
+            if (this.checked) {
+                poolFilter.push(poolID);
+                //alert(tagID + "checked tech  " + tagFilter);
+                textPool = poolFilter.toString();
+            } else {
+                $.each(poolFilter, function (key, val) {
+                    if (poolID == val) {
+                        poolFilter.splice(key, 1);
+                        //alert(tagID + "unchecked tech  " + tagFilter);
+                        textPool = poolFilter.toString();
+                    }
+                });
+            }
+            prodsOnPage = 0;
+            prodsToWrite = 8;
+            $(".box").empty();
+            //$("#js_newsField").empty();
+            GetProds();
+        });
+        $('.js_category').change(function () {
+            var categID = $(this).val();
+            if (this.checked) {
+                categFilter.push(categID);
+                //alert(tagID + "checked tech  " + tagFilter);
+                textCateg = categFilter.toString();
+            } else {
+                $.each(categFilter, function (key, val) {
+                    if (categID == val) {
+                        categFilter.splice(key, 1);
+                        //alert(tagID + "unchecked tech  " + tagFilter);
+                        textCateg = categFilter.toString();
+                    }
+                });
+            }
+            prodsOnPage = 0;
+            prodsToWrite = 8;
+            $(".box").empty();
+            //$("#js_newsField").empty();
+            GetProds();
+        });
+        $('#js_loadMore').click(function () {
+            var existingHTML = $(this).html()
+            $(this).prop("disabled", true);
+            // add spinner to button
+            $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);
+            //$(".loadMoreButton").show();
+            prodsToWrite = prodsToWrite + 8;
+            GetProds();
+            //$(".loadMoreButton").hide();
+
+            setTimeout(function () {
+                $('#js_loadMore').html("Show more").prop('disabled', false)
+            }, 2000) 
+
+
+
+        });
+
+    });
+</script>
 
 <div class="row pageRow">
     <div class="row bannerNoStyle bannerContainer">
@@ -10,10 +187,60 @@
 
     </div>
 
-    <div class="col-lg-10 offset-lg-1">
+    <div class="col-lg-10 pageContentMain">
         <div class="row">
-            <div class="col-lg-3 bg-info">
-                <p>search sgdf gdfg df gdfg df </p>
+            <div class="col-lg-3">
+                <div class="pfil">
+                    <p class="title">Technologies</p>
+                    <div>
+                        @{
+                            foreach (Category pool in ViewBag.PoolList)
+                            {
+                                <div class="pfilf">
+                                    <input type="checkbox" value="@pool.ID" class="fil_fieldch filterch js_pool" />
+                                    <a class="fil_field">@pool.Name</a>
+                                    <a data-id="@pool.ID" class="toggle togglep showMoreCategory"></a>
+                                    <div class="pfilft" id="pool_@pool.ID">
+                                        @{
+                                            foreach (Category categ in pool.PoolCategories)
+                                            {
+                                                <div class="pfilfti">
+                                                    <input type="checkbox" value="@categ.ID" class="fil_fieldch filterch js_category" />
+                                                    <a class="fil_field">@categ.Name</a>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+
+                <div class="pfil">
+                    <p class="title">Brands</p>
+                    <div id="filter_brands" class="pfilbrands row">
+                        @{
+                            foreach (Brand brand in ViewBag.BrandList)
+                            {
+                                <div class="pfilb col-6">
+                                    <div class="pfilbic">
+                                        <div class="pfilbi">
+                                            <img alt="@brand.Name" src="~/file/img/Brands/@brand.ImageRelativeURL" />
+                                        </div>
+                                    </div>
+                                    <input type="checkbox" value="@brand.ID" class="fil_brandch filterch js_brand" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <a class="pfilshowbrands" id="show_brands">
+                        <span class="image"></span>
+                        <span class="desc">Show all brands</span>
+                    </a>
+                </div>
             </div>
             <div class="col-lg-9 col-12">
                 <div class="row pfilkey">
@@ -23,334 +250,335 @@
                 </div>
 
 
-                <div class="flex-container column">
+                <div class="" id="productsContainer">
+                    <section class="bricklayer"></section>
+
                     @{
-      
-                    foreach (Product prod in ViewBag.ProductList)
-                    {
-                           
+                        /*
+                                      foreach (Product prod in ViewBag.ProductList)
+                                      {
 
-                        <div class="flex-item">
-                            <div class="row prodItem">
-                                <div class="col-lg-12 col-5">
-                                    @{
-                                        if (prod.Image == null || prod.Image == "")
-                                        {
-                                            // <img src="~/file/pictures/@prod.Producer.ImageRelativeURL" />
-                                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
 
-                                        }
-                                        else
-                                        {
-                                            <img src="~/file/pictures/@prod.Image" />
-                                        }
-                                    }
-                                    <h3 class="prodName"><a> @prod.Name</a></h3>
-                                </div>
-                                <div class="col-lg-12 col-7 MprodItemBottom">
-                                    <h3 class="prodSubtitle"><a>@prod.Subtitle</a></h3>
-                                    <p class="h3desc">@prod.SmallDescription</p>
-                                    <a class="newButton">
-                                        Show more
-                                        <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
-                                        <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
-                                    </a>
+                                          <div class="flex-item">
+                                              <div class="row prodItem">
+                                                  <div class="col-lg-12 col-5">
+                                                      @{
+                                                          if (prod.Image == null || prod.Image == "")
+                                                          {
+                                                              // <img src="~/file/pictures/@prod.Producer.ImageRelativeURL" />
+                                                              <img src="~/file/pictures/imagestream_x_mkii_24.png" />
 
-                                </div>
+                                                          }
+                                                          else
+                                                          {
+                                                              <img src="~/file/pictures/@prod.Image" />
+                                                          }
+                                                      }
+                                                      <h3 class="prodName"><a> @prod.Name</a></h3>
+                                                  </div>
+                                                  <div class="col-lg-12 col-7 MprodItemBottom">
+                                                      <h3 class="prodSubtitle"><a>@prod.Subtitle</a></h3>
+                                                      <p class="h3desc">@prod.SmallDescription</p>
+                                                      <a class="newButton">
+                                                          Show more
+                                                          <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                                          <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                                      </a>
 
-                                <div class="prodItemBottom">
-                                    <p class="h3desc hide h3descProduct">@prod.SmallDescription</p>
-                                    <a class="newButton">
-                                        Show more
-                                        <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
-                                        <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
-                                    </a>
-                                </div>
+                                                  </div>
 
-                            </div>
+                                                  <div class="prodItemBottom">
+                                                      <p class="h3desc hide h3descProduct">@prod.SmallDescription</p>
+                                                      <a class="newButton">
+                                                          Show more
+                                                          <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                                          <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                                      </a>
+                                                  </div>
 
-                        </div>
+                                              </div>
 
-                    }
+                                          </div>
+
+                                      }*/
                     }
 
 
 
                     <!--<div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <a class="newButton">
-                                    Show more
-                                    <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
-                                    <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
-                                </a>
+        <div class="row prodItem">
+            <div class="col-lg-12 col-5">
+                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                <h3 class="prodName"><a> F DSFG SDG</a></h3>
+            </div>
+            <div class="col-lg-12 col-7 MprodItemBottom">
+                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                <a class="newButton">
+                    Show more
+                    <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                    <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                </a>
 
-                            </div>
+            </div>
 
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <a class="newButton">
-                                    Show more
-                                    <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
-                                    <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
-                                </a>
-                            </div>
+            <div class="prodItemBottom">
+                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                <a class="newButton">
+                    Show more
+                    <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                    <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                </a>
+            </div>
 
+        </div>
+
+    </div>
+    <div class="flex-item">
+        <div class="row prodItem">
+            <div class="col-lg-12 col-5">
+                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                <h3 class="prodName"><a> F DSFG SDG</a></h3>
+            </div>
+            <div class="col-lg-12 col-7 MprodItemBottom">
+                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outerM">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
                         </div>
+                    </a>
+                </div>
 
+            </div>
+
+            <div class="prodItemBottom">
+                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outer">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="flex-item">
+        <div class="row prodItem">
+            <div class="col-lg-12 col-5">
+                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                <h3 class="prodName"><a> F DSFG SDG</a></h3>
+            </div>
+            <div class="col-lg-12 col-7 MprodItemBottom">
+                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outerM">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="prodItemBottom">
+                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outer">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="flex-item">
+        <div class="row prodItem">
+            <div class="col-lg-12 col-5">
+                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                <h3 class="prodName"><a> F DSFG SDG</a></h3>
+            </div>
+            <div class="col-lg-12 col-7 MprodItemBottom">
+                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outerM">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="prodItemBottom">
+                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outer">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="flex-item">
+        <div class="row prodItem">
+            <div class="col-lg-12 col-5">
+                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                <h3 class="prodName"><a> F DSFG SDG</a></h3>
+            </div>
+            <div class="col-lg-12 col-7 MprodItemBottom">
+                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outerM">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="prodItemBottom">
+                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outer">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="flex-item">
+        <div class="row prodItem">
+            <div class="col-lg-12 col-5">
+                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                <h3 class="prodName"><a> F DSFG SDG</a></h3>
+            </div>
+            <div class="col-lg-12 col-7 MprodItemBottom">
+                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outerM">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="prodItemBottom">
+                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outer">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="flex-item">
+        <div class="row prodItem">
+            <div class="col-lg-12 col-5">
+                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                <h3 class="prodName"><a> F DSFG SDG</a></h3>
+            </div>
+            <div class="col-lg-12 col-7 MprodItemBottom">
+                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outerM">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="prodItemBottom">
+                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outer">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="flex-item">
+        <div class="row prodItem">
+            <div class="col-lg-12 col-5">
+                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                <h3 class="prodName"><a> F DSFG SDG</a></h3>
+            </div>
+            <div class="col-lg-12 col-7 MprodItemBottom">
+                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
+                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outerM">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="prodItemBottom">
+                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
+                <div class="outer">
+                    <a href="#">
+                        <div class="button">
+                            <div class="text row">show detail <span class="buttonImage"></span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>-->
+                    <div class="row">
+                        <div class="col text-center prodShowButton">
+                            <button class="btn btn-primary" id="js_loadMore" type="button">
+                                Show more
+                            </button>
+                        </div>
                     </div>
-                    <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outer">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outer">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outer">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outer">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outer">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outer">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="flex-item">
-                        <div class="row prodItem">
-                            <div class="col-lg-12 col-5">
-                                <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                <h3 class="prodName"><a> F DSFG SDG</a></h3>
-                            </div>
-                            <div class="col-lg-12 col-7 MprodItemBottom">
-                                <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
-                                <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outerM">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <div class="prodItemBottom">
-                                <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                                <div class="outer">
-                                    <a href="#">
-                                        <div class="button">
-                                            <div class="text row">show detail <span class="buttonImage"></span></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>-->
-
                 </div>
 
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
+    
 
 </div>
+<script src="~/file/Test/bricklayer.js"></script>
 

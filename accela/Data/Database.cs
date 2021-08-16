@@ -5,6 +5,7 @@ using accela.Models;
 using MySqlConnector;
 using accela.Data;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace accela.Data
 {
@@ -999,10 +1000,11 @@ namespace accela.Data
         }
         ///
         ///<summary>
-        ///     Funkce pro získání novinkek. Vstup je pocet novinek a jeste nejakej dalsi ale to az ve vyhledavani..... to se musi dodelat....
+        ///     Funkce pro získání novinkek. Vstup je pocet novinek na stránce a počet který se má vypsat, zrychluje to výpis. další parametry jsou pro vyhledávání
+        ///     jako je brand, tags a technology. Sql se generuje podle poslaných hodnot.
         ///</summary>
         ///<returns>
-        ///     Funkce vrací string ve kterém jsou přes json zabalené objekty . Pokud nebyla novinka nalezena, vrací se prázdný objekt s ID = 0.
+        ///     Funkce vrací string ve kterém jsou zabalené pomocí jsonu objekty jednotlivých novinek. Pokud nebyla novinka nalezena, vrací se prázdný string "No data"
         ///</returns>
         public string AjaxGetNewToDiscover(int newsToWrite,int newsOnPage,string technology,string tags,string brand)
         {
@@ -1013,58 +1015,34 @@ namespace accela.Data
                     db.Connection.Open();
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
-                        brand = "50,22,33";
-                        //int[] evenNums = new int[] { 50,20};
                         cmd.Connection = db.Connection;
 
                         //string comandText = "SELECT News.ID, News.Title, News.BrandID, News.ContactID, News.ImageBig, News.ImageSmall, News.ContentSmall, News.Created, News.VideoURL, News.ImageNew,NewsTech.CategoryID FROM News JOIN NewsTech ON News.ID = NewsTech.NewID JOIN Categories ON Categories.ID = NewsTech.CategoryID JOIN NewsTags ON NewsTags.NewsID = News.ID WHERE News.BrandID IN (@brand) ORDER BY News.Created ASC LIMIT @limit OFFSET @offset";
                         
-                        string comandText = "SELECT News.ID, News.Title, News.BrandID, News.ContactID, News.ImageBig, News.ImageSmall, News.ContentSmall, News.Created, News.VideoURL, News.ImageNew,NewsTech.CategoryID FROM News JOIN NewsTech ON News.ID = NewsTech.NewID JOIN Categories ON Categories.ID = NewsTech.CategoryID JOIN NewsTags ON NewsTags.NewsID = News.ID";
-                        int pom = 0;
+                        string comandText = "SELECT News.ID, News.Title, News.BrandID, News.ContactID, News.ImageBig, News.ImageSmall, News.ContentSmall, News.Created, News.VideoURL, News.ImageNew,NewsTech.CategoryID FROM News JOIN NewsTech ON News.ID = NewsTech.NewID JOIN Categories ON Categories.ID = NewsTech.CategoryID JOIN NewsTags ON NewsTags.NewsID = News.ID WHERE News.Visibility = 1";
                         if (technology != null)
                         {
-                            if (pom == 0) {
-                                comandText += " WHERE Categories.PoolID IN (@technology)";
-                                pom++;
-                            }
-                            else
-                            {
-                                comandText += " AND Categories.PoolID IN (@technology)";
-                            }
+                            comandText += " AND Categories.PoolID IN (" + technology + ")";
                         }
                         if (tags != null)
                         {
-                            if (pom == 0)
-                            {
-                                comandText += " WHERE NewsTags.TagID IN (@tags)";
-                                pom++;
-                            }
-                            else
-                            {
-                                comandText += " AND NewsTags.TagID IN (@tags)";
-                            }
+                            comandText += " AND NewsTags.TagID IN (" + tags + ")";
                         }
                         if (brand != null)
                         {
-                            if (pom == 0)
-                            {
-                                comandText += " WHERE News.BrandID IN (@brand)";
-                                pom++;
-                            }
-                            else
-                            {
-                                comandText += " AND News.BrandID IN (@brand)";
-                            }
+                            comandText += " AND News.BrandID IN (" + brand + ")";
                         }
-                        comandText += " ORDER BY News.Created ASC LIMIT @limit OFFSET @offset";
-                        Console.WriteLine(comandText);
+                        comandText += "  ORDER BY News.Created ASC LIMIT @limit OFFSET @offset";
+                  
+                       
+                        //Console.WriteLine(comandText);
                         //Console.WriteLine(brand);
                         cmd.CommandText = comandText;
                         cmd.Parameters.AddWithValue("@limit", newsToWrite);
                         cmd.Parameters.AddWithValue("@offset", newsOnPage);
-                        cmd.Parameters.AddWithValue("@technology", technology);
-                        cmd.Parameters.AddWithValue("@tags", tags);
-                        cmd.Parameters.AddWithValue("@brand", brand);
+                        //cmd.Parameters.AddWithValue("@technology", technology);
+                        //cmd.Parameters.AddWithValue("@tags", tags);
+                        //cmd.Parameters.AddWithValue("@brand", brand);
                         //Console.WriteLine(cmd.CommandText);
                         var reader = cmd.ExecuteReader();
 
@@ -1110,8 +1088,7 @@ namespace accela.Data
             catch (Exception ex)
             {
                 Console.WriteLine("[GetNew] " + ex.Message);
-                string aa = ex.Message;
-                return aa;
+                return ex.Message;
             }
         }
         ///
@@ -1133,7 +1110,7 @@ namespace accela.Data
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Name, Company,Img, Visibility,Position,Description FROM Ref ORDER BY RAND() LIMIT 1";
+                        cmd.CommandText = "SELECT ID, Name, Company,Img, Visibility,Position,Description FROM Ref WHERE Visibility = 1 ORDER BY RAND() LIMIT 1";
                         var reader = cmd.ExecuteReader();
                         if (!reader.HasRows)
                         {
@@ -1170,6 +1147,98 @@ namespace accela.Data
             catch (Exception ex)
             {
                 Console.WriteLine("[GetReferences] " + ex.Message);
+                return ex.Message;
+            }
+        }
+        ///
+        ///<summary>
+        ///     Funkce pro získání produktů. Vstup je pocet novinek na stránce a počet který se má vypsat, zrychluje to výpis. další parametry jsou pro vyhledávání
+        ///     jako je brand, tags a technology. Sql se generuje podle poslaných hodnot.
+        ///</summary>
+        ///<returns>
+        ///     Funkce vrací string ve kterém jsou zabalené pomocí jsonu objekty jednotlivých novinek. Pokud nebyla novinka nalezena, vrací se prázdný string "No data"
+        ///</returns>
+        public string AjaxGetVisibleProducts(int newsToWrite, int newsOnPage, string categoryIDs)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+
+                        string comandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility,BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID, Image FROM Products WHERE Visibility = 1 ";
+                        
+                        if (categoryIDs != null)
+                        {
+                            comandText += " AND CategoryID IN (" + categoryIDs + ")";
+                        }
+                        comandText += "ORDER BY Position ASC LIMIT @limit OFFSET @offset";
+
+                        cmd.CommandText = comandText;
+                        cmd.Parameters.AddWithValue("@limit", newsToWrite);
+                        cmd.Parameters.AddWithValue("@offset", newsOnPage);
+                        //cmd.Parameters.AddWithValue("@technology", technology);
+                        //cmd.Parameters.AddWithValue("@tags", tags);
+                        //cmd.Parameters.AddWithValue("@brand", brand);
+                        //Console.WriteLine(cmd.CommandText);
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows == false)
+                        {
+                            return "No data";
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string subtitle = null;
+                        string smalld = null;
+                        string descr = null;
+                        string link = null;
+                        bool vis = false;
+                        int bID = 0;
+                        int catID = 0;
+                        string vidUrl = null;
+                        string referenceLink = null;
+                        int managerID = 0;
+                        string image = null;
+                        Manager mng = new Manager();
+                        List<Product> products = new List<Product>();
+                        string strserialize = "";
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt16(0); } catch (Exception) { id = 0; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
+                            try { url = reader.GetString(2); } catch (Exception) { url = null; }
+                            try { subtitle = reader.GetString(3); } catch (Exception) { subtitle = null; }
+                            try { smalld = reader.GetString(4); } catch (Exception) { smalld = null; }
+                            try { descr = reader.GetString(5); } catch (Exception) { descr = null; }
+                            try { link = reader.GetString(6); } catch (Exception) { link = null; }
+                            try { vis = reader.GetBoolean(7); } catch (Exception) { vis = false; }
+                            try { bID = reader.GetInt16(8); } catch (Exception) { bID = 0; }
+                            try { catID = reader.GetInt16(9); } catch (Exception) { catID = 0; }
+                            try { vidUrl = reader.GetString(10); } catch (Exception) { vidUrl = null; }
+                            try { referenceLink = reader.GetString(11); } catch (Exception) { referenceLink = null; }
+                            try { managerID = reader.GetInt16(12); } catch (Exception) { managerID = 0; }
+                            try { image = reader.GetString("Image"); } catch (Exception) { image = null; }
+                            if (managerID != 0)
+                            {
+                                mng = this.GetManagerByID(managerID);
+                            }
+
+                            products.Add(new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis, image));
+                        }
+                        strserialize = JsonConvert.SerializeObject(products);
+                        return strserialize;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetNew] " + ex.Message);
                 return ex.Message;
             }
         }
@@ -1794,6 +1863,44 @@ namespace accela.Data
                 return new List<Category>();
             }
         }
+        public List<Category> GetCategoryIDsForPools(string pools)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand command = new MySqlCommand())
+                    {
+                        command.Connection = db.Connection;
+                        command.CommandText = "SELECT ID FROM Categories WHERE PoolID IN ("+pools+")";
+                        //command.Parameters.AddWithValue("@ids", pools);
+                        var reader = command.ExecuteReader();
+                        if (!reader.HasRows)
+                        {
+                            return new List<Category>();
+                        }
+
+                        int ID = 0;
+                       
+                        List<Category> poolCategories = new List<Category>();
+                        while (reader.Read())
+                        {
+                            try { ID = reader.GetInt32(0); } catch (Exception) { ID = 0; }
+                           
+                            //poolCategories.Add(new Category(ID, this.GetPool(poolid), name, url, desc, img, "", pos, vis, this.GetManagerByID(conid)));
+                            poolCategories.Add(new Category(ID));
+                        }
+                        return poolCategories;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetCategoryIDsForPools] " + ex.Message);
+                return new List<Category>();
+            }
+        }
 
         public List<Category> GetCategoriesByNewID(int newID)
         {
@@ -2225,6 +2332,123 @@ namespace accela.Data
                 return new Product();
             }
         }
+
+        public Product GetDetailProduct(string aaa)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE URL = @kaka";
+                        cmd.Parameters.AddWithValue("@kaka", aaa);
+                        var reader = cmd.ExecuteReader();
+                        if (!reader.HasRows)
+                        {
+                            return new Product();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                        string url = null;
+                        string subtitle = null;
+                        string smalld = null;
+                        string descr = null;
+                        string link = null;
+                        bool vis = false;
+                        int bID = 0;
+                        int catID = 0;
+                        string vidUrl = null;
+                        string referenceLink = null;
+                        int managerID = 0;
+                        string image = null;
+                        Manager mng = new Manager();
+
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt16(0); } catch (Exception) { id = 0; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
+                            try { url = reader.GetString(2); } catch (Exception) { url = null; }
+                            try { subtitle = reader.GetString(3); } catch (Exception) { subtitle = null; }
+                            try { smalld = reader.GetString(4); } catch (Exception) { smalld = null; }
+                            try { descr = reader.GetString(5); } catch (Exception) { descr = null; }
+                            try { link = reader.GetString(6); } catch (Exception) { link = null; }
+                            try { vis = reader.GetBoolean(7); } catch (Exception) { vis = false; }
+                            try { bID = reader.GetInt16(8); } catch (Exception) { bID = 0; }
+                            try { catID = reader.GetInt16(9); } catch (Exception) { catID = 0; }
+                            try { vidUrl = reader.GetString(10); } catch (Exception) { vidUrl = null; }
+                            try { referenceLink = reader.GetString(11); } catch (Exception) { referenceLink = null; }
+                            try { managerID = reader.GetInt16(12); } catch (Exception) { managerID = 0; }
+                            try { image = reader.GetString("Image"); } catch (Exception) { image = null; }
+                            if (managerID != 0)
+                            {
+                                mng = this.GetManagerByID(managerID);
+                            }
+                        }
+                        return new Product(id, name, url, descr, subtitle, smalld, referenceLink, this.GetBrandByID(bID), mng, vidUrl, vis, image);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetDetailProduct] " + ex.Message);
+                return new Product();
+            }
+        }
+        ///
+        ///<summary>
+        ///     Funkce pro získání listu produktů se specifickým ManagerID
+        ///</summary>
+        ///<returns>
+        ///     Vrací pole produktů (List[Product]).
+        ///</returns>
+        public List<Product> GetReferencesProducts(int id)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc,Image FROM Products WHERE ID IN (SELECT RelatedProduct.RelatedProductID FROM RelatedProducts WHERE RelatedProduct.ProductID = @id ORDET BY RelatedProduct.Position) AND Visibility = 1";
+                        cmd.Parameters.AddWithValue("@id", id);
+                        var reader = cmd.ExecuteReader();
+
+                        //int id = 0;
+                        string name = null;
+                        string url = null;
+                        string subtitle = null;
+                        string smalld = null;
+                        string image = null;
+                        List<Product> products = new List<Product>();
+
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt16(0); } catch (Exception) { id = 0; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
+                            try { url = reader.GetString(2); } catch (Exception) { url = null; }
+                            try { subtitle = reader.GetString(3); } catch (Exception) { subtitle = null; }
+                            try { smalld = reader.GetString(4); } catch (Exception) { smalld = null; }
+                            try { image = reader.GetString(5); } catch (Exception) { image = null; }
+
+                             products.Add(new Product(id, name, url, subtitle, smalld,image));
+                        }
+                        return products;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[GetReferencesProducts] " + ex.Message);
+                return new List<Product>();
+            }
+        }
+
         ///
         ///<summary>
         ///     Funkce pro získání listu produktů bez Managera a Brandu

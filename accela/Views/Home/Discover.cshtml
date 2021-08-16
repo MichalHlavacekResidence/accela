@@ -1,9 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Accelerate to discover";
 }
+<link rel="stylesheet" href="~/file/Test/bricklayer.css">
 
 <script>
-//const { each } = require("jquery");
+    //const { each } = require("jquery");
 
     $(document).ready(function () {
         var technologyFilter = [];
@@ -14,8 +15,44 @@
         var textBrand = "";
         var newsOnPage = 0;
         var newsToWrite = 8;
+        //$(".loadMoreButton").hide();
+
 
         GetNews();
+
+        function newBox() {
+            //var randomColor = '#' + Math.random().toString(16).substr(-6);
+            //var heights = [50, 90, 150, 190, 230];
+            //var randomHeight = heights[Math.floor(Math.random() * heights.length)];
+            var box = document.createElement('div');
+            box.className = 'box';
+            //box.style.backgroundColor = randomColor;
+            //box.style.height = randomHeight + "px";
+            return box;
+        }
+        var bricklayer = new Bricklayer(document.querySelector('.bricklayer'))
+
+       /* bricklayer.on("breakpoint", function (e) {
+            console.log(e.detail.columnCount);
+        })*/
+
+        bricklayer.on("afterPrepend", function (e) {
+            var el = e.detail.item;
+            el.classList.add('is-prepend');
+            setTimeout(function () {
+                el.classList.remove('is-prepend');
+            }, 500);
+        })
+        bricklayer.on("afterAppend", function (e) {
+            var el = e.detail.item;
+            el.classList.add('is-append');
+            setTimeout(function () {
+                el.classList.remove('is-append');
+            }, 500);
+        });
+        function goToScroll(value) {
+            document.body.scrollTop = value
+        }
 
         function GetNews() {
             if (newsToWrite == 0) {
@@ -28,7 +65,7 @@
                 data: { technology: textTechnology, tags: textTag, brand: textBrand, newstowrite: newsToWrite, newsonpage: newsOnPage },
                 // contentType: 'application/json; charset=utf-8',
                 success: function (result) {
-                    
+
                     if (result == null || result == "No data") {
                         alert(result);
                         $("<p>No data<p>").appendTo("#js_firstNew");
@@ -42,16 +79,18 @@
                         //$('#result1').html(result);
                     }
 
-                   
+
 
                 }
             });
+            
         }
         function WriteData(result) {
+            var htmlContent = '';
             $.each(result, function (newKey, newData) {
                 //alert(newKey + " " + newsOnPage + " " + newsToWrite)
                 if (newsOnPage <= newsToWrite) {
-                    
+
                     if (newKey == 0 && newsOnPage == 0) {
                         var htmlFirstContent = '<div class="prodlbc newsbc discoverFirstDiscover"><div class="prodlbi newsbi"><a href="/Brand/' + newData.Producer.URL + '"><img alt="Cytek Biosciences" src="/file/img/Brands/' + newData.Producer.ImageRelativeURL + '" /></a></div></div>';
                         htmlFirstContent += '<img class="w-100" src="/file/demo/880x220-kopie-3.jpg" />';
@@ -68,6 +107,7 @@
 
                     } else {
                         var randomNumber = Math.floor((Math.random() * 5) + 1);
+
                         if (randomNumber == 4) {
                             //alert(randomNumber);
                             $.ajax({
@@ -77,35 +117,45 @@
                                     references = JSON.parse(references);
                                     //console.log(references);
                                     $.each(references, function (refKey, refData) {
-                                        var htmlReferences = '<div class="card"><div class="card-top"><p>Accelerate your biomedical research</p></div>';
-                                        htmlReferences += '<div class="card-body"><div class="newsreftext"><p class="card-text"><em>' + refData.Description + '</em></p></div>';
-                                        htmlReferences += '<p class="author">' + refData.Name + '</p><p class="company">' + refData.Company + '</p><div class="newsrefic"><div class="newsrefi"><img src="/file/img/References/' + refData.Img + '" /></div></div></div></div>';
-                                        $(htmlReferences).appendTo("#js_newsField");
+                                        //var
+                                        var box = newBox();
+                                        var htmlŔeferenceContent = '<div class="card"><div class="card-top"><p>Accelerate your biomedical research</p></div>';
+                                        htmlŔeferenceContent += '<div class="card-body"><div class="newsreftext"><p class="card-text"><em>' + refData.Description + '</em></p></div>';
+                                        htmlŔeferenceContent += '<p class="author">' + refData.Name + '</p><p class="company">' + refData.Company + '</p><div class="newsrefic"><div class="newsrefi"><img src="/file/img/References/' + refData.Img + '" /></div></div></div></div>';
+                                        //$(htmlReferences).appendTo("#js_newsField");
+                                        box.innerHTML = (htmlŔeferenceContent);
+                                        bricklayer.append(box);
+                                        goToScroll(document.body.scrollHeight)
+
                                     });
 
                                 }
                             });
 
                         }
-                        var htmlCardNews = '<div class="card"> <div class="prodlbcsmall newsbcsmall"><div class="prodlbi newsbi" ><a href="/Brand/' + newData.Producer.URL + '"><img alt="' + newData.Producer.Name + '" src="/file/img/Brands/' + newData.Producer.ImageRelativeURL + '" class="discoverSmallBrand" /></a></div ></div ><img class="card-img-top" src="http://via.placeholder.com/1600x900/483D8B/ffffff?text=Card+1" alt="Card image cap">';
-                        htmlCardNews += '<div class="card-body"><div class="row"><a href="#"><h5 class="card-title">' + newData.Title + '</h5></a></div><p class="card-text">' + newData.Subtitle + '</p></div>';
-                        htmlCardNews += '<div class="card-body row"><p class="date">' + newData.Created + '</p><div class="ntags">';
+                        var box = newBox();
+                        var htmlBoxContent = '<div class="card"> <div class="prodlbcsmall newsbcsmall"><div class="prodlbi newsbi" ><a href="/Brand/' + newData.Producer.URL + '"><img alt="' + newData.Producer.Name + '" src="/file/img/Brands/' + newData.Producer.ImageRelativeURL + '" class="discoverSmallBrand" /></a></div ></div ><img class="card-img-top" src="http://via.placeholder.com/1600x900/483D8B/ffffff?text=Card+1" alt="Card image cap">';
+                        htmlBoxContent += '<div class="card-body"><div class="row"><a href="#"><h5 class="card-title">' + newData.Title + '</h5></a></div><p class="card-text">' + newData.Subtitle + '</p></div>';
+                        htmlBoxContent += '<div class="card-body row"><p class="date">' + newData.Created + '</p><div class="ntags">';
                         $.each(newData.Tags, function (tagKey, tagData) {
-                            htmlCardNews += '<div class="ntag"><span>' + tagData.Name + '</span></div>';
+                            htmlBoxContent += '<div class="ntag"><span>' + tagData.Name + '</span></div>';
                         });
-                        htmlCardNews += '</div></div></div>';
+                        htmlBoxContent += '</div></div></div>';
 
-                        $(htmlCardNews).appendTo("#js_newsField");
+                        //$(htmlCardNews).appendTo("#js_newsField");
                         newsOnPage = newsOnPage + 1;
+                        box.innerHTML = (htmlBoxContent);
+                        bricklayer.append(box);
+                        goToScroll(document.body.scrollHeight)
                     }
                 } else {
                     return false;
                 }
-               
+
             });
         }
 
-        
+
         $('.js_technologies').change(function () {
             var techID = $(this).val();
             if (this.checked) {
@@ -123,12 +173,13 @@
             }
             newsOnPage = 0;
             newsToWrite = 8;
-            $("#js_newsField").empty();
+            $(".box").empty();
+            //$("#js_newsField").empty();
             $("#js_firstNew").empty();
             GetNews();
 
         });
-        
+
         $('.js_tag').change(function () {
             var tagID = $(this).val();
             if (this.checked) {
@@ -146,7 +197,8 @@
             }
             newsOnPage = 0;
             newsToWrite = 8;
-            $("#js_newsField").empty();
+            $(".box").empty();
+            //$("#js_newsField").empty();
             $("#js_firstNew").empty();
             GetNews();
         });
@@ -154,52 +206,71 @@
             var brandID = $(this).val();
             if (this.checked) {
                 brandFilter.push(brandID);
-                alert(brandID + "checked tech  " + brandFilter);
+                //alert(brandID + "checked tech  " + brandFilter);
                 textBrand = brandFilter.toString();
             } else {
                 $.each(brandFilter, function (key, val) {
                     if (brandID == val) {
                         brandFilter.splice(key, 1);
-                        alert(brandID + "unchecked tech  " + brandFilter);
+                        //alert(brandID + "unchecked tech  " + brandFilter);
                         textBrand = brandFilter.toString();
                     }
                 });
             }
             newsOnPage = 0;
             newsToWrite = 8;
-            $("#js_newsField").empty();
+            $(".box").empty();
+            //$("#js_newsField").empty();
             $("#js_firstNew").empty();
             GetNews();
         });
         $('#js_loadMore').click(function () {
+            var existingHTML = $(this).html()
+            $(this).prop("disabled", true);
+            // add spinner to button
+            $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);
+            //$(".loadMoreButton").show();
             newsOnPage = newsOnPage;
             newsToWrite = newsToWrite + 8;
             GetNews();
-            
-        });
+            //$(".loadMoreButton").hide();
 
+            setTimeout(function () {
+                $('#js_loadMore').html("Show more").prop('disabled', false)//show original HTML and enable
+            }, 3000) //3 seconds
+           
+
+
+        });
+       /* $(document)
+            .ajaxStart(function () {
+               // $loading.show();
+                $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...').prop("disabled", true);
+            })
+            .ajaxStop(function () {
+                //$loading.hide();
+                $('#js_loadMore').html("Show more").prop('disabled', false); 
+            });*/
 
 
     });
 
-
-
 </script>
 
-<div class="row pageRow">
+<div class="row pageRow discover">
     <div class="row bannerNoStyle bannerContainer">
         <h1 class="pTop text-center">@ViewData["Title"]</h1>
         <h1>@ViewBag.message</h1>
 
     </div>
-    <div class="pageContentMain discover">
-       
+    <div class="pageContentMain ">
+
         <div class="col-lg-10 col-12 offset-1">
             <!-- base of div for responsibility  -->
             <!--<div class="row">
-            <h1> OUR BRANDS</h1>
-            <p>As a leading supplier of Life-Science Technologies in the territory of Central and Eastern Europe, we have developed trust and strong relationship with our partners - companies, manufacturing the most advanced High Tech – State Of The Art technologies. The mutual commitment to deliver the first class support to our customers makes us a credible team.</p>
-        </div>-->
+                <h1> OUR BRANDS</h1>
+                <p>As a leading supplier of Life-Science Technologies in the territory of Central and Eastern Europe, we have developed trust and strong relationship with our partners - companies, manufacturing the most advanced High Tech – State Of The Art technologies. The mutual commitment to deliver the first class support to our customers makes us a credible team.</p>
+            </div>-->
             <div class="row">
                 <div class="col-lg-9 col-12">
                     <div class="row make-columns">
@@ -207,39 +278,40 @@
 
                         <div class="col-12" id="js_firstNew">
                             <!--<div class="prodlbc newsbc discoverFirstDiscover">
-        <div class="prodlbi newsbi">
-            <a href="https://www.accela.eu/cytek-biosciences">
-                <img alt="Cytek Biosciences" src="https://www.accela.eu/files/brands/67/cytek-logo.png" />
-            </a>
-        </div>
-    </div>
-    <img class="w-100" src="~/file/demo/880x220-kopie-3.jpg" />
-    <div class="newscon">
-        <h2>
-            <a href="https://www.accela.eu/discover/top-10-pharma-companies-have-chosen-cytek-for-their-flow-cytometry-facility">Top 10 Pharma companies have chosen CYTEK  for their flow cytometry facility</a>
-        </h2>
+                                <div class="prodlbi newsbi">
+                                    <a href="https://www.accela.eu/cytek-biosciences">
+                                        <img alt="Cytek Biosciences" src="https://www.accela.eu/files/brands/67/cytek-logo.png" />
+                                    </a>
+                                </div>
+                            </div>
+                            <img class="w-100" src="~/file/demo/880x220-kopie-3.jpg" />
+                            <div class="newscon">
+                                <h2>
+                                    <a href="https://www.accela.eu/discover/top-10-pharma-companies-have-chosen-cytek-for-their-flow-cytometry-facility">Top 10 Pharma companies have chosen CYTEK  for their flow cytometry facility</a>
+                                </h2>
 
-        <div class="newstext"><p>6 of Top 10 Pharma Companies (Based on total group revenues) have chosen CYTEK - full spectrum flow cytometer for their Flow Cytometry Facility</p></div>
-        <p class="date">Jun 21, 2021</p>
+                                <div class="newstext"><p>6 of Top 10 Pharma Companies (Based on total group revenues) have chosen CYTEK - full spectrum flow cytometer for their Flow Cytometry Facility</p></div>
+                                <p class="date">Jun 21, 2021</p>
 
-        <div class="ntags">
-            <div class="ntag">
-                <span>Technical breakthrough</span>
-            </div>
-            <div class="ntag ntaglast">
-                <span>Application</span>
+                                <div class="ntags">
+                                    <div class="ntag">
+                                        <span>Technical breakthrough</span>
+                                    </div>
+                                    <div class="ntag ntaglast">
+                                        <span>Application</span>
 
 
-            </div>
-            <input type="button" value="Demo 1" id="buttonDemo1" />
-            <span id="result1"></span>
-        </div>
-    </div>-->
-                            
+                                    </div>
+                                    <input type="button" value="Demo 1" id="buttonDemo1" />
+                                    <span id="result1"></span>
+                                </div>
+                            </div>-->
+
                         </div>
 
-                        <div class="container discoverContainer">
-                            <div class="card-columns" id="js_newsField">
+                        <div class="container discoverContainer row">
+                            <section class="bricklayer"></section>
+                            <div class="card-columns">
                                 <!--discover first type start-->
                                 <!--<div class="card">
                                     <div class="prodlbcsmall newsbcsmall">
@@ -288,147 +360,149 @@
                                 </div>-->
                                 <!--discover first type end-->
                                 <!--<div class="card">
-            <img class="card-img-top" src="http://via.placeholder.com/1600x900/483D8B/ffffff?text=Card+1" alt="Card image cap">
-            <div class="card-body">
-                <a href="#">
-                    <h5 class="card-title">Card title that wraps to a new line</h5>
-                </a>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            </div>
-            <div class="card-body">
-                <p class="date">Jun 11, 2021</p>
-                <div class="ntags">
-                    <div class="ntag">
-                        <span>Application</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                </div>
+                                    <img class="card-img-top" src="http://via.placeholder.com/1600x900/483D8B/ffffff?text=Card+1" alt="Card image cap">
+                                    <div class="card-body">
+                                        <a href="#">
+                                            <h5 class="card-title">Card title that wraps to a new line</h5>
+                                        </a>
+                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="date">Jun 11, 2021</p>
+                                        <div class="ntags">
+                                            <div class="ntag">
+                                                <span>Application</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                        </div>
 
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="http://via.placeholder.com/1600x900/483D8B/ffffff?text=Card+1" alt="Card image cap">
-            <div class="card-body">
-                <a href="#">
-                    <h5 class="card-title">Card title that wraps to a new line</h5>
-                </a>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            </div>
-            <div class="card-body">
-                <p class="date">Jun 11, 2021</p>
-                <div class="ntags">
-                    <div class="ntag">
-                        <span>Application</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                    <div class="ntag ntaglast">
-                        <span>Webinar</span>
-                    </div>
-                </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <img class="card-img-top" src="http://via.placeholder.com/1600x900/483D8B/ffffff?text=Card+1" alt="Card image cap">
+                                    <div class="card-body">
+                                        <a href="#">
+                                            <h5 class="card-title">Card title that wraps to a new line</h5>
+                                        </a>
+                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="date">Jun 11, 2021</p>
+                                        <div class="ntags">
+                                            <div class="ntag">
+                                                <span>Application</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                            <div class="ntag ntaglast">
+                                                <span>Webinar</span>
+                                            </div>
+                                        </div>
 
-            </div>
-        </div>-->
+                                    </div>
+                                </div>-->
                                 <!--discover second type start-->
                                 <!--<div class="card">
-            <div class="card-top">
-                <p>Accelerate your biomedical research</p>
-            </div>
-            <div class="card-body">
-                <div class="newsreftext">
-                    <p class="card-text">
-                        <em>
-                            "Thanks to the Vevo 2100, high-frequency ultrasound, we are able to evaluate multiple animal models of human cardiovascular diseases and tumoral pathology. It is an excellent tool for applying basic research to disease translational research".
-                        </em>
+                                    <div class="card-top">
+                                        <p>Accelerate your biomedical research</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="newsreftext">
+                                            <p class="card-text">
+                                                <em>
+                                                    "Thanks to the Vevo 2100, high-frequency ultrasound, we are able to evaluate multiple animal models of human cardiovascular diseases and tumoral pathology. It is an excellent tool for applying basic research to disease translational research".
+                                                </em>
 
-                    </p>
-                </div>
-                <p class="author">Dr. Bogdan Marinescu</p>
-                <p class="company">'Victor Babeș' National Institute of Pathology, Bucharest, Romania</p>
-                <div class="newsrefic">
-                    <div class="newsrefi">
-                        <img src="https://www.accela.eu/files/references/15/bannernou3.png" />
-                    </div>
-                </div>
+                                            </p>
+                                        </div>
+                                        <p class="author">Dr. Bogdan Marinescu</p>
+                                        <p class="company">'Victor Babeș' National Institute of Pathology, Bucharest, Romania</p>
+                                        <div class="newsrefic">
+                                            <div class="newsrefi">
+                                                <img src="https://www.accela.eu/files/references/15/bannernou3.png" />
+                                            </div>
+                                        </div>
 
 
-            </div>
-        </div>-->
+                                    </div>
+                                </div>-->
                                 <!--discover second type end-->
                                 <!--<div class="card text-white text-center p-3">
-            <blockquote class="blockquote mb-0">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
-                <footer class="blockquote-footer">
-                    <small>
-                        Someone famous in <cite title="Source Title">Source Title</cite>
-                    </small>
-                </footer>
-            </blockquote>
-        </div>
-        <div class="card text-center">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img" src="http://via.placeholder.com/1600x1600/FF1493/ffffff?text=Card+3" alt="Card image">
-        </div>
-        <div class="card p-3 text-right">
-            <blockquote class="blockquote mb-0">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <footer class="blockquote-footer">
-                    <small class="text-muted">
-                        Someone famous in <cite title="Source Title">Source Title</cite>
-                    </small>
-                </footer>
-            </blockquote>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>-->
+                                    <blockquote class="blockquote mb-0">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
+                                        <footer class="blockquote-footer">
+                                            <small>
+                                                Someone famous in <cite title="Source Title">Source Title</cite>
+                                            </small>
+                                        </footer>
+                                    </blockquote>
+                                </div>
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <img class="card-img" src="http://via.placeholder.com/1600x1600/FF1493/ffffff?text=Card+3" alt="Card image">
+                                </div>
+                                <div class="card p-3 text-right">
+                                    <blockquote class="blockquote mb-0">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                        <footer class="blockquote-footer">
+                                            <small class="text-muted">
+                                                Someone famous in <cite title="Source Title">Source Title</cite>
+                                            </small>
+                                        </footer>
+                                    </blockquote>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                    </div>
+                                </div>-->
 
                             </div>
                             <div class="row">
                                 <div class="col text-center">
-                                    <button id="js_loadMore">Show more</button>
+                                    <button class="btn btn-primary" id="js_loadMore" type="button">
+                                        Show more
+                                    </button>
                                 </div>
-                                
+
 
                             </div>
                         </div>
@@ -443,11 +517,12 @@
                     <div class="pfil">
                         <p class="title">Technologies</p>
                         <div>
-                           @{ 
-                                foreach (Category categ in ViewBag.PoolList) {
+                            @{
+                                foreach (Category categ in ViewBag.PoolList)
+                                {
                                     <div class="pfilf">
                                         <input type="checkbox" value="@categ.ID" class="fil_fieldch filterch js_technologies" />
-                                        <a class="fil_field">@categ.Name @categ.ID</a>
+                                        <a class="fil_field">@categ.Name</a>
                                     </div>
                                 }
 
@@ -456,26 +531,26 @@
 
 
 
-                           <!-- <div class="pfilf">
-                                <input type="checkbox" id="field-1" value="1" class="fil_fieldch filterch" />
-                                <a class="fil_field">Molecular technologies</a>
-                            </div>
-                            <div class="pfilf">
-                                <input type="checkbox" id="field-2" value="1" class="fil_fieldch filterch" />
-                                <a class="fil_field">Cellular analysis</a>
-                            </div>
-                            <div class="pfilf">
-                                <input type="checkbox" id="field-3" value="1" class="fil_fieldch filterch" />
-                                <a class="fil_field">Flow cytometry</a>
-                            </div>
-                            <div class="pfilf">
-                                <input type="checkbox" id="field-4" value="1" class="fil_fieldch filterch" />
-                                <a class="fil_field">In vivo imaging</a>
-                            </div>
-                            <div class="pfilf">
-                                <input type="checkbox" id="field-5" value="1" class="fil_fieldch filterch" />
-                                <a class="fil_field">Animal research</a>
-                            </div>-->
+                            <!-- <div class="pfilf">
+                                 <input type="checkbox" id="field-1" value="1" class="fil_fieldch filterch" />
+                                 <a class="fil_field">Molecular technologies</a>
+                             </div>
+                             <div class="pfilf">
+                                 <input type="checkbox" id="field-2" value="1" class="fil_fieldch filterch" />
+                                 <a class="fil_field">Cellular analysis</a>
+                             </div>
+                             <div class="pfilf">
+                                 <input type="checkbox" id="field-3" value="1" class="fil_fieldch filterch" />
+                                 <a class="fil_field">Flow cytometry</a>
+                             </div>
+                             <div class="pfilf">
+                                 <input type="checkbox" id="field-4" value="1" class="fil_fieldch filterch" />
+                                 <a class="fil_field">In vivo imaging</a>
+                             </div>
+                             <div class="pfilf">
+                                 <input type="checkbox" id="field-5" value="1" class="fil_fieldch filterch" />
+                                 <a class="fil_field">Animal research</a>
+                             </div>-->
                         </div>
                     </div>
 
@@ -488,13 +563,13 @@
                         <div id="filter_tags">
 
                             @{
-                               
+
                                 foreach (Tags tags in ViewBag.TagsList)
                                 {
-                                   
+
                                     <div class="pfilf">
                                         <input type="checkbox" value="@tags.ID" class="fil_tagch filterch js_tag" />
-                                        <a href="javascript:" class="fil_field">@tags.Name @tags.ID</a>
+                                        <a href="javascript:" class="fil_field">@tags.Name</a>
                                     </div>
                                 }
 
@@ -549,9 +624,9 @@
                     <div class="pfil">
                         <p class="title">Brands</p>
                         <div id="filter_brands" class="pfilbrands row">
-                            @{ 
-                                foreach(Brand brand in ViewBag.BrandList)
-                                 {
+                            @{
+                                foreach (Brand brand in ViewBag.BrandList)
+                                {
                                     <div class="pfilb col-6">
                                         <div class="pfilbic">
                                             <div class="pfilbi">
@@ -617,7 +692,7 @@
         </div>
 
     </div>
-    
+    <script src="~/file/Test/bricklayer.js"></script>
 </div>
 
 <!-- Modal -->

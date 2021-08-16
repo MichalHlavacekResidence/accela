@@ -74,6 +74,11 @@ namespace accela.Models
             _pool = new Category();
             _poolCategories = new List<Category>();
         }
+        public Category(int id)
+        {
+            _id = id;
+           
+        }
 
         public int ID { get { return _id; } set { _id = value; } }
         public string Name { get { return _name; } set { _name = value; } }
