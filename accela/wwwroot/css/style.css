@@ -19,6 +19,10 @@ a {
     font-family: 'Open Sans', Arial, sans-serif;
     color: #00953f !important;
 }
+.prodTopSpace{
+    margin-top:50px;
+    margin-bottom:20px;
+}
 h3 {
     display: block;
     font-size: 1.17em;
@@ -280,7 +284,7 @@ footer {
     padding-bottom: 5px;
     padding-left: 20px;
     letter-spacing: 1px;
-    margin-right: 50px;
+    margin-right: 10px;
     font-size: 15px;
 }
 .hpSubmenuButton .newButton {
@@ -786,12 +790,12 @@ input {
 
 
 .prodItemBottom {
-    display:none;
-    position:absolute;
-    margin-top: -7px;
+    display: none;
+    position: absolute;
     background-color: white;
     padding-left: 5px;
     padding-right: 5px;
+    padding-bottom: 10px;
 }
 .buttonTechnologi{
     width:57%;
@@ -2607,9 +2611,19 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
 .technologiDetail{
     max-width:1600px;
 }
-.newsi{
-    margin-left:0px !important;
-    margin-right:0px !important;
+.productDetail {
+    margin-top:90px;
+}
+.carousel-fade {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.carousel-control-next, .carousel-control-prev {
+    color: #00953f !important;
+}
+.newsi {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }
 .newsi img{
     padding-left:0px;
@@ -2659,9 +2673,12 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
     clear: left;
     margin-left: 25px;
 }
-.discoverSmallBrand{
-    margin-left:-30px;
-    margin-top:-10px;
+.prodShowButton{
+    margin-top:150px;
+}
+.discoverSmallBrand {
+    margin-left: -30px;
+    margin-top: -10px;
 }
 .discoverDetailPageContent {
     padding-left: 0px !important;

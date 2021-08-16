@@ -32,9 +32,9 @@
         }
         var bricklayer = new Bricklayer(document.querySelector('.bricklayer'))
 
-        bricklayer.on("breakpoint", function (e) {
+       /* bricklayer.on("breakpoint", function (e) {
             console.log(e.detail.columnCount);
-        })
+        })*/
 
         bricklayer.on("afterPrepend", function (e) {
             var el = e.detail.item;
@@ -43,7 +43,6 @@
                 el.classList.remove('is-prepend');
             }, 500);
         })
-
         bricklayer.on("afterAppend", function (e) {
             var el = e.detail.item;
             el.classList.add('is-append');
@@ -174,7 +173,8 @@
             }
             newsOnPage = 0;
             newsToWrite = 8;
-            $("#js_newsField").empty();
+            $(".box").empty();
+            //$("#js_newsField").empty();
             $("#js_firstNew").empty();
             GetNews();
 
@@ -197,7 +197,8 @@
             }
             newsOnPage = 0;
             newsToWrite = 8;
-            $("#js_newsField").empty();
+            $(".box").empty();
+            //$("#js_newsField").empty();
             $("#js_firstNew").empty();
             GetNews();
         });
@@ -218,7 +219,8 @@
             }
             newsOnPage = 0;
             newsToWrite = 8;
-            $("#js_newsField").empty();
+            $(".box").empty();
+            //$("#js_newsField").empty();
             $("#js_firstNew").empty();
             GetNews();
         });
@@ -255,13 +257,13 @@
 
 </script>
 
-<div class="row pageRow">
+<div class="row pageRow discover">
     <div class="row bannerNoStyle bannerContainer">
         <h1 class="pTop text-center">@ViewData["Title"]</h1>
         <h1>@ViewBag.message</h1>
 
     </div>
-    <div class="pageContentMain discover">
+    <div class="pageContentMain ">
 
         <div class="col-lg-10 col-12 offset-1">
             <!-- base of div for responsibility  -->
@@ -309,7 +311,7 @@
 
                         <div class="container discoverContainer row">
                             <section class="bricklayer"></section>
-                            <div class="card-columns" id="js_newsField">
+                            <div class="card-columns">
                                 <!--discover first type start-->
                                 <!--<div class="card">
                                     <div class="prodlbcsmall newsbcsmall">
@@ -496,9 +498,7 @@
                             </div>
                             <div class="row">
                                 <div class="col text-center">
-                                    <!--<button id="js_loadMore">Show more</button>-->
                                     <button class="btn btn-primary" id="js_loadMore" type="button">
-                                        <!--<span class="loadMoreButton spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>-->
                                         Show more
                                     </button>
                                 </div>
@@ -522,7 +522,7 @@
                                 {
                                     <div class="pfilf">
                                         <input type="checkbox" value="@categ.ID" class="fil_fieldch filterch js_technologies" />
-                                        <a class="fil_field">@categ.Name @categ.ID</a>
+                                        <a class="fil_field">@categ.Name</a>
                                     </div>
                                 }
 
@@ -569,7 +569,7 @@
 
                                     <div class="pfilf">
                                         <input type="checkbox" value="@tags.ID" class="fil_tagch filterch js_tag" />
-                                        <a href="javascript:" class="fil_field">@tags.Name @tags.ID</a>
+                                        <a href="javascript:" class="fil_field">@tags.Name</a>
                                     </div>
                                 }
 

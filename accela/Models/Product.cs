@@ -76,6 +76,46 @@ namespace accela.Models
             _visibility = visibility;
             _image = image;
         }
+        // ReferencesProduct 
+        public Product(int id, string name, string url, string subtitle, string smallDesc, string image)
+        {
+            _id = id;
+            _name = name;
+            _url = url;
+            _subtitle = subtitle;
+            _smallDescription = smallDesc;
+            _image = image;
+        }
+        //Detail Products 
+       /* public Product(int id, string name, string url, string description, string subtitle, string referenceLink, Brand producer, Manager manager, string videoUrl, string image, List<Product> relatedProducts)
+        {
+            _id = id;
+            _name = name;
+            _url = url;
+            _description = description;
+            _subtitle = subtitle;
+            _referenceLink = referenceLink;
+            _producer = producer;
+            _manager = manager;
+            _videoURL = videoUrl;
+            _image = image;
+            _relatedProducts = relatedProducts;
+        }
+
+        public Product(int id, string name, string url, string description, string subtitle, string referenceLink, Brand producer, Manager manager, string videoUrl, string image)
+        {
+            _id = id;
+            _name = name;
+            _url = url;
+            _description = description;
+            _subtitle = subtitle;
+            _referenceLink = referenceLink;
+            _producer = producer;
+            _manager = manager;
+            _videoURL = videoUrl;
+            _image = image;
+        }*/
+
 
 
         public int ID { get { return _id;} set { _id = value; }}

@@ -142,15 +142,39 @@ namespace accela.Controllers
         }
 
         [HttpPost]
-        public ActionResult getProducts(int prodstowrite , int prodsonpage)
+        public ActionResult getProducts(int prodstowrite, int prodsonpage, string poolsFilter, string categFilter)
         {
-            Console.WriteLine(prodstowrite);
-            Console.WriteLine(prodsonpage);
-           Database database = new Database();
-            string prods;
-            prods = database.AjaxGetVisibleProducts(prodstowrite, prodsonpage);
+            /*Console.WriteLine(prodstowrite);
+            Console.WriteLine(prodsonpage);*/
+            Database database = new Database();
+            List<Category> categ = new List<Category>();
+            string categoriesFilter = "";
+            if (poolsFilter == "" || poolsFilter == null || poolsFilter == "[]")
+            {
+                categoriesFilter = categFilter;
+            }
+            else
+            {
+                //Console.WriteLine("a" + poolsFilter + "a");
+                categ = database.GetCategoryIDsForPools(poolsFilter);
+                int i = 1;
+                foreach (Category cat in categ)
+                {
+                    if (i == categ.Count())
+                    {
+                        categoriesFilter += cat.ID.ToString();
+                    }
+                    else
+                    {
+                        categoriesFilter += cat.ID.ToString() + ",";
+                        i++;
+                    }
+                }
+                categoriesFilter = categoriesFilter + "," + categFilter;
+            }
+            Console.WriteLine(categoriesFilter);
 
-
+            string prods = database.AjaxGetVisibleProducts(prodstowrite, prodsonpage, categoriesFilter);
             return Content(prods);
         }
 
