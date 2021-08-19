@@ -1,0 +1,387 @@
+﻿@model accela.Models.Category;
+@{
+    ViewData["Title"] = Model.Name;
+    //Category category = new Category();
+    //category = ViewBag.CategoryList;
+}
+
+
+
+<div class="row pageRow">
+    <div class="row bannerNoStyle bannerContainer">
+        <h1 class="pTop text-center">@Model.Name</h1>
+
+    </div>
+    <div class="pageContentMain">
+        <div class="">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="fieldtsc">
+                    <div class="fieldts techlist">
+
+                        @{
+                            foreach (Category categ in Model.PoolCategories)
+                            {
+                                if (categ.Visibility == true)
+                                {
+                                    <div class="tech col-3">
+                                        <div class="imgc">
+                                            <div class="cell_38_42w"></div>
+                                            <img alt="@categ.Name" src="~/file/img/Pools/@categ.Image" />
+                                        </div>
+                                        <a href="/Technology/@Model.URL/@categ.URL">@categ.Name</a>
+                                    </div>
+
+                                }
+
+
+                            }
+                        }
+
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <div class="col-lg-10 offset-lg-1">
+
+                <div class="row">
+                    <p class="mx-auto hpSubTitle">Featured products</p>
+                </div>
+                <div class="row">
+                    @{
+                        int countProduct = 1;
+                        string clasData = "";
+                        foreach (Product prod in ViewBag.SelectedProduct)
+                        {
+                            /*  if (countProduct == 1){
+                                  <div class="col-lg-4 hpProdItemL">
+                              }
+                              else if (countProduct == 2)
+                              {
+                                  <div class="col-lg-4 hpProdItemM">
+                              }
+                              else
+                              {
+                                                      <div class="col-lg-4 hpProdItemR">
+                                                          }*/
+                            if (countProduct == 1)
+                            {
+                                clasData = "hpProdItemL";
+                                countProduct++;
+                            }
+                            else if (countProduct == 2)
+                            {
+                                clasData = "hpProdItemM";
+                                countProduct++;
+                            }
+                            else
+                            {
+                                clasData = "hpProdItemR";
+                                countProduct++;
+                            }
+                            <div class="col-lg-4 @clasData">
+                                <div class="flex-item">
+                                    <div class="row prodItem">
+                                        <div class="col-lg-12 col-5">
+                                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                                            <h3 class="prodName"><a>@prod.Name</a></h3>
+                                        </div>
+                                        <div class="col-lg-12 col-7 MprodItemBottom">
+                                            <h3 class="prodSubtitle"><a> @prod.Name</a></h3>
+                                            <p class="h3desc">@prod.Subtitle</p>
+                                            <div class="outerM">
+                                                <a href="#">
+                                                    <div class="button">
+                                                        <div class="text row">show detail <span class="buttonImage"></span></div>
+                                                    </div>
+                                                </a>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="prodItemBottom">
+                                            <p class="h3desc hide h3descProduct">@prod.Subtitle</p>
+                                            <a href="seznam.cz" class="newButton prodButton hide">
+                                                Show more
+                                                <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                                <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                            </a>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+
+                    }
+
+                </div>
+
+            </div>
+        </div>
+        <div class="greyBgColor row">
+            <div class="col-lg-10 offset-lg-1 ">
+                <!-- base of div for responsibility  -->
+
+                <div class="row">
+                    <p class="mx-auto hpSubTitle">Featured brands</p>
+                </div>
+                <div class="row hpBrandContainer ">
+
+                    @{
+                        int countBrand = 1;
+                        foreach (Brand brand in ViewBag.BrandList)
+                        {
+
+                            if (countBrand == 1 || countBrand == 2)
+                            {
+                                <div class="hpBrandFirstRow">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+
+                            }
+                            if (countBrand >= 3 && countBrand <= 6)
+                            {
+                                <div class="hpBrandFirstRow hpBrandTablet">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            if (countBrand == 7)
+                            {
+                                <div class="hpBrandStandartItem hpBrandA">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+
+                            }
+                            if (countBrand >= 8 && countBrand <= 17)
+                            {
+                                <div class="hpBrandStandartItem ">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            if (countBrand == 18)
+                            {
+                                <div class="hpBrandStandartItem hpBrandA hpBrandC">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            if (countBrand == 19)
+                            {
+                                <div class="hpBrandStandartItem hpBrandB">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+
+                            if (countBrand >= 20 && countBrand <= 28)
+                            {
+                                <div class="hpBrandStandartItem ">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            if (countBrand == 29)
+                            {
+                                <div class="hpBrandStandartItem hpBrandA hpBrandC">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            if (countBrand == 30)
+                            {
+                                <div class="hpBrandStandartItem hpBrandB">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+
+                            if (countBrand >= 31 && countBrand <= 39)
+                            {
+                                <div class="hpBrandStandartItem ">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            if (countBrand == 40)
+                            {
+                                <div class="hpBrandStandartItem hpBrandA hpBrandC">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            if (countBrand == 41)
+                            {
+                                <div class="hpBrandStandartItem hpBrandB">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+
+                            if (countBrand >= 42 && countBrand <= 50)
+                            {
+                                <div class="hpBrandStandartItem ">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+
+
+
+                            if (countBrand == 51)
+                            {
+                                <div class="hpBrandStandartItem hpBrandA hpBrandC">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            if (countBrand == 52)
+                            {
+                                <div class="hpBrandStandartItem hpBrandB">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            if (countBrand >= 53 && countBrand <= 61)
+                            {
+                                <div class="hpBrandStandartItem ">
+                                    <a href="/Brand/@brand.URL">
+                                        <div class="hpBrandImage">
+                                            <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" />
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+
+
+                            countBrand++;
+                        }
+                    }
+
+                </div>
+
+            </div>
+        </div>
+        <div class="greyBgColor row">
+
+            <div class="col-lg-10 offset-lg-1">
+
+                <div class="fieldotsc">
+                    <div class="fieldots">
+                        <h2>Explore more</h2>
+
+                        @{
+                            foreach (Category pool in ViewBag.PoolList)
+                            {
+                                if (pool.ID != Model.ID)
+                                {
+                                    <div class="fieldot">
+                                        <h3>
+                                            <div class="imgc">
+                                                <div class="cell_38_42"></div>
+                                                <img alt="@pool.Name" src="~/file/img/Pools/@pool.Image" />
+                                            </div>
+                                            <a href="/Technology/@pool.URL">@pool.Name</a>
+                                        </h3>
+
+                                        @{
+                                            foreach (Category categ in pool.PoolCategories)
+                                            {
+                                                if (categ.Visibility == true)
+                                                {
+                                                    <p class="link">
+                                                        <a href="/Technology/@pool.URL/@categ.URL">@categ.URL</a>
+                                                    </p>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                }
+
+
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model accela.Models.Category;
+@{
     ViewData["Title"] = "Molecular technologies";
     //Category category = new Category();
     //category = ViewBag.CategoryList;
@@ -26,11 +27,10 @@
 
                 </div>
                 <div class="col-lg-7 col-12 techr">
-                    <h1>Ultra and High Performance Centrifuges</h1>
-                    <p class="h1desc">Get the the highest performance in the class</p>
+                    <h1>@Model.Name</h1>
+                    <p class="h1desc">@Model.Name</p>
                     <div class="text smtext" id="prod_text">
-                        <p style="color: #333333; font-size: 12px; font-family: Arial, sans-serif;">Centrifuges are devices for separating particles from a heterogeneous mixture. Fundamental to separation is the increase in the effective gravitational force by spinning the sample in the single cavity or the tubes of a rotor as the &lsquo;mobile part&rsquo; of a centrifuge. Subjected to the respective centrifugal force thus applied, the individual constituents of a sample will differentially sediment according to their physical properties as well as the density and viscosity of the sample solution.</p>
-                        <p style="color: #333333; font-size: 12px; font-family: Arial, sans-serif;">Ultracentrifuges are optimised for spinning a rotor at very high speeds generating centrifugal forces as high as 1&thinsp;000&thinsp;000<em>g</em>. They&nbsp;are used in biology for the fractionation of fine particulate samples such as tissue homogenates aiming to isolate subcellular organelles, macromolecules, bacteria or viruses.</p>          <div class="ptextover hide" id="prod_text_over"></div>
+                        <p style="color: #333333; font-size: 12px; font-family: Arial, sans-serif;">@Model.Description</p> <div class="ptextover hide" id="prod_text_over"></div>
                     </div>
                     <p class="show">
                         <a class="show_all " id="show_more" href="javascript:">Show more</a>
@@ -41,17 +41,17 @@
                     <div class="manic">
                         <div class="cell_88_100"></div>
                         <div class="mani">
-                            <img alt="Igor Valerián" src="https://www.accela.eu/files/managers/8/igor-valerian.jpg" />
+                            <img alt="@Model.Contact.Firstname @Model.Contact.Lastname" src="~/file/img/Managers/@Model.Contact.ImageRelativeURL" />
                         </div>
                     </div>
                     <div class="manr">
-                        <p class="func">Business director</p>
-                        <p class="name">Igor</p>
-                        <p class="name">Valerián</p>
+                        <p class="func">@Model.Contact.Department.Name</p>
+                        <p class="name">@Model.Contact.Firstname</p>
+                        <p class="name">@Model.Contact.Lastname</p>
                     </div>
                     <div class="mancon">
-                        <p class="phone con">+420 603 223 602</p>
-                        <p class="email con">valerian@accela.eu</p>
+                        <p class="phone con">@Model.Contact.Phone</p>
+                        <p class="email con">@Model.Contact.Email</p>
                     </div>
                     <div class="outerS">
                         <a href="#">
@@ -66,6 +66,100 @@
             </div>
 
         </div>
+        <div class="techdel proddel">
+            <div class="techdelc">
+
+            </div>
+        </div>
+        <div class="col-lg-10 offset-1 col-12">
+
+
+            <div class="flex-container column">
+                @{
+                    foreach (Product prod in Model.Products)
+                    {
+                        <div class="flex-item">
+                            <div class="row prodItem">
+                                <div class="col-lg-12 col-5">
+                                    <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                                    <h3 class="prodName"><a>@prod.Name</a></h3>
+                                </div>
+                                <div class="col-lg-12 col-7 MprodItemBottom">
+                                    <h3 class="prodSubtitle"><a>@prod.Name</a></h3>
+                                    <p class="h3desc">@prod.Subtitle</p>
+
+
+                                    <div class="outerM">
+                                        <a href="#">
+                                            <div class="button">
+                                                <div class="text row">show detail <span class="buttonImage"></span></div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="prodItemBottom">
+                                    <p class="h3desc hide h3descProduct">@prod.Subtitle</p>
+
+
+                                    <div class="outer productOuterS">
+                                        <a href="#">
+                                            <div class="button">
+                                                <div class="text row">show detail <span class="buttonImage buttonImageProduct"></span></div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+}
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+        <div class="col-lg-10 offset-1 col-12">
+            <div class="row">
+                <div class="techlist">
+                    <h2>More of Molecular technologies</h2>
+
+                    
+                    @{
+                        foreach (Category categ in Model.PoolCategories)
+                        {
+                            if (Model.ID != categ.ID)
+                            {
+                                <div class="tech col-3">
+                                    <div class="imgc">
+                                        <div class="cell_38_42"></div>
+                                        <img alt="@categ.Name" src="~/file/img/Pools/@categ.Image" />
+                                    </div>
+                                    <a href="/Technology/@categ.URL">@categ.Name</a>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+       
+        
+
+        </div>
+
+
     </div>
 
   

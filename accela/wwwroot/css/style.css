@@ -2648,6 +2648,22 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
     background-image: url('../file/pictures/product_brand_cell_small.png');
     background-size: 100% 100%;
 }
+.techlist div.tech {
+    float: left;
+    display: block;
+    margin-top: 30px;
+    margin-right: 50px;
+    position: relative;
+}
+.imgc {
+    height: auto;
+    position: relative;
+    width: 100%;
+}
+.techlist img {
+    width: 38px;
+    height: 42px;
+}
 .pfilf a.toggle {
     float: right;
     display: block;
@@ -2657,6 +2673,50 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
 }
 .pfilf a.togglem {
     background-image: url('../file/pictures/icon_minus.png');
+}
+.cell_38_42w {
+    background-image: url('../file/pictures/cell_38_42w.png');
+    position: absolute;
+    height: 42px;
+    width: 38px;
+}
+.greyBgColor {
+    background-color: #e5e7e8;
+}
+.techlist div.tech {
+    float: left;
+    display: block;
+    margin-top: 30px;
+    margin-right: 50px;
+    position: relative;
+}
+.techlist div.tech a {
+    float: left;
+    display: block;
+    width: 100%;
+    height: 42px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #00953f;
+    position: relative;
+    padding-left: 55px;
+    margin-top: -44px;
+}
+.technologyCell {
+    margin-left: -5px;
+    margin-top: -5px;
+}
+.fieldtsc {
+    position: relative;
+    width: 100%;
+    min-width: 1200px;
+    border-bottom: 1px;
+    border-color: #ededed;
+    border-style: solid;
+    overflow: auto;
+}
+.techlist div.tech a:hover {
+    text-decoration: underline;
 }
 .box {
     margin-bottom: 15px;
@@ -2698,6 +2758,57 @@ p, li, input, select, textarea, label, input, h1, h2, h3, h4, td, th {
 }
 
 /*image slider*/
+
+.fieldot {
+    float: left;
+    display: block;
+    width: 275px;
+    margin-top: 60px;
+    margin-bottom: 70px;
+}
+.fieldot h3 {
+    float: left;
+    display: block;
+    margin-bottom: 18px;
+    position: relative;
+}
+.imgc {
+    height: auto;
+    position: relative;
+    width: 100%;
+}
+.fieldot h3 img {
+    float: left;
+    height: 42px;
+    width: 38px;
+    margin-right: 18px;
+}
+.fieldot h3 a {
+    float: left;
+    display: block;
+    width: 100%;
+    height: 50px;
+    line-height: 32px;
+    color: #00953f;
+    text-transform: uppercase;
+    padding-left: 60px;
+    z-index: 20;
+    position: relative;
+    font-size: 17px;
+}
+.fieldot p.link {
+    float: left;
+    display: block;
+    margin-left: 60px;
+    background-image: url('../file/pictures/point.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    height: 18px;
+    line-height: 18px;
+    padding-left: 20px;
+    clear: left;
+    margin-bottom: 22px;
+}
 #custCarousel .carousel-indicators {
     position: static;
     margin-top: 20px
