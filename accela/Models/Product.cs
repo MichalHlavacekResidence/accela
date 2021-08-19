@@ -25,6 +25,8 @@ namespace accela.Models
         private List<Product> _relatedProducts;
         private List<Dictionary<string, string>> _discoverMore;
         private List<Documentation> _documentation;
+        private List<References> _references;
+        private List<News> _news;
 
         public Product()
         {
@@ -87,7 +89,7 @@ namespace accela.Models
             _image = image;
         }
         //Detail Products 
-       /* public Product(int id, string name, string url, string description, string subtitle, string referenceLink, Brand producer, Manager manager, string videoUrl, string image, List<Product> relatedProducts)
+        public Product(int id, string name, string url, string description, string subtitle, string referenceLink, Brand producer, Manager manager, string videoUrl, string image, List<Product> relatedProducts, List<References> references, List<News> news)
         {
             _id = id;
             _name = name;
@@ -100,6 +102,8 @@ namespace accela.Models
             _videoURL = videoUrl;
             _image = image;
             _relatedProducts = relatedProducts;
+            _references = references;
+            _news = news;
         }
 
         public Product(int id, string name, string url, string description, string subtitle, string referenceLink, Brand producer, Manager manager, string videoUrl, string image)
@@ -114,7 +118,7 @@ namespace accela.Models
             _manager = manager;
             _videoURL = videoUrl;
             _image = image;
-        }*/
+        }
 
 
 
@@ -134,6 +138,8 @@ namespace accela.Models
         public List<Product> RelatedProducts { get { return _relatedProducts; } set { _relatedProducts = value; } }
         public List<Dictionary<string, string>> DiscoverMore { get { return _discoverMore; } set { _discoverMore = value; } }
         public List<Documentation> Documentations { get { return _documentation; } set { _documentation = value; }}
+        public List<References> References { get { return _references; } set { _references = value; } }
+        public List<News> News { get { return _news; } set { _news = value; } }
 
         public void GenerateUrl(){
             this._url = Slugify.URLFriendly(this._name);

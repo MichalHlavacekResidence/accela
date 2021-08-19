@@ -1,10 +1,9 @@
-﻿@{
+﻿@model accela.Models.Product;
+@{ 
     ViewData["Title"] = "ProductDetail";
-    Product prod = new Product();
-    prod = ViewBag.ProductList;
+    /*Product prod = new Product();
+    prod = ViewBag.ProductList;*/
 }
-
-
 
 <div class="row pageRow">
    
@@ -14,6 +13,335 @@
             <div class="row">
                 <div class="col-lg-4 col-12 mr-lg-2 mr-0 bg-dark">
                     <div class="row productLeftPannel">
+
+                        <!--test-->
+
+
+                        <style>
+
+                            .row:after {
+                                content: "";
+                                display: table;
+                                clear: both;
+                            }
+                            /* The Modal (background) */
+                            .modal {
+                                display: none;
+                                position: fixed;
+                                z-index: 1;
+                                padding-top: 100px;
+                                left: 0;
+                                top: 0;
+                                width: 100%;
+                                height: 100%;
+                                overflow: auto;
+                                background-color: black;
+                            }
+
+                            /* Modal Content */
+                            .modal-content {
+                                position: relative;
+                                background-color: #fefefe;
+                                margin: auto;
+                                padding: 0;
+                                width: 90%;
+                                max-width: 1200px;
+                            }
+
+                            /* The Close Button */
+                            .close {
+                                color: white;
+                                position: absolute;
+                                top: 10px;
+                                right: 25px;
+                                font-size: 35px;
+                                font-weight: bold;
+                            }
+
+                                .close:hover,
+                                .close:focus {
+                                    color: #999;
+                                    text-decoration: none;
+                                    cursor: pointer;
+                                }
+
+                            /* Hide the slides by default */
+                            .mySlides {
+                                display: none;
+                            }
+
+                            /* Next & previous buttons */
+                            .prev,
+                            .next {
+                                cursor: pointer;
+                                position: absolute;
+                                top: 50%;
+                                width: auto;
+                                padding: 16px;
+                                margin-top: -50px;
+                                color: white;
+                                font-weight: bold;
+                                font-size: 20px;
+                                transition: 0.6s ease;
+                                border-radius: 0 3px 3px 0;
+                                user-select: none;
+                                -webkit-user-select: none;
+                            }
+
+                            /* Position the "next button" to the right */
+                            .next {
+                                right: 0;
+                                border-radius: 3px 0 0 3px;
+                            }
+
+                                /* On hover, add a black background color with a little bit see-through */
+                                .prev:hover,
+                                .next:hover {
+                                    background-color: rgba(0, 0, 0, 0.8);
+                                }
+
+                            /* Number text (1/3 etc) */
+                            .numbertext {
+                                color: #f2f2f2;
+                                font-size: 12px;
+                                padding: 8px 12px;
+                                position: absolute;
+                                top: 0;
+                            }
+                            .closeModalImage {
+                                position: absolute;
+                                padding: 8px 12px;
+                                top: 0;
+                                left: 95%;
+                            }
+                            .closeModalImage img{
+                                min-width:20px;
+                                margin-left:-25px;
+                            }
+                            /* Caption text */
+                            .caption-container {
+                                text-align: center;
+                                background-color: black;
+                                padding: 2px 16px;
+                                color: white;
+                            }
+
+                            img.demo {
+                                opacity: 0.6;
+                            }
+
+                            .active,
+                            .demo:hover {
+                                opacity: 1;
+                            }
+
+                            img.hover-shadow {
+                                transition: 0.3s;
+                            }
+
+                            .hover-shadow:hover {
+                                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                            }
+                            .gclose {
+                                background-image: url(../file/pictures/icon_xw.png);
+                                width:20px;
+                                height:20px;
+                                background-size:20px 20px;
+                                
+                            }
+                        
+                            
+                            </style>>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!-- Images used to open the lightbox -->
+                        <!--<div class="row">
+                            <div class="column">
+                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" onclick="openModal();currentSlide(1)" class="hover-shadow">
+                            </div>
+                            <div class="column">
+                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" onclick="openModal();currentSlide(2)" class="hover-shadow">
+                            </div>
+                            <div class="column">
+                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" onclick="openModal();currentSlide(3)" class="hover-shadow">
+                            </div>
+                            <div class="column">
+                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" onclick="openModal();currentSlide(4)" class="hover-shadow">
+                            </div>
+                        </div>-->
+
+                        <!-- The Modal/Lightbox -->
+                        <div id="myModal" class="modal">
+                            <span class="close cursor" onclick="closeModal()">&times; ssssss</span>
+                            <!--<a onclick="closeModal()" class="gclose">ffd</a>-->
+                            <div class="modal-content">
+
+                                <div class="mySlides">
+                                    <div class="numbertext">1 / 4</div>
+                                    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" style="width:100%">
+                                    <div class="closeModalImage" onclick="closeModal()"><img src="~/file/pictures/icon_xw.png"></div>
+                                </div>
+
+                                <div class="mySlides">
+                                    <div class="numbertext">2 / 4</div>
+                                    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(121).jpg" style="width:100%">
+                                </div>
+
+                                <div class="mySlides">
+                                    <div class="numbertext">3 / 4</div>
+                                    <img src="https://mdbootstrap.com/img/Photos/Others/Carousel-thumbs/img%20(31).jpg" style="width:100%">
+                                   
+                                </div>
+
+                                <div class="mySlides">
+                                    <div class="numbertext">4 / 4</div>
+                                    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" style="width:100%">
+                                </div>
+
+                                <!-- Next/previous controls -->
+                                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                                <!-- Caption text -->
+                                <div class="caption-container">
+                                    <p id="caption"></p>
+                                </div>
+
+                                <!-- Thumbnail image controls -->
+                                <!--<div class="kklll">
+            <div class="column">
+                <img class="demo" src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" onclick="currentSlide(1)" alt="Nature">
+            </div>
+
+            <div class="column">
+                <img class="demo" src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" onclick="currentSlide(2)" alt="Snow">
+            </div>
+
+            <div class="column">
+                <img class="demo" src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" onclick="currentSlide(3)" alt="Mountains">
+            </div>
+
+            <div class="column">
+                <img class="demo" src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" onclick="currentSlide(4)" alt="Lights">
+            </div>
+            <div class="column">
+                <img class="demo" src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" onclick="currentSlide(4)" alt="Lights">
+            </div>
+        </div>-->
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <script>
+                            // Open the Modal
+                            function openModal() {
+                                document.getElementById("myModal").style.display = "block";
+                            }
+
+                            // Close the Modal
+                            function closeModal() {
+                                document.getElementById("myModal").style.display = "none";
+                            }
+
+                            var slideIndex = 1;
+                            showSlides(slideIndex);
+
+                            // Next/previous controls
+                            function plusSlides(n) {
+                                showSlides(slideIndex += n);
+                            }
+
+                            // Thumbnail image controls
+                            function currentSlide(n) {
+                                showSlides(slideIndex = n);
+                            }
+
+                            function showSlides(n) {
+                                var i;
+                                var slides = document.getElementsByClassName("mySlides");
+                                var captionText = document.getElementById("caption");
+                                if (n > slides.length) { slideIndex = 1 }
+                                if (n < 1) { slideIndex = slides.length }
+                                for (i = 0; i < slides.length; i++) {
+                                    slides[i].style.display = "none";
+                                }
+                               
+                                slides[slideIndex - 1].style.display = "block";
+                            }
+                            $(document).keyup(function (e) {
+                                if (e.key === "Escape") { 
+                                    document.getElementById("myModal").style.display = "none";
+                                }
+                            });
+
+                        </script>
+                        <!--end test-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -44,23 +372,21 @@
                             <!-- Slides -->
                             <div class="carousel-inner mb-5" id="myCarousel">
                                 <div class="carousel-item active">
-                                    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg"
-                                         class="d-block w-100"
-                                         alt="..." />
+                                    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" class="d-block w-100" id="js_image" alt="..." onclick="openModal();currentSlide(1)" />
                                 </div>
                                 <div class="carousel-item">
                                     <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(121).jpg"
-                                         class="d-block w-100"
+                                         class="d-block w-100" id="js_image"
                                          alt="..." />
                                 </div>
                                 <div class="carousel-item">
                                     <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(31).jpg"
-                                         class="d-block w-100"
+                                         class="d-block w-100" id="js_image"
                                          alt="..." />
                                 </div>
                                 <div class="carousel-item">
                                     <img src="~/file/pictures/foot_logo.png"
-                                         class="d-block w-100"
+                                         class="d-block w-100" id="js_image"
                                          alt="..." />
                                 </div>
                             </div>
@@ -101,23 +427,30 @@
                         </div>
                         <!-- Carousel wrapper -->
                         <!--references-->
-                        <div class="productReferencesContainer">
-                            <div class="prodrefc">
-                                <div class="prodref">
-                                    <div class="prodreftext"><p>"<em>ImageStream is a very Powerful tool for studying insect cells. This technique gave us the unique possibility for very fast and precise evaluation of the viability of honeybee (Apis mellifera) spermatozoa. In the near future the Imaging Cytometry will be a "gold standard" technique in the field of insects reproduction research</em>".</p></div>
-                                    <div class="prodrefl">
-                                        <p class="author">Dr. Filipp Savvulidi</p>
-                                        <p class="company">Charles University, Prague, Czech Republic</p>
-                                    </div>
-                                    <div class="prodrefr">
-                                        <div class="prodrefi">
-                                            <img src="https://www.accela.eu/files/references/19/uk-1-version1-afoto.jpg" />
+                        @{
+                            foreach (References references in Model.References)
+                            {
+                                <div class="productReferencesContainer">
+                                    <div class="prodrefc">
+                                        <div class="prodref">
+                                            <div class="prodreftext"><p>"<em>@references.Description</em>".</p></div>
+                                            <div class="prodrefl">
+                                                <p class="author">@references.Name</p>
+                                                <p class="company">@references.Company</p>
+                                            </div>
+                                            <div class="prodrefr">
+                                                <div class="prodrefi">
+                                                    <img alt="@references.Company" src="~/file/img/References/@references.Img" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                        </div>
+                                </div>
+                            }
+                        }
+
+
 
 
                         <!--end references-->
@@ -131,24 +464,15 @@
 
 
                     </div>
-                    <p> g dfg dfg df</p>
                 </div>
                 <div class="col-lg-4 col-12 mr-lg-2 mr-0">
                     <h1>@ViewData["Title"]</h1>
                     <div class="ptext">
-                        <h1>@prod.Name</h1>
+                        <h1>@Model.Name</h1>
                         <p class="h1desc">High resolution microscopy in flow</p>
                         <div class="text" id="prod_text">
-                            <p style="text-align: justify;">The Luminex ImageStreamX&nbsp;Mark II imaging flow cytometer combines&lnbsp;the speed, sensitivity, and phenotyping abilities of flow cytometry&nbsp;with the detailed imagery and functional insights of microscopy. This&nbsp;unique combination enables a broad range of applications that would be&nbsp;impossible using either technique alone.</p>
-                            <p style="text-align: justify;">The Mark II produces multiple high resolution images of every cell directly in flow, including brightfield, darkfield (SSC) and up to 10 fluorescent markers with sensitivity exceeding conventional flow cytometers. Compared to the original ImageStreamX, the Mark II offers a streamlined workflow, greater flexibility, and optimizations for rare cell applications.</p>
-                            <p style="text-align: justify;">Taken together, the capabilities of the ImageStreamX&nbsp;Mark II make it&nbsp;superior for traditional flow applications while greatly expanding the scope&nbsp;of flow cytometry. Applications include the study of cell-cell interactions,&nbsp;phagocytosis, colocalization, apoptosis and autophagy, the characterization of circulating&nbsp;tumor cells, and many others.</p>
-                            <p style="text-align: justify;"><strong>The Mark II is:</strong></p>
-                            <ul>
-                                <li>Faster: Up to 5000 cells/sec with real-time intensity compensation</li>
-                                <li>Easier: Simple user interface with real-time plotting and graphical gating</li>
-                                <li>More flexible: Accepts up to 7 lasers and works with sample volumes of 20-200 ul</li>
-                                <li>More efficient: Up to 95% sample utilization for high yields with rare cell samples</li>
-                            </ul>          <div class="ptextover hide" id="prod_text_over"></div>
+                            <p style="text-align: justify;">@Model.Description</p>
+                           
                         </div>
                         <p class="show">
                             <a class="show_all hide" id="show_more" href="javascript:">Show more</a>
@@ -156,7 +480,7 @@
 
 
                         <p class="blink">More info at:</p>
-                        <a class="blink" href="https://www.luminexcorp.com/imagestreamx-mk-ii/" target="_blank">https://www.luminexcorp.com/imagestreamx-mk-ii/</a>
+                        <a class="blink" href="@Model.ReferenceLink" target="_blank">@Model.ReferenceLink</a>
                         <div class="pfiles files">
                             <p class="docu">Documentation</p>
                             <p class="file file_pdf">
@@ -186,6 +510,14 @@
                         </div>
                         <div class="pfiles">
                             <p class="docu">Discover more</p>
+                            @{
+                                foreach (News newData in Model.News)
+                                {
+                                    <a class="newslink" href="/Discover/@newData.URL">@newData.Title</a>
+
+                                }
+                            }
+                            <!--
                             <a class="newslink" href="https://www.accela.eu/discover/quantitating-critical-subcellular-events-in-significant-populations-using-imaging-flow-cytometry">Quantitating critical subcellular events in significant populations using Imaging flow cytometry</a>
                             <a class="newslink" href="https://www.accela.eu/discover/identification-and-measurement-of-bacterial-size-using-the-imagestream">Identification and measurement of bacterial size using the ImageStream</a>
                             <a class="newslink" href="https://www.accela.eu/discover/co-localization-of-an-antibody-drug-conjugate-to-endosomes-or-lysosomes">Co-localization of an antibody-drug conjugate to endosomes or lysosomes</a>
@@ -201,6 +533,7 @@
                             <a class="newslink" href="https://www.accela.eu/discover/using-dna-repair-and-machine-learning-to-improve-cancer-risk-prediction">Using DNA repair and machine learning to improve cancer risk prediction</a>
                             <a class="newslink" href="https://www.accela.eu/discover/high-gain-mode-now-available-on-the-amnis-imagestreamx-mk-ii">High gain mode now available on the Amnis ImageStreamX Mk II</a>
                             <a class="newslink" href="https://www.accela.eu/discover/imaging-flow-cytometry-luminex-learning-sessions">Imaging Flow Cytometry Luminex learning sessions</a>
+                        -->
                         </div>
                     </div>
 
@@ -210,17 +543,17 @@
                         <div class="manic">
                             <div class="cell_88_100"></div>
                             <div class="mani">
-                                <img alt="Igor Valerián" src="https://www.accela.eu/files/managers/8/igor-valerian.jpg" />
+                                <img alt="@Model.Manager.Firstname @Model.Manager.Lastname" src="~/file/img/Brands/@Model.Manager.ImageRelativeURL" />
                             </div>
                         </div>
                         <div class="manr">
-                            <p class="func">Business director</p>
-                            <p class="name">Igor</p>
-                            <p class="name">Valerián</p>
+                            <p class="func">@Model.Manager.Department.Name</p>
+                            <p class="name">@Model.Manager.Firstname</p>
+                            <p class="name">@Model.Manager.Lastname</p>
                         </div>
                         <div class="mancon">
-                            <p class="phone con">+420 603 223 602</p>
-                            <p class="email con">valerian@accela.eu</p>
+                            <p class="phone con">@Model.Manager.Phone</p>
+                            <p class="email con">@Model.Manager.Email</p>
                         </div>
                         <div class="outerS productOuterS">
                             <a href="#">
@@ -259,7 +592,54 @@
             </div>
         </div>
         <div class="col-lg-10 offset-1 col-12">
+
+           
             <div class="flex-container column">
+                @{
+                    foreach (Product prod in Model.RelatedProducts)
+                    {
+                        <div class="flex-item">
+                            <div class="row prodItem">
+                                <div class="col-lg-12 col-5">
+                                    <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+                                    <h3 class="prodName"><a>@prod.Name</a></h3>
+                                </div>
+                                <div class="col-lg-12 col-7 MprodItemBottom">
+                                    <h3 class="prodSubtitle"><a>@prod.Name</a></h3>
+                                    <p class="h3desc">@prod.Subtitle</p>
+
+
+                                    <div class="outerM">
+                                        <a href="#">
+                                            <div class="button">
+                                                <div class="text row">show detail <span class="buttonImage"></span></div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="prodItemBottom">
+                                    <p class="h3desc hide h3descProduct">@prod.Subtitle</p>
+
+
+                                    <div class="outer productOuterS">
+                                        <a href="#">
+                                            <div class="button">
+                                                <div class="text row">show detail <span class="buttonImage buttonImageProduct"></span></div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <!--
                 <div class="flex-item">
                     <div class="row prodItem">
                         <div class="col-lg-12 col-5">
@@ -269,8 +649,8 @@
                         <div class="col-lg-12 col-7 MprodItemBottom">
                             <h3 class="prodSubtitle"><a> F DSFG SDG</a></h3>
                             <p class="h3desc">Flow cytometer capable of high resolution microscopic assays</p>
-                            
-                            
+
+
                             <div class="outerM">
                                 <a href="#">
                                     <div class="button">
@@ -285,8 +665,8 @@
 
                         <div class="prodItemBottom">
                             <p class="h3desc hide h3descProduct">Flow cytometer capable of high resolution microscopic assays</p>
-                            
-                            
+
+
                             <div class="outer productOuterS">
                                 <a href="#">
                                     <div class="button">
@@ -422,7 +802,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
 
 

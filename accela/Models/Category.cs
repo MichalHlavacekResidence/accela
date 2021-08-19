@@ -20,6 +20,7 @@ namespace accela.Models
         private List<Category> _poolCategories;
         private int _poolID;
         private int _contactID;
+        private List<Product> _products;
 
         //CTOR pro pooly
         public Category(int id, string name, string url, string desc, string img, string text, int position, bool visibility, Manager contact)
@@ -66,13 +67,28 @@ namespace accela.Models
             _visibiliy = visibility;
             _contactID = contactID;
         }
+        public Category(int id, string name, string url, string desc, string img, string text, int position, bool visibility, Manager contact, List<Product> products, List<Category> categories)
+        {
+            _id = id;
+            _name = name;
+            _url = url;
+            _description = desc;
+            _image = img;
+            _text = text;
+            _position = position;
+            _visibiliy = visibility;
+            _contact = contact;
+            _products = products;
+            _poolCategories = categories;
+
+        }
 
         public Category()
         {
             _id = 0;
             _contact = new Manager();
-            _pool = new Category();
-            _poolCategories = new List<Category>();
+            /*_pool = new Category();
+            _poolCategories = new List<Category>();*/
         }
         public Category(int id)
         {
@@ -91,6 +107,7 @@ namespace accela.Models
         public Category Pool { get { return _pool; } set { _pool = value; } }
         public int Position { get { return _position; } set { _position = value; } }
         public List<Category> PoolCategories { get { return _poolCategories; } set { _poolCategories = value; } }
+        public List<Product> Products { get { return _products; } set { _products = value; } }
 
         public bool CheckDetails()
         {

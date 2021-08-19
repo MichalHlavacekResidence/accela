@@ -19,16 +19,15 @@ namespace accela.Controllers
         [Route ("/Product/{productUrl}")]
         public IActionResult Detail( string productUrl)
         {
-            Console.WriteLine(productUrl);
+            //Console.WriteLine(productUrl);
             //ViewBag.message = technologyUrl;
             Database database = new Database();
-            /*int ll = 23;
-            ViewBag.ProductList = database.GetProduct(ll);*/
+            Product product = database.GetDetailProduct(productUrl); 
 
 
             //ViewBag.CategoryList = database.GetCategoryByUrlVol(technologyUrl);
             //ViewBag.CategoryList = database.GetCategoryByUrlVol(technologyUrl);
-            return View();
+            return View(product);
 
         }
     }

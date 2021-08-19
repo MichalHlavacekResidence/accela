@@ -29,22 +29,23 @@
                             {
                                 <div class="card techsi">
                                     <div class="techsi_img card-top">
-                                        <div class="cell_96_107"></div>
+                                        <div class="cell_96_107 technologyCell"></div>
                                         <!--<img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />-->
                                         <img alt="Molecular technologies" src="~/file/img/Pools/@pool.Image" />
                                     </div>
                                     <div class="card-body">
 
                                         <h2>
-                                            <a href="https://www.accela.eu/technologies/molecular-technologies">@pool.Name</a>
+                                            <a href="/Technology/@pool.URL">@pool.Name</a>
                                         </h2>
 
                                         @{
                                             foreach (Category categ in pool.PoolCategories)
                                             {
                                                 if (categ.Visibility == true)
-                                                { <p class="link">
-                                                        <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">@categ.Name @categ.ID</a>
+                                                { 
+                                                    <p class="link">
+                                                        <a href="/Technology/@pool.URL/@categ.URL">@categ.Name @categ.ID</a>
                                                     </p>
 
                                                 }
