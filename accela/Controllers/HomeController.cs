@@ -114,18 +114,6 @@ namespace accela.Controllers
             ViewBag.BrandList = database.GetVisibleBrands();
             return View();
         }
-        public IActionResult TechnologiDetail()
-        {
-            return View();
-        }
-        public IActionResult DiscoverDetail()
-        {
-            return View();
-        }
-        public IActionResult ProductDetail()
-        {
-            return View();
-        }
         public IActionResult Product()
         {
             Database database = new Database();
@@ -203,14 +191,6 @@ namespace accela.Controllers
         {
             return View();
         }
-        public IActionResult BrandDetail()
-        {
-            /* Database database = new Database();
-             ViewBag.RelatedProductBrandList = database.GetRelatedProductBrand();*/
-
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

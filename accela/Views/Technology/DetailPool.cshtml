@@ -87,25 +87,34 @@
                                 <div class="flex-item">
                                     <div class="row prodItem">
                                         <div class="col-lg-12 col-5">
-                                            <img src="~/file/pictures/imagestream_x_mkii_24.png" />
-                                            <h3 class="prodName"><a>@prod.Name</a></h3>
+                                            @{
+                                                if (prod.Image == null || prod.Image == "")
+                                                {
+                                                    // <img src="~/file/pictures/@prod.Producer.ImageRelativeURL" />
+                                                    <img src="~/file/pictures/imagestream_x_mkii_24.png" />
+
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/file/pictures/@prod.Image" />
+                                                }
+                                            }
+                                            <h3 class="prodName"><a> @prod.Name</a></h3>
                                         </div>
                                         <div class="col-lg-12 col-7 MprodItemBottom">
-                                            <h3 class="prodSubtitle"><a> @prod.Name</a></h3>
-                                            <p class="h3desc">@prod.Subtitle</p>
-                                            <div class="outerM">
-                                                <a href="#">
-                                                    <div class="button">
-                                                        <div class="text row">show detail <span class="buttonImage"></span></div>
-                                                    </div>
-                                                </a>
-                                            </div>
+                                            <h3 class="prodSubtitle"><a>@prod.Subtitle</a></h3>
+                                            <p class="h3desc">@prod.SmallDescription</p>
+                                            <a class="newButton">
+                                                Show more
+                                                <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
+                                                <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
+                                            </a>
 
                                         </div>
 
                                         <div class="prodItemBottom">
-                                            <p class="h3desc hide h3descProduct">@prod.Subtitle</p>
-                                            <a href="seznam.cz" class="newButton prodButton hide">
+                                            <p class="h3desc hide h3descProduct">@prod.SmallDescription</p>
+                                            <a class="newButton">
                                                 Show more
                                                 <img class="btnIconWhite" src="~/file/pictures/icon_rightw_button.png" />
                                                 <img class="btnIconGreen" src="~/file/pictures/icon_right_button.png" />
@@ -150,7 +159,6 @@
                                         </div>
                                     </a>
                                 </div>
-
                             }
                             if (countBrand >= 3 && countBrand <= 6)
                             {
@@ -173,7 +181,6 @@
                                         </div>
                                     </a>
                                 </div>
-
                             }
                             if (countBrand >= 8 && countBrand <= 17)
                             {
@@ -208,7 +215,6 @@
                                     </a>
                                 </div>
                             }
-
                             if (countBrand >= 20 && countBrand <= 28)
                             {
                                 <div class="hpBrandStandartItem ">
