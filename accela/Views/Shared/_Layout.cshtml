@@ -10,7 +10,7 @@
     <link href="~/css/style.css" rel="stylesheet" />
     <link href='~/file/font/OpenSans-Regular.ttf' rel='stylesheet' type='text/css'>
 </head>
-<body>
+<body> 
     <header>
         <div class="hpPageOfPages aass">
             <nav class="navbar navbar-expand-lg navbar-light bg-light ">
@@ -34,68 +34,71 @@
 
         </div>
 
-    </li>
-
-        -->
+    </li>-->
                                 <!--</ul>-->
+
+                                @ViewBag.abrakadabra
+                                @{//Html.RenderAction("ChildAction", "Home", new { param = "first" });
+                                  }
+
                             </li>
                             <li class="nav-item"><a class="nav-link" asp-action="Product" asp-controller="Home"> Products </a></li>
                             <li class="nav-item dropdown js_linkToBrand" id="brandMenuActivator">
 
                                 <a class="nav-link  dropdown-toggle" asp-action="Brand" asp-controller="Home" data-bs-toggle="dropdown">  Brands  </a>
                                 <!--
-                        <ul class="dropdown-menu dropdown-menuContainerBrand">
+                                <ul class="dropdown-menu dropdown-menuContainerBrand">
 
-                            <div class="row">
+                                    <div class="row">
 
 
-                                <div class="mbrand">
-                                    <div class="mbrandic">
-                                        <a href="https://www.accela.eu/agilent-technologies">
-                                            <div class="mbrandi">
-                                                <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" />
+                                        <div class="mbrand">
+                                            <div class="mbrandic">
+                                                <a href="https://www.accela.eu/agilent-technologies">
+                                                    <div class="mbrandi">
+                                                        <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" />
+                                                    </div>
+                                                </a>
                                             </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="mbrand">
-                                    <div class="mbrandic">
-                                        <a href="https://www.accela.eu/agilent-technologies">
-                                            <div class="mbrandi">
-                                                <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" />
+                                        </div>
+                                        <div class="mbrand">
+                                            <div class="mbrandic">
+                                                <a href="https://www.accela.eu/agilent-technologies">
+                                                    <div class="mbrandi">
+                                                        <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" />
+                                                    </div>
+                                                </a>
                                             </div>
-                                        </a>
+                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+                                           <div class="col-2 offset-1">
+                                            <a class="dropdown-item" asp-action="References" asp-controller="Home"> Submenu item 1</a><p>dfsdfsd</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p>dfsdfsd</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p>dfsdfsd</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p>dfsdfsd</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p>dfsdfsd</p>
+                                        </div>
                                     </div>
-                                </div>
 
-
-
-
-
-
-
-
-
-
-
-                                   <div class="col-2 offset-1">
-                                    <a class="dropdown-item" asp-action="References" asp-controller="Home"> Submenu item 1</a><p>dfsdfsd</p>
-                                </div>
-                                <div class="col-2">
-                                    <p>dfsdfsd</p>
-                                </div>
-                                <div class="col-2">
-                                    <p>dfsdfsd</p>
-                                </div>
-                                <div class="col-2">
-                                    <p>dfsdfsd</p>
-                                </div>
-                                <div class="col-2">
-                                    <p>dfsdfsd</p>
-                                </div>
-                            </div>
-
-                        </ul>-->
+                                </ul>-->
                             </li>
                             <li class="nav-item"><a class="nav-link" asp-action="References" asp-controller="Home"> References </a></li>
                             <li class="nav-item"><a class="nav-link" asp-action="Contact" asp-controller="Home"> Contact </a></li>
@@ -333,8 +336,8 @@
                         </div>
 
                     </div>
-                    
-                   
+
+
                 </div>
 
 
@@ -403,38 +406,38 @@
     @await RenderSectionAsync("Scripts", required: false)
     <script>
         //document.addEventListener("DOMContentLoaded", function () {
-            $(document).ready(function () {
+        $(document).ready(function () {
             // make it as accordion for smaller screens
-          /*  if (window.innerWidth > 992) {
+            /*  if (window.innerWidth > 992) {
 
-                document.querySelectorAll('.navbar .nav-item').forEach(function (everyitem) {
+                  document.querySelectorAll('.navbar .nav-item').forEach(function (everyitem) {
 
-                    everyitem.addEventListener('mouseover', function (e) {
+                      everyitem.addEventListener('mouseover', function (e) {
 
-                        let el_link = this.querySelector('a[data-bs-toggle]');
+                          let el_link = this.querySelector('a[data-bs-toggle]');
 
-                        if (el_link != null) {
-                            let nextEl = el_link.nextElementSibling;
-                            el_link.classList.add('show');
-                            nextEl.classList.add('show');
-                        }
+                          if (el_link != null) {
+                              let nextEl = el_link.nextElementSibling;
+                              el_link.classList.add('show');
+                              nextEl.classList.add('show');
+                          }
 
-                    });
-                    everyitem.addEventListener('mouseleave', function (e) {
-                        let el_link = this.querySelector('a[data-bs-toggle]');
+                      });
+                      everyitem.addEventListener('mouseleave', function (e) {
+                          let el_link = this.querySelector('a[data-bs-toggle]');
 
-                        if (el_link != null) {
-                            let nextEl = el_link.nextElementSibling;
-                            el_link.classList.remove('show');
-                            nextEl.classList.remove('show');
-                        }
+                          if (el_link != null) {
+                              let nextEl = el_link.nextElementSibling;
+                              el_link.classList.remove('show');
+                              nextEl.classList.remove('show');
+                          }
 
 
-                    })
-                });
+                      })
+                  });
 
-            }*/
-            // end if innerWidth  
+              }*/
+            // end if innerWidth
 
 
             $(".js_linkToBrand").click(function () {
@@ -539,14 +542,14 @@
 
             });
 
-        /*submenu*/
+            /*submenu*/
 
             $("#brandMenuActivator").hover(
                 function () {
                     $("#brandMenu").css("display", "block");
                     $("#technologiesMenu").css("display", "none");
                 }, function () {
-                    
+
                 }
             );
             $("#brandMenu").hover(
@@ -555,7 +558,7 @@
                 }, function () {
                     $("#brandMenu").css("display", "none");
                 }
-            ); 
+            );
             $("#technologiesMenuActivator").hover(
                 function () {
                     $("#technologiesMenu").css("display", "block");
@@ -570,27 +573,27 @@
                 }, function () {
                     $("#technologiesMenu").css("display", "none");
                 }
-            ); 
-           
+            );
 
 
-        /*end Submenu*/
+
+            /*end Submenu*/
 
 
-          
+
 
 
         });
 
-        $(".js_testClick").on("click", function() {
-             $.post("/Email/RecieveMessage",
+        $(".js_testClick").on("click", function () {
+            $.post("/Email/RecieveMessage",
                 {
                     Name: "Donald Duck",
                     Email: "Duckburg",
                     Text: "tata",
                     FormType: "kekw"
                 },
-                function(data, status){
+                function (data, status) {
                     alert("Data: " + data + "\nStatus: " + status);
                 });
         });
