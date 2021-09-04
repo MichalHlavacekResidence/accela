@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using accela.Extensions;
 using accela.Data;
 
+
 namespace accela.Models
 {
     public class News 
@@ -117,7 +118,9 @@ namespace accela.Models
         public string ImageNew {get{return _imageNew;} set{_imageNew = value;}}
         public bool Visibility { get { return _visibility;}  set{_visibility = value; } }
 
+
         public void GenerateUrl()
+
         {
             this._url = Slugify.URLFriendly(this._title);
         }
