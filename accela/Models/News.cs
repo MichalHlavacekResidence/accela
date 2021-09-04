@@ -17,7 +17,7 @@ namespace accela.Models
         private string _videoUrl;
         private Brand _producer;
         private Manager _manager;
-        private DateTime _planToPublish;
+        private DateTime _published;
         private DateTime _created;
         private string _status;
         private List<Product> _relatedProducts;
@@ -28,6 +28,7 @@ namespace accela.Models
         private List<Tags> _tags;
         private List<Category> _categories;
         private Category _category;
+        private bool _visibility;
 
 
         public News()
@@ -104,16 +105,22 @@ namespace accela.Models
         public string VideoURL { get { return _videoUrl; } set { _videoUrl = value; } }
         public Brand Producer { get { return _producer; } set { _producer = value; } }
         public Manager Manager { get { return _manager; } set { _manager = value; } }
-        public DateTime PlannedToPublish { get { return _planToPublish; } set { _planToPublish = value; } }
         public string Status { get { return _status; } set { _status = value; } }
         public List<Product> RelatedProducts { get { return _relatedProducts; } set { _relatedProducts = value; } }
         public List<News> RelatedNews { get { return _relatedNews; } set { _relatedNews = value; } }
         public DateTime Created { get { return _created; } set { _created = value; }}
+        public DateTime Published { get { return _published; } set { _published = value; }}
         public List<Tags> Tags { get { return _tags; } set { _tags = value; } }
         public List<Category> Categories { get { return _categories; } set { _categories = value; } }
         public Category Category { get { return _category; } set { _category = value; } }
+        public string ImageBig {get{return _imageBig;} set{_imageBig = value;}}
+        public string ImageSmall {get{return _imageSmall;} set{_imageSmall = value;}}
+        public string ImageNew {get{return _imageNew;} set{_imageNew = value;}}
+        public bool Visibility { get { return _visibility;}  set{_visibility = value; } }
 
-         public void GenerateUrl()
+
+        public void GenerateUrl()
+
         {
             this._url = Slugify.URLFriendly(this._title);
         }
