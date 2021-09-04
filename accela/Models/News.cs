@@ -1,6 +1,8 @@
-using accela.Data;
 using System;
 using System.Collections.Generic;
+using accela.Extensions;
+using accela.Data;
+
 
 namespace accela.Models
 {
@@ -111,6 +113,9 @@ namespace accela.Models
         public List<Category> Categories { get { return _categories; } set { _categories = value; } }
         public Category Category { get { return _category; } set { _category = value; } }
 
-
+         public void GenerateUrl()
+        {
+            this._url = Slugify.URLFriendly(this._title);
+        }
     }
 }

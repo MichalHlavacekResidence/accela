@@ -884,7 +884,7 @@ namespace accela.Data
             try
             {
                 using (var db = new AppDb())
-                {
+                { 
                     db.Connection.Open();
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
