@@ -7,7 +7,7 @@
     <div class="mx-auto" style="margin-top: 5vh">
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary float-end" asp-action="AddNews" asp-controller="Admin"> Add new News </a>
+                <a class="btn btn-primary float-end" asp-action="AddNew" asp-controller="Admin"> Add new News </a>
             </div>
         </div>
         @{
@@ -30,9 +30,9 @@
                                 <td>@dep.ID</td>
                                 <td>@dep.Title</td>
                                 <td>@dep.Created</td>
-                                <td>@dep.PlannedToPublish</td>
+                                <td>@dep.Published</td>
                                 <td> show 
-                                    <a class="btn btn-warning" href="~/Admin/AddDepartment?did=@dep.ID"> edit </a> </td>
+                                    <a class="btn btn-warning" href="~/Admin/AddNew?nid=@dep.ID"> edit </a> </td>
                             </tr>
                             }
                         }

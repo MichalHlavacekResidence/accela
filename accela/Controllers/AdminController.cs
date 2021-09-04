@@ -259,14 +259,102 @@ namespace Controllers
         {
             return View(new News());
         }
-
-        public IActionResult AddProduct() {
+        [HttpGet]      
+        public IActionResult AddProduct(int pid) {
+            string checkID;
+            if (pid == null)
+            {
+                checkID = "AddProduct";
+            }
+            else
+            {
+                checkID = "EditProduct";
+            }
+            ViewBag.Pid = checkID;
             Database db = new Database();
             ViewBag.ProducerList = db.GetAllBrands();
             ViewBag.ManagerList = db.GetAllManagers();
             ViewBag.CategoryList = db.GetAllCategories();
             Product prod = new Product();
+            prod = db.GetProduct(pid);
             return View(prod);
+        }
+
+         [HttpGet]      
+        public IActionResult AddNew(int nid) {
+               
+            Database db = new Database();
+            ViewBag.ManagerList = db.GetVisibleManagers();
+            ViewBag.BrandList = db.GetAllBrands();
+            News news = new News();
+            news = db.GetNew(nid);
+            Console.WriteLine(nid);
+            return View(news);
+        }
+         [HttpPost]
+        public IActionResult AddNew(News news, IFormFile ImageFileBig, IFormFile ImageFile){
+            //Zkontroluj, jestli jsou všechny mandatory údaje opravdu vyplněné
+           /* if(manager.CheckDetails() == false)
+            {
+                return View();
+            }*/
+           news.GenerateUrl();
+            string FileName = null;
+            string FileBigName = null;
+            //Nahraj obrázek, pokud je
+            if(ImageFileBig != null)
+            {
+                //ZKontroluj koncovky souboru (obrázku)
+                string imageExtension = Path.GetExtension(ImageFileBig.FileName).ToLower();
+                switch(imageExtension){
+                    case ".jpg":
+                    case ".jpeg":
+                    case ".gif":
+                    case ".png":
+                        Console.WriteLine("koncovka: "+imageExtension);
+                        FileBigName = this._uploadFile(ImageFileBig);
+                        news.ImageBig = FileBigName;
+                        break;
+
+                    //Neznámá koncovka obrázku
+                    default:
+                        return RedirectToAction("Managers", "Admin");
+
+                }
+            }
+            if(ImageFile != null)
+            {
+                //ZKontroluj koncovky souboru (obrázku)
+                string imageExtension = Path.GetExtension(ImageFile.FileName).ToLower();
+                switch(imageExtension){
+                    case ".jpg":
+                    case ".jpeg":
+                    case ".gif":
+                    case ".png":
+                        Console.WriteLine("koncovka: "+imageExtension);
+                        FileName = this._uploadFile(ImageFile);
+                        news.ImageSmall = FileName;
+                        break;
+
+                    //Neznámá koncovka obrázku
+                    default:
+                        return RedirectToAction("Managers", "Admin");
+
+                }
+            }
+
+            Database db = new Database();
+             if(news.ID != 0)
+            {           
+                db.UpdateNew(news);
+                //db.UpdateBrand(brand);
+            }else
+            {
+                db.AddNew(news);
+                //db.AddBrand(brand);
+            }
+           
+            return RedirectToAction("News", "Admin");
         }
 
         //public IActionResult AddProduct(Product product, )
@@ -339,7 +427,15 @@ namespace Controllers
                 return View(product);
             }           
             Database db = new Database();
-            SystemMessage smg = db.AddProduct(product);
+            Console.WriteLine(product.ID);
+            if (product.ID == 0)
+            {
+                SystemMessage smg = db.AddProduct(product);
+            }
+            else
+            {
+                SystemMessage smg = db.EditProduct(product);
+            }
             return RedirectToAction("Products", "Admin");
         }
 

@@ -2,102 +2,105 @@
 <div class="mx-auto">
     <h1 class="text-center"> Add new product </h1>
 </div>
+
 <form class="needs-validation" method="post" asp-action="AddProduct" asp-controller="Admin" novalidate>
-  <div class="mb-3">
-    <label asp-for="@Model.Name" class="form-label">Name of product</label>
-    <input asp-for="@Model.Name" type="text" class="form-control" aria-describedby="nameHelp" required>
-    <div class="valid-feedback">
-        Looks good!
+    <p>@ViewBag.pid</p>
+    <input asp-for="@Model.ID" type="text" class="form-control hide" aria-describedby="nameHelp" required>
+    <div class="mb-3">
+        <label asp-for="@Model.Name" class="form-label">Name of product</label>
+        <input asp-for="@Model.Name" type="text" class="form-control" aria-describedby="nameHelp" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div class="invalid-feedback">
+            This field is mandatory, fill it please.
+        </div>
+        <div id="nameHelp" class="form-text form-helper">Name of product has to be unique. <span class="form-mandatory"> This field is mandatory. </span> </div>
     </div>
-    <div class="invalid-feedback">
-        This field is mandatory, fill it please.
+    <div class="mb-3">
+        <label asp-for="@Model.Subtitle" class="form-label">Subtitle</label>
+        <input type="text" class="form-control" aria-describedby="subtitleHelp" asp-for="@Model.Subtitle" />
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div id="subtitleHelp" class="form-text form-helper"> Subtitle is shown under the name.  </div>
     </div>
-    <div id="nameHelp" class="form-text form-helper">Name of product has to be unique. <span class="form-mandatory"> This field is mandatory. </span> </div>
-  </div>
-  <div class="mb-3">
-    <label asp-for="@Model.Subtitle" class="form-label">Subtitle</label>
-    <input type="text" class="form-control" aria-describedby="subtitleHelp" asp-for="@Model.Subtitle"/>
-    <div class="valid-feedback">
-        Looks good!
+    <div class="mb-3">
+        <label asp-for="@Model.Description" for="">Description</label>
+        <textarea asp-for="@Model.Description" class="form-control" placeholder="Write the description of product here." style="height: 100px"></textarea>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div id="descHelp" class="form-text form-helper">Description of the product.</div>
     </div>
-    <div id="subtitleHelp" class="form-text form-helper"> Subtitle is shown under the name.  </div>
-  </div>
-  <div class="mb-3">
-    <label asp-for="@Model.Description" for="">Description</label>
-    <textarea asp-for="@Model.Description" class="form-control" placeholder="Write the description of product here." style="height: 100px"></textarea>
-    <div class="valid-feedback">
-        Looks good!
+    <div class="mb-3">
+        <label asp-for="@Model.ReferenceLink" class="form-label">Link to producer's product page </label>
+        <input type="text" class="form-control" aria-describedby="linkHelp" asp-for="@Model.ReferenceLink" />
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div class="invalid-feedback">
+            This field is mandatory, fill it please.
+        </div>
+        <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. </div>
     </div>
-    <div id="descHelp" class="form-text form-helper">Description of the product.</div>
-  </div>
-  <div class="mb-3">
-    <label asp-for="@Model.ReferenceLink" class="form-label">Link to producer's product page </label>
-    <input type="text" class="form-control" aria-describedby="linkHelp" asp-for="@Model.ReferenceLink"/>
-    <div class="valid-feedback">
-        Looks good!
-    </div>
-    <div class="invalid-feedback">
-        This field is mandatory, fill it please.
-    </div>
-    <div id="linkHelp" class="form-text form-helper"> A link that leads to the original product page. </div>
-  </div>
-  <div class="mb-3">
-    <label asp-for="@Model.Category.ID" class="form-label"> Category </label>
-    <select asp-for="@Model.Category.ID" class="form-select" required>
-        @{
-            foreach(Category cat in ViewBag.CategoryList){
+    <div class="mb-3">
+        <label asp-for="@Model.Category.ID" class="form-label"> Category </label>
+        <select asp-for="@Model.Category.ID" class="form-select" required>
+            @{
+foreach(Category cat in ViewBag.CategoryList){
                 <option value="@cat.ID"> @cat.Name (@cat.URL) </option>
+}
             }
-        }
-    </select>
-    <div id="linkHelp" class="form-text form-helper"> Category where product will be shown. <span class="form-mandatory"> This field is mandatory. </span> </div>
-    <div class="valid-feedback">
-        Looks good!
-    </div>
-  </div>
-  <div class="mb-3">
-    <label asp-for="@Model.Producer.ID" class="form-label">Brand (Company that created this item)</label>
-    <select asp-for="@Model.Producer.ID" class="form-select" required>
-        <option selected disabled>Click here and select producer</option>
-        @{
-            foreach(Brand producer in ViewBag.ProducerList){
-                <option value="@producer.ID"> @producer.Name </option>
-            }
-        }
-    </select>
-    <span class="form-mandatory"> This field is mandatory. </span>
-    <div class="valid-feedback">
-        Looks good!
-    </div>
-    <div class="invalid-feedback">
-        This field is mandatory, choose Producer please.
-    </div>
-  </div>
-  <div class="mb-3">
-    <label asp-for="@Model.Manager.ID" class="form-label"> Manager (shown as contact person) </label>
-    <select asp-for="@Model.Manager.ID" class="form-select">
-        @{
-            <option selected value="0"> Without any specific manager</option>
-            foreach(Manager mngrs in ViewBag.ManagerList){
-                <option value="@mngrs.ID"> @mngrs.Firstname @mngrs.Lastname </option>
-            }
-        }
-    </select>
-    <div id="linkHelp" class="form-text form-helper"> If you won't select manager (contact person), manager that is set as contact person of the brand will be shown instead. </div>
-    <div class="valid-feedback">
-        Looks good!
-    </div>
-  </div>
-  <div class="mb-3">
-    <div class="container">
-        <fieldset class="form-group">
-            <a href="javascript:void(0)" onclick="$('#pro-image').click()">Upload Image</a>
-            <input type="file" id="pro-image" name="pro-image" style="display: none;" class="form-control" multiple>
-        </fieldset>
-        <div class="preview-images-zone">
-            
+        </select>
+        <div id="linkHelp" class="form-text form-helper"> Category where product will be shown. <span class="form-mandatory"> This field is mandatory. </span> </div>
+        <div class="valid-feedback">
+            Looks good!
         </div>
     </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="mb-3">
+        <label asp-for="@Model.Producer.ID" class="form-label">Brand (Company that created this item)</label>
+        <select asp-for="@Model.Producer.ID" class="form-select" required>
+            <option selected disabled>Click here and select producer</option>
+            @{
+foreach(Brand producer in ViewBag.ProducerList){
+                <option value="@producer.ID"> @producer.Name </option>
+}
+            }
+        </select>
+        <span class="form-mandatory"> This field is mandatory. </span>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div class="invalid-feedback">
+            This field is mandatory, choose Producer please.
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Manager.ID" class="form-label"> Manager (shown as contact person) </label>
+        <select asp-for="@Model.Manager.ID" class="form-select">
+            @{
+                <option selected value="0"> Without any specific manager</option>
+foreach(Manager mngrs in ViewBag.ManagerList){
+                <option value="@mngrs.ID"> @mngrs.Firstname @mngrs.Lastname </option>
+}
+            }
+        </select>
+        <div id="linkHelp" class="form-text form-helper"> If you won't select manager (contact person), manager that is set as contact person of the brand will be shown instead. </div>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="container">
+            <fieldset class="form-group">
+                <a href="javascript:void(0)" onclick="$('#pro-image').click()">Upload Image</a>
+                <input type="file" id="pro-image" name="pro-image" style="display: none;" class="form-control" multiple>
+            </fieldset>
+            <div class="preview-images-zone">
+
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>

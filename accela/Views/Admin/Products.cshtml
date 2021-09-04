@@ -41,7 +41,7 @@
                                 <td> @product.Visibility </td>
                                 <td> 
                                     <a asp-action="Product" asp-controller="Admin"> <i> show </i></a>
-                                    <a asp-action="EditProduct" asp-controller="Admin"> <i class="glyphicon"> edit </i> </a> 
+                                    <a href="~/Admin/AddProduct?pid=@product.ID"> <i class="glyphicon"> edit </i> </a> 
                                 </td>
                             </tr>
                         }

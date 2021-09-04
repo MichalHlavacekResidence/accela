@@ -1622,6 +1622,48 @@ namespace accela.Data
                 return new SystemMessage("Přidání nového produktu", ex.Message, "Error");
             }
         }
+          public SystemMessage EditProduct(Product product)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "UPDATE Products SET Name = @name, URL = @url, Subtitle = @sub, Small_desc = @smalld, Description = @desc, Visibility = @vis, BrandID = @brandId, CategoryID = @catId, VideoURL = @videoUrl,ReferenceLink = @referLink, ManagerID = @manId WHERE ID = @id";
+                        //cmd.CommandText = "INSERT INTO Products (Name, URL, Subtitle, Small_desc, Description, Visibility, BrandID, CategoryID, VideoURL,ReferenceLink, ManagerID) VALUES (@name, @url, @sub, @smalld, @desc, @vis,@brandId, @catId, @videoUrl, @referLink, @manId)";
+                        cmd.Parameters.AddWithValue("@id", product.ID);
+                        cmd.Parameters.AddWithValue("@name", product.Name);
+                        cmd.Parameters.AddWithValue("@url", product.URL);
+                        cmd.Parameters.AddWithValue("@sub", product.Subtitle);
+                        cmd.Parameters.AddWithValue("@smalld", product.SmallDescription);
+                        cmd.Parameters.AddWithValue("@desc", product.Description);
+                        cmd.Parameters.AddWithValue("@vis", product.Visibility);
+                        cmd.Parameters.AddWithValue("@brandId", product.Producer.ID);
+                        cmd.Parameters.AddWithValue("@catId", product.Category.ID);
+                        cmd.Parameters.AddWithValue("@videoUrl", product.VideoURL);
+                        cmd.Parameters.AddWithValue("@referLink", product.ReferenceLink);
+                        if (product.Manager.ID == 0)
+                        {
+                            cmd.Parameters.AddWithValue("@manId", null);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@manId", product.Manager.ID);
+                        }
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Přidání nového produktu", "Produkt byl úspěšně přidán", "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[EditProduct] " + ex.Message);
+                return new SystemMessage("Přidání nového produktu", ex.Message, "Error");
+            }
+        }
 
         public SystemMessage AddBrand(Brand brand)
         {
@@ -1649,8 +1691,78 @@ namespace accela.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine("[AddProduct] " + ex.Message);
+                Console.WriteLine("[AddBrand] " + ex.Message);
                 return new SystemMessage("Adding new brand", ex.Message, "Error");
+            }
+        }
+
+        public SystemMessage AddNew(News news)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "INSERT INTO News (Title,BrandID,ContactID,ImageBig,ImageSmall,Content,ContentSmall,Description,Url,Visibility,Published) VALUES (@title,@brandID,@contantID,@imageBig,@imageSmall,@con,@conSmall,@desc,@url,@vis,publis)";
+                        
+                        cmd.Parameters.AddWithValue("@title", news.Title);
+                        cmd.Parameters.AddWithValue("@brandID", news.Producer.ID);
+                        cmd.Parameters.AddWithValue("@contantID", news.Manager.ID);
+                        cmd.Parameters.AddWithValue("@imageBig", news.ImageBig);
+                        cmd.Parameters.AddWithValue("@imageSmall", news.ImageSmall);
+                        cmd.Parameters.AddWithValue("@con", news.Content);
+                        cmd.Parameters.AddWithValue("@conSmall", news.ContentSmall);
+                        cmd.Parameters.AddWithValue("@desc", news.Subtitle);
+                        cmd.Parameters.AddWithValue("@url", news.URL);
+                        cmd.Parameters.AddWithValue("@vis", news.Visibility);
+                        cmd.Parameters.AddWithValue("@publis", news.Published);
+
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Adding new news", "New was succesfully added", "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[AddNew] " + ex.Message);
+                return new SystemMessage("Adding new news", ex.Message, "Error");
+            }
+        }
+         public SystemMessage UpdateNew(News news)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "UPDATE News SET Title = @title,BrandID = @brandID,ContactID = @contantID,ImageBig = @imageBig,ImageSmall = @imageSmall,Content = @con,ContentSmall = @conSmall,Description = @desc,Url = @url,Visibility = @vis, Published = @publis WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@title", news.Title);
+                        cmd.Parameters.AddWithValue("@brandID", news.Producer.ID);
+                        cmd.Parameters.AddWithValue("@contantID", news.Manager.ID);
+                        cmd.Parameters.AddWithValue("@imageBig", news.ImageBig);
+                        cmd.Parameters.AddWithValue("@imageSmall", news.ImageSmall);
+                        cmd.Parameters.AddWithValue("@con", news.Content);
+                        cmd.Parameters.AddWithValue("@conSmall", news.ContentSmall);
+                        cmd.Parameters.AddWithValue("@desc", news.Subtitle);
+                        cmd.Parameters.AddWithValue("@url", news.URL);
+                        cmd.Parameters.AddWithValue("@vis", news.Visibility);
+                        cmd.Parameters.AddWithValue("@publis", news.Published);
+                        cmd.Parameters.AddWithValue("@id", news.ID);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Updating New", "New was successfully updated", "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[UpdateNew] " + ex.Message);
+                return new SystemMessage("Updating New", ex.Message, "Error");
             }
         }
 
