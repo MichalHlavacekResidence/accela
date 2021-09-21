@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model Brand
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -110,244 +111,240 @@
 
 
                 <div class="col-10 offset-1">
-
                     <div class="hex-row">
-                        <!--12-->
-                        <div class="hex">
-                            <a href="https://www.accela.eu/agilent-technologies">
-                                <div class="top"></div>
-                                <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                                <div class="bottom"></div>
-                            </a>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
+                        @{
+                            int countBrand = 1;
 
+                            foreach (Brand brand in Model.Brands)
+                            {
+                                if (countBrand >= 1 && countBrand <= 12)
+                                {
+                                    <div class="hex">
+                                        <a href="/Brand/@brand.URL">
+                                            <div class="top"></div>
+                                            <div class="middle mbrandic"> <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" /></div>
+                                            <div class="bottom"></div>
+                                        </a>
+                                    </div>
+                                }
+                                countBrand++;
+                                if (countBrand == 12)
+                                {
+                                    break;
+                                }
+                            }
+                        }
                     </div>
                     <div class="hex-row even">
-                        <!--11-->
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
-                        <div class="hex">
-                            <div class="top"></div>
-                            <div class="middle mbrandic"> <img alt="Agilent technologies" src="https://www.accela.eu/files/brands/31/agilent-technologies-logo.png" /></div>
-                            <div class="bottom"></div>
-                        </div>
+                        @{
+                            countBrand = 1;
+
+                            foreach (Brand brand in Model.Brands)
+                            {
+                                if (countBrand >= 13 && countBrand <= 24)
+                                {
+                                    <div class="hex">
+                                        <a href="/Brand/@brand.URL">
+                                            <div class="top"></div>
+                                            <div class="middle mbrandic"> <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" /></div>
+                                            <div class="bottom"></div>
+                                        </a>
+                                    </div>
+                                }
+                                countBrand++;
+                                if (countBrand == 24)
+                                {
+                                    break;
+                                }
+                            }
+                        }
                     </div>
                     <div class="hex-row">
-                        <div class="hex"><div class="top"></div><div class="middle"></div><div class="bottom"></div></div>
-                        <div class="hex"><div class="top"></div><div class="middle"></div><div class="bottom"></div></div>
-                        <div class="hex"><div class="top"></div><div class="middle"></div><div class="bottom"></div></div>
+                        @{
+                            countBrand = 1;
+
+                            foreach (Brand brand in Model.Brands)
+                            {
+                                if (countBrand >= 25 && countBrand <= 37)
+                                {
+                                    <div class="hex">
+                                        <a href="/Brand/@brand.URL">
+                                            <div class="top"></div>
+                                            <div class="middle mbrandic"> <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" /></div>
+                                            <div class="bottom"></div>
+                                        </a>
+                                    </div>
+                                }
+                                countBrand++;
+                                if (countBrand == 37)
+                                {
+                                    break;
+                                }
+                            }
+                        }
                     </div>
+                    <div class="hex-row even">
+                        @{
+                            countBrand = 1;
 
-
+                            foreach (Brand brand in Model.Brands)
+                            {
+                                if (countBrand >= 38 && countBrand <= 49)
+                                {
+                                    <div class="hex">
+                                        <a href="/Brand/@brand.URL">
+                                            <div class="top"></div>
+                                            <div class="middle mbrandic"> <img src="~/file/img/Brands/@brand.ImageRelativeURL" alt="@brand.Name" /></div>
+                                            <div class="bottom"></div>
+                                        </a>
+                                    </div>
+                                }
+                                countBrand++;
+                                if (countBrand == 49)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    </div>
                 </div>
             </div>
             <div class="row" id="technologiesMenu">
                 <div class="col-10 offset-1">
                     <div class="row">
-                        <div class="col-2 offset-1 mtech">
-                            <div class="mtechic">
-                                <div class="cell_38_42"></div>
-                                <div class="mtechi">
-                                    <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
+                        @{
+                            int poolCount = 1;
+                            foreach (Category pool in Model.Categories)
+                            {
+                                string classMenuTechnology = "";
+                                if (poolCount == 1)
+                                {
+                                    classMenuTechnology = "col-2 offset-1 mtech";
+                                    poolCount++;
+                                }
+                                else
+                                {
+                                    classMenuTechnology = "col-2 mtech";
+                                }
+                                <div class="@classMenuTechnology">
+                                                    
+                                <div class="mtechic">
+                                    <div class="cell_38_42"></div>
+                                    <div class="mtechi">
+                                        <img alt="@pool.Name" src="~/file/img/Pools/@pool.Image" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mtechtit">
-                                <p>
-                                    <a href="https://www.accela.eu/technologies/molecular-technologies">Molecular technologies</a>
-                                </p>
-                            </div>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">Targeted DNA/protein size collection</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/molecular-technologies/ultra-and-high-performance-centrifuges">Ultra and high performance centrifuges</a>
-                            </p>
-
-                        </div>
-                        <div class="col-2 mtech">
-                            <div class="mtechic">
-                                <div class="cell_38_42"></div>
-                                <div class="mtechi">
-                                    <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
+                                <div class="mtechtit">
+                                    <p>
+                                        <a href="/Technology/@pool.URL">@pool.Name</a>
+                                    </p>
                                 </div>
+
+                                @{
+                                    foreach (Category categ in pool.PoolCategories)
+                                    {
+                                        if (categ.Visibility == true)
+                                        {
+                                            <p class="item">
+                                                <a href="/Technology/@pool.URL/@categ.URL">@categ.Name</a>
+                                            </p>
+
+
+                                        }
+
+
+                                    }
+                                }
                             </div>
-                            <div class="mtechtit">
-                                <p>
-                                    <a href="https://www.accela.eu/technologies/molecular-technologies">Molecular technologies</a>
-                                </p>
-                            </div>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/live-cell-imaging">Live cell imaging</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/automated-microscopy-and-image-analysis">Automated microscopy and image analysis</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/super-resolution-microscopy">Super resolution microscopy</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/cell-counting">Cell counting</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/real-time-label-free-cell-analysis">Real-time, label free cell analysis</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/cell-interaction-studies">Cell interaction studies</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/ctc-s-and-rare-cells-analysis">CTC´s and rare cells analysis</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/nano-and-micro-particle-analysis">Nano and micro particle analysis</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/3d-cell-culture-rotary-system">3D cell culture rotary system</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/3d-bioprinting">3D Bioprinting</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/physiological-cell-culturing">Physiological cell culturing</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/hypoxia-and-o2-controlled-environment-isolators">Hypoxia and O2 controlled environment isolators</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/anaerobic-glove-boxes">Anaerobic boxes</a>
-                            </p>
-                            <p class="item">
-                                <a href="https://www.accela.eu/technologies/cellular-analysis/plant-growth-chambers">Plant growth chambers</a>
-                            </p>
-                        </div>
-                        <div class="col-2">
-                            <p> fdsg dfg df gdf</p><br />
-                            <p> fdsg dfg df gdf</p><br />
-                        </div>
-                        <div class="col-2">
-                            <p> fdsg dfg df gdf</p><br />
-                            <p> fdsg dfg df gdf</p><br />
-                        </div>
-                        <div class="col-2">
-                            <p> fdsg dfg df gdf</p><br />
-                            <p> fdsg dfg df gdf</p><br />
-                        </div>
 
-                    </div>
+                            }
 
-
-                </div>
+                            }
 
 
 
 
-
-
-
+                                                    <!--
+    <div class="col-2 offset-1 mtech">
+        <div class="mtechic">
+            <div class="cell_38_42"></div>
+            <div class="mtechi">
+                <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
             </div>
+        </div>
+        <div class="mtechtit">
+            <p>
+                <a href="https://www.accela.eu/technologies/molecular-technologies">Molecular technologies</a>
+            </p>
+        </div>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/molecular-technologies/targeted-dna-protein-size-collection">Targeted DNA/protein size collection</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/molecular-technologies/ultra-and-high-performance-centrifuges">Ultra and high performance centrifuges</a>
+        </p>
 
+    </div>
+    <div class="col-2 mtech">
+        <div class="mtechic">
+            <div class="cell_38_42"></div>
+            <div class="mtechi">
+                <img alt="Molecular technologies" src="https://www.accela.eu/files/fields/1/molecular.jpg" />
+            </div>
+        </div>
+        <div class="mtechtit">
+            <p>
+                <a href="https://www.accela.eu/technologies/molecular-technologies">Molecular technologies</a>
+            </p>
+        </div>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/live-cell-imaging">Live cell imaging</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/automated-microscopy-and-image-analysis">Automated microscopy and image analysis</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/super-resolution-microscopy">Super resolution microscopy</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/cell-counting">Cell counting</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/real-time-label-free-cell-analysis">Real-time, label free cell analysis</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/cell-interaction-studies">Cell interaction studies</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/ctc-s-and-rare-cells-analysis">CTC´s and rare cells analysis</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/nano-and-micro-particle-analysis">Nano and micro particle analysis</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/3d-cell-culture-rotary-system">3D cell culture rotary system</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/3d-bioprinting">3D Bioprinting</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/physiological-cell-culturing">Physiological cell culturing</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/hypoxia-and-o2-controlled-environment-isolators">Hypoxia and O2 controlled environment isolators</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/anaerobic-glove-boxes">Anaerobic boxes</a>
+        </p>
+        <p class="item">
+            <a href="https://www.accela.eu/technologies/cellular-analysis/plant-growth-chambers">Plant growth chambers</a>
+        </p>
+    </div>-->
+
+
+                                                </div>
+                </div>
+            </div>
         </div>
 
 
@@ -380,7 +377,7 @@
                 <p>Technologies</p>
             </div>
             <div class="col-lg-3">
-                <p>Technologies</p>
+                <p>Technologies </p>
             </div>
 
 
