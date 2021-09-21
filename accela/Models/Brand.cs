@@ -21,6 +21,8 @@ namespace accela.Models
         private bool _visibility;
         private string _imageRelativeURL;
         private List<Product> _brandProducts;
+        private List<Brand> _brands;
+        private List<Category> _categories;
 
         public Brand()
         {
@@ -55,6 +57,15 @@ namespace accela.Models
         public bool Visibility { get { return _visibility;} set { _visibility = value; }}
         public string ImageRelativeURL { get { return _imageRelativeURL;} set { _imageRelativeURL = value; }}
         public List<Product> Products { get { return _brandProducts;} set { _brandProducts = value;}}
+        public List<Brand> Brands { get { return _brands; } set { _brands = value; } }
+        public List<Category> Categories { get { return _categories; } set { _categories = value; } }
+
+
+
+        public class HomeViewModel : Brand
+        {
+
+        }
 
         ///
         ///    <summary>
@@ -103,5 +114,6 @@ namespace accela.Models
         public void GenerateUrl(){
             this._url = Slugify.URLFriendly(this._name);
         }
+
     } 
 }

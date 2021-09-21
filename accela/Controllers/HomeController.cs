@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using accela.Data;
 using System.Text.Json;
 using Newtonsoft.Json;
+using static accela.Models.Brand;
 
 namespace accela.Controllers
 {
@@ -20,8 +21,9 @@ namespace accela.Controllers
         {
             _logger = logger;
         }
+        
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
             Database database = new Database();
             ViewBag.BrandList = database.GetVisibleBrands();
@@ -41,8 +43,8 @@ namespace accela.Controllers
                 }
             }
             ViewBag.SelectedProduct = selectedProds;
-
-            return View();
+            return this.View(new HomeViewModel { Brands = ViewBag.BrandList, Categories = database.GetVisiblePools()});
+            //return View();
         }
 
         public IActionResult Privacy()
@@ -100,12 +102,11 @@ namespace accela.Controllers
         {
             Database database = new Database();
             ViewBag.PoolList = database.GetVisiblePools();
-           
 
             //Tahle funkce není potřeba, když GetVisiblePools vytvoří instanci třídy Category, automaticky je v kontroleru ta "problémová" funkce, která načte všechny kategorie pro danný pool
             // ViewBag.CategoryList = database.GetVisibleCategories();
 
-            return View();
+            return this.View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
         }
         public IActionResult Contact()
         {
