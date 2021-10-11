@@ -889,7 +889,7 @@ namespace accela.Data
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL, ImageNew FROM News";
+                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL, ImageNew , Subtitle FROM News";
                         var reader = cmd.ExecuteReader();
 
                         if (reader.HasRows == false)
@@ -909,6 +909,7 @@ namespace accela.Data
                         string videourl = null;
                         List<News> news = new List<News>();
                         string imgnew = null;
+                        string subtitle = null;
 
                         while (reader.Read())
                         {
@@ -923,7 +924,8 @@ namespace accela.Data
                             try { Created = reader.GetDateTime(8); } catch (Exception) { Created = DateTime.Now; }
                             try { videourl = reader.GetString(9); } catch (Exception) { videourl = null; }
                             try { imgnew = reader.GetString(10); } catch (Exception) { imgnew = null; }
-                            news.Add(new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew));
+                            try { subtitle = reader.GetString(11); } catch (Exception) { subtitle = null; }
+                            news.Add(new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew, subtitle));
                         }
                         return news;
                     }
@@ -953,7 +955,7 @@ namespace accela.Data
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL, ImageNew FROM News WHERE ID = @id";
+                        cmd.CommandText = "SELECT ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL, ImageNew, Subtitle FROM News WHERE ID = @id";
                         cmd.Parameters.AddWithValue("@id", nid);
                         var reader = cmd.ExecuteReader();
 
@@ -973,6 +975,7 @@ namespace accela.Data
                         DateTime Created = DateTime.Now;
                         string videourl = null;
                         string imgnew = null;
+                        string subtitle = null;
 
                         while (reader.Read())
                         {
@@ -987,8 +990,9 @@ namespace accela.Data
                             try { Created = reader.GetDateTime(8); } catch (Exception) { Created = DateTime.Now; }
                             try { videourl = reader.GetString(9); } catch (Exception) { videourl = null; }
                             try { imgnew = reader.GetString(10); } catch (Exception) { imgnew = null; }
+                            try { subtitle = reader.GetString(11); } catch (Exception) { subtitle = null; }
                         }
-                        return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew);
+                        return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew, subtitle);
                     }
                 }
             }
@@ -1706,7 +1710,7 @@ namespace accela.Data
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "INSERT INTO News (Title,BrandID,ContactID,ImageBig,ImageSmall,Content,ContentSmall,Description,Url,Visibility,Published) VALUES (@title,@brandID,@contantID,@imageBig,@imageSmall,@con,@conSmall,@desc,@url,@vis,publis)";
+                        cmd.CommandText = "INSERT INTO News (Title,BrandID,ContactID,ImageBig,ImageSmall,Content,ContentSmall,Description,Url,Visibility,Published,Created) VALUES (@title,@brandID,@contantID,@imageBig,@imageSmall,@con,@conSmall,@desc,@url,@vis,@publis,@created)";
                         
                         cmd.Parameters.AddWithValue("@title", news.Title);
                         cmd.Parameters.AddWithValue("@brandID", news.Producer.ID);
@@ -1719,6 +1723,7 @@ namespace accela.Data
                         cmd.Parameters.AddWithValue("@url", news.URL);
                         cmd.Parameters.AddWithValue("@vis", news.Visibility);
                         cmd.Parameters.AddWithValue("@publis", news.Published);
+                        cmd.Parameters.AddWithValue("@created", news.Created);
 
                         cmd.ExecuteNonQuery();
                         return new SystemMessage("Adding new news", "New was succesfully added", "OK");
@@ -2746,7 +2751,7 @@ namespace accela.Data
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT News.ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Created, VideoURL, ImageNew FROM News JOIN ProductNew ON ProductNew.NewID = News.ID WHERE ProductNew.ProductID = @pid";
+                        cmd.CommandText = "SELECT News.ID, Title, BrandID, ContactID, ImageBig, ImageSmall, Content, ContentSmall, Published, VideoURL, ImageNew,Subtitle FROM News JOIN ProductNew ON ProductNew.NewID = News.ID WHERE ProductNew.ProductID = @pid";
                         cmd.Parameters.AddWithValue("@pid", idProd);
                         var reader = cmd.ExecuteReader();
 
@@ -2763,10 +2768,11 @@ namespace accela.Data
                         string imgsml = null;
                         string content = null;
                         string contentsml = null;
-                        DateTime Created = DateTime.Now;
+                        DateTime Published = DateTime.Now;
                         string videourl = null;
                         List<News> news = new List<News>();
                         string imgnew = null;
+                        string subtitle = null;
 
                         while (reader.Read())
                         {
@@ -2778,10 +2784,11 @@ namespace accela.Data
                             try { imgsml = reader.GetString(5); } catch (Exception) { imgsml = null; }
                             try { content = reader.GetString(6); } catch (Exception) { content = null; }
                             try { contentsml = reader.GetString(7); } catch (Exception) { contentsml = null; }
-                            try { Created = reader.GetDateTime(8); } catch (Exception) { Created = DateTime.Now; }
+                            try { Published = reader.GetDateTime(8); } catch (Exception) { Published = DateTime.Now; }
                             try { videourl = reader.GetString(9); } catch (Exception) { videourl = null; }
                             try { imgnew = reader.GetString(10); } catch (Exception) { imgnew = null; }
-                            news.Add(new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew));
+                            try { subtitle = reader.GetString(11); } catch (Exception) { subtitle = null; }
+                            news.Add(new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Published, videourl, imgnew, subtitle));
                         }
                         return news;
                     }

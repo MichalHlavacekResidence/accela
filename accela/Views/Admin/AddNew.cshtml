@@ -17,8 +17,14 @@
         <div id="nameHelp" class="form-text form-helper">Name of new has to be unique. <span class="form-mandatory"> This field is mandatory. </span> </div>
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.Published" class="form-label">date</label>
-        <input type="datetime" runat="server" value="@Model.Published" />
+        <label asp-for="@Model.Published" class="form-control">Date</label>
+        <input type="date" runat="server" value="@Model.Published" />
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div class="invalid-feedback">
+            This field is mandatory, fill it please.
+        </div>
     </div>
     <div class="mb-3">
         <label asp-for="@Model.Manager.ID" class="form-label"> Manager (shown as contact person) </label>
@@ -40,7 +46,7 @@ foreach(Manager mngrs in ViewBag.ManagerList){
         <label asp-for="@Model.Producer.ID" class="form-label"> Brand </label>
         <select asp-for="@Model.Producer.ID" class="form-select">
             @{
-                <option selected value="0"> Without any specific manager</option>
+                <option selected value="0"> Select brand</option>
 foreach(Brand bran in ViewBag.BrandList){
                 <option value="@bran.ID"> @bran.Name</option>
 }
@@ -79,7 +85,7 @@ foreach(Brand bran in ViewBag.BrandList){
 
     <div class="mb-3">
         <label class="form-label" for="ImageFileBig"> Upload big picture </label>
-        <input type="file" name="ImageFile" class="form-control" />
+        <input type="file" name="ImageFileBig" class="form-control" />
     </div>
     <div class="mb-3">
         <label class="form-label" for="ImageFile"> Upload small picture </label>

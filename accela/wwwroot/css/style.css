@@ -3130,8 +3130,8 @@ p.item a :hover{
 
 .hex {
     float: left;
-    margin-left: 3px;
-    margin-bottom: -26px;
+    margin-left: 7px;
+    margin-bottom: -17px;
 }
 .hex:hover .top {
     border-bottom: 30px solid #dcdcdc;
@@ -3166,7 +3166,7 @@ p.item a :hover{
    clear:left;
 }
 .hex-row.even {
-    margin-left: 53px;
+    margin-left: 62px;
 }
 .mbrandic img {
     width: 82px;

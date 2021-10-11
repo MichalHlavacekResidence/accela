@@ -1,7 +1,7 @@
 $(document).ready(function() {
     document.getElementById('pro-image').addEventListener('change', readImage, false);
     
-    $( ".preview-images-zone" ).sortable();
+    $(".preview-images-zone" ).sortable();
     
     $(document).on('click', '.image-cancel', function() {
         let no = $(this).data('no');
@@ -9,16 +9,17 @@ $(document).ready(function() {
     });
 });
 
-
-
 var num = 4;
 function readImage() {
+   
     if (window.File && window.FileList && window.FileReader) {
         var files = event.target.files; //FileList object
+        //console.log(files);
         var output = $(".preview-images-zone");
 
         for (let i = 0; i < files.length; i++) {
             var file = files[i];
+            console.log(file);
             if (!file.type.match('image')) continue;
             
             var picReader = new FileReader();

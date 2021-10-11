@@ -36,7 +36,7 @@ namespace accela.Models
             _id = 0;
         }
 
-        public News(int id, string title, Brand brand, Manager contact, string ImageBig, string ImageSmall, string Content, string ContentSmall, DateTime Created, string VideoURL, string ImageNew)
+        public News(int id, string title, Brand brand, Manager contact, string ImageBig, string ImageSmall, string Content, string ContentSmall, DateTime Published, string VideoURL, string ImageNew , string Subtitle)
         {
             _id = id;
             _title = title;
@@ -46,9 +46,10 @@ namespace accela.Models
             _imageSmall = ImageSmall;
             _content = Content;
             _contentSmall = ContentSmall;
-            _created = Created;
+            _created = Published;
             _videoUrl = VideoURL;
             _imageNew = ImageNew;
+            _subtitle = Subtitle;
         }
 
         public News(int id, string title, Brand brand, Manager contact, string ImageBig, string ImageSmall, string Content, string ContentSmall, DateTime Created, string VideoURL, string ImageNew,List<Tags> tags, List<Product> prods)

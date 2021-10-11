@@ -56,7 +56,9 @@ namespace accela.Controllers
         {
             Database database = new Database();
             ViewBag.BrandList = database.GetVisibleBrands();
-            return View();
+            return this.View(new HomeViewModel { Brands = ViewBag.BrandList, Categories = database.GetVisiblePools() });
+
+            //return View();
         }
         public IActionResult Discover()
         {
@@ -65,7 +67,9 @@ namespace accela.Controllers
             ViewBag.TagsList = database.GetVisibleTags();
             ViewBag.PoolList = database.GetVisiblePools();
             ViewBag.BrandList = database.GetVisibleBrands();
-            return View();
+            //return View();
+            return this.View(new HomeViewModel { Brands = ViewBag.BrandList, Categories = ViewBag.PoolList });
+
         }
 
         [HttpPost]
@@ -96,7 +100,9 @@ namespace accela.Controllers
         {
             Database database = new Database();
             ViewBag.ReferencesList = database.GetVisibleRefeences();
-            return View();
+            //return View();
+            return this.View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
+
         }
         public IActionResult Technologies()
         {
@@ -113,7 +119,9 @@ namespace accela.Controllers
             Database database = new Database();
             ViewBag.ManagerList = database.GetVisibleManagers();
             ViewBag.BrandList = database.GetVisibleBrands();
-            return View();
+            //return View();
+            return View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
+
         }
         public IActionResult Product()
         {
@@ -126,7 +134,8 @@ namespace accela.Controllers
             /*List<Product> ProductList = new List<Product>();
             ProductList.Add(new Product(0,"test", "test", "test", "test", "test", "imagestream_x_mkii_24.png", new Manager(), "test",true));
             ViewBag.ProductList = ProductList;*/
-            return View();
+            return this.View(new HomeViewModel { Brands = ViewBag.BrandList, Categories = ViewBag.PoolList });
+
 
         }
 
@@ -170,27 +179,35 @@ namespace accela.Controllers
 
         public IActionResult Support()
         {
-            return View();
+            Database database = new Database();
+            return View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
+            //return View();
+
         }
         public IActionResult About()
         {
-            return View();
+            Database database = new Database();
+            return View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
         }
         public IActionResult Downloads()
         {
-            return View();
+            Database database = new Database();
+            return View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
         }
         public IActionResult MeetUs()
         {
-            return View();
+            Database database = new Database();
+            return View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
         }
         public IActionResult Career()
         {
-            return View();
+            Database database = new Database();
+            return View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
         }
         public IActionResult Test()
         {
-            return View();
+            Database database = new Database();
+            return View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

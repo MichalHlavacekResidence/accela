@@ -10,6 +10,7 @@ using accela.Data;
 
 namespace Controllers 
 {
+    [ViewLayout("_DefoultLayout")]
     public class AccountController : Controller 
     {
         private readonly RoleManager<IdentityRole> _roleManager;
