@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.41.0" />
+    <PackageReference Include="MailKit" Version="2.15.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.17.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
@@ -22,8 +24,12 @@
     <Folder Include="wwwroot\file\img\Managers\" />
     <Folder Include="wwwroot\file\img\Pools\" />
     <Folder Include="wwwroot\file\img\References\" />
-    <Folder Include="wwwroot\file\product\ing\" />
+    <Folder Include="wwwroot\file\new\" />
+    <Folder Include="wwwroot\file\product\img\" />
     <Folder Include="wwwroot\file\product\pdf\" />
+    <Folder Include="wwwroot\file\uploaded\images\" />
+    <Folder Include="wwwroot\file\uploaded\unknown\" />
+    <Folder Include="wwwroot\file\uploaded\pdfs\" />
   </ItemGroup>
 
 </Project>

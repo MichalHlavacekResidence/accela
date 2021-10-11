@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using accela.Extensions;
+using System.Net.Mail;
 
 namespace Controllers
 {
     [Authorize]
     [ViewLayout("_AdminLayout")]
-    public class AdminController : Controller 
+    public class AdminController : Controller
     {
        // private readonly SignInManager<IdentityUser> _signInManager;
 
@@ -23,6 +24,8 @@ namespace Controllers
         }
 
         public IActionResult Index(){
+
+            Database database = new Database();
             return View();
         }
 
@@ -294,11 +297,12 @@ namespace Controllers
          [HttpPost]
         public IActionResult AddNew(News news, IFormFile ImageFileBig, IFormFile ImageFile){
             //Zkontroluj, jestli jsou všechny mandatory údaje opravdu vyplněné
-           /* if(manager.CheckDetails() == false)
-            {
-                return View();
-            }*/
-           news.GenerateUrl();
+            /* if(manager.CheckDetails() == false)
+             {
+                 return View();
+             }*/
+            news.GenerateUrl();
+            news.Created = DateTime.Today;
             string FileName = null;
             string FileBigName = null;
             //Nahraj obrázek, pokud je
@@ -312,7 +316,7 @@ namespace Controllers
                     case ".gif":
                     case ".png":
                         Console.WriteLine("koncovka: "+imageExtension);
-                        FileBigName = this._uploadFile(ImageFileBig);
+                        FileBigName = this._uploadFile(ImageFileBig, "newImageBig", news.URL);
                         news.ImageBig = FileBigName;
                         break;
 
@@ -332,7 +336,7 @@ namespace Controllers
                     case ".gif":
                     case ".png":
                         Console.WriteLine("koncovka: "+imageExtension);
-                        FileName = this._uploadFile(ImageFile);
+                        FileBigName = this._uploadFile(ImageFile, "newImage", news.URL);
                         news.ImageSmall = FileName;
                         break;
 
@@ -417,27 +421,71 @@ namespace Controllers
             db.AddPool(pool);
             return RedirectToAction("Pools", "Admin");
         }
+        public IActionResult AddProductMultiImage()
+        {
+            Mails mail = new Mails();
+            return View(mail);
+        }
 
         [HttpPost]
-        public IActionResult AddProduct(Product product){
-            //Generate URL
-            product.GenerateUrl();
+        public IActionResult AddProduct(Product product, IFormFile[] proImage, IFormFile ImageFile)
+        {
 
-            if(product.CheckDetails(false) == false){
-                return View(product);
-            }           
-            Database db = new Database();
-            Console.WriteLine(product.ID);
-            if (product.ID == 0)
+
+            Console.WriteLine(proImage + "multiImage");
+            Console.WriteLine(ImageFile + "oneImage");
+            /*if (proImage != null)
             {
-                SystemMessage smg = db.AddProduct(product);
+                Console.WriteLine("hafinky null");
             }
             else
             {
-                SystemMessage smg = db.EditProduct(product);
+                Console.WriteLine("haf ne");
             }
+                
+
+            string FileName = null;
+            if (proImage != null)
+            {
+                //ZKontroluj koncovky souboru (obrázku)
+                string imageExtension = Path.GetExtension(proImage.FileName).ToLower();
+                switch (imageExtension)
+                {
+                    case ".jpg":
+                    case ".jpeg":
+                    case ".gif":
+                    case ".png":
+                        Console.WriteLine("koncovka: " + imageExtension);
+                        //FileName = this._uploadFile(ImageFile);
+                        //manager.ImageRelativeURL = FileName;
+                        break;
+
+                    //Neznámá koncovka obrázku
+                    default:
+                        return RedirectToAction("Managers", "Admin");
+                        //break;
+                }
+            }*/
+            //Generate URL
+            /* product.GenerateUrl();
+
+             if(product.CheckDetails(false) == false){
+                 return View(product);
+             }           
+             Database db = new Database();
+             Console.WriteLine(product.ID);
+             if (product.ID == 0)
+             {
+                 SystemMessage smg = db.AddProduct(product);
+             }
+             else
+             {
+                 SystemMessage smg = db.EditProduct(product);
+             }*/
+            //return View();
             return RedirectToAction("Products", "Admin");
         }
+
 
         [HttpGet]
         public IActionResult Product(int prodID){
@@ -449,38 +497,68 @@ namespace Controllers
         /*
             #Funkce pro nahrání souboru na server (obsahuje i kontrolu provedení)
         */
-        private string _uploadFile(IFormFile file)
+        private string _uploadFile(IFormFile file, string imageDirection = null,string url = null)
         {
             Uploader uploader = new Uploader();
             //Generate file name
-            string FileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string FileName = url+Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
             Console.WriteLine("Vygenerováno jméno souboru");
             string SavePath = null;
             string Folder = null;
 
             Console.WriteLine("koncovka2: "+Path.GetExtension(file.FileName));
 
-            //Generate url to save
-            switch(Path.GetExtension(file.FileName))
-            {
-                case ".pdf":
-                    SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/uploaded/pdfs/", FileName);
-                    Folder = "pdfs";
-                break;
+            if (imageDirection == null) {
+                //Generate url to save
+                switch (Path.GetExtension(file.FileName))
+                {
+                    case ".pdf":
+                        SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/uploaded/pdfs/", FileName);
+                        Folder = "pdfs";
+                        break;
 
-                case ".jpg":
-                case ".png":
-                case ".gif":
-                case ".jpeg":
-                    SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/uploaded/images/", FileName);
-                    Folder = "images";
-                break;
+                    case ".jpg":
+                    case ".png":
+                    case ".gif":
+                    case ".jpeg":
+                        SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/uploaded/images/", FileName);
+                        Folder = "images";
+                        break;
 
-                default: 
-                    SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/uploaded/unknown/", FileName);
-                    Folder = "unknown";
-                break;
+                    default:
+                        SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/uploaded/unknown/", FileName);
+                        Folder = "unknown";
+                        break;
+                }
             }
+            else
+            {
+                switch (imageDirection)
+                {
+                    case "productImg":
+                        SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/product/", FileName);
+                        Folder = "img";
+                        break;
+                    case "productPdf":
+                        SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/product/", FileName);
+                        Folder = "pdf";
+                        break;
+                    case "newImage":
+                        SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/", FileName);
+                        Folder = "new";
+                        break;
+                    case "newImageBig":
+                        SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/", FileName);
+                        Folder = "new";
+                        break;
+                    default:
+                        SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/file/uploaded/unknown/", FileName);
+                        Folder = "unknown";
+                        break;
+                }
+            }
+           
+            
 
             uploader.FilePath = SavePath;
             Console.WriteLine("Příprava na přesun");
@@ -500,6 +578,84 @@ namespace Controllers
             //Check status of upload
             bool result = uploader.CheckFileExistence(FileName, Folder);
             return FileName;
+        }
+        /*funkce pro posílání emailu SendMail*/
+        [HttpPost]
+        public IActionResult AddProductMultiImage(Mails mailInter)
+        {
+
+            MailMessage mail = new MailMessage();
+            mail.To.Add("web@residencev.com");
+            //mail.To.Add("Another Email ID where you wanna send same email");
+            mail.From = new MailAddress("hlavacekmichal.1@gmail.com");
+            mail.Subject = "Email using Gmail";
+
+            string Body = "Hi, this mail is to test sending mail" +
+                          "using Gmail in ASP.NET" + mailInter.Content;
+            mail.Body = Body;
+
+            mail.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com"; //Or Your SMTP Server Address
+            smtp.Credentials = new System.Net.NetworkCredential ("hlavacekmichal.1@gmail.com", "sparta2381998");
+            //Or your Smtp Email ID and Password
+            smtp.EnableSsl = true;
+            
+            try
+            {
+                //client.Send(message);
+                smtp.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception caught in CreateTestMessage2(): {0}",
+                    ex.ToString());
+            }
+
+
+            /* string to = "jane@contoso.com";
+             string from = "ben@contoso.com";
+             MailMessage message = new MailMessage(from, to);
+             message.Subject = "Using the new SMTP client.";
+             message.Body = @"Using this new feature, you can send an email message from an application very easily.";*/
+
+            //SmtpClient client = new SmtpClient(server);
+            // Credentials are necessary if the server requires the client
+            // to authenticate before it will send email on the client's behalf.
+            //client.UseDefaultCredentials = true;
+
+            /* try
+             {
+                 //client.Send(message);
+             }
+             catch (Exception ex)
+             {
+                 Console.WriteLine("Exception caught in CreateTestMessage2(): {0}",
+                     ex.ToString());
+             }*/
+
+            /*Database db = new Database();
+            Product prod = db.GetProduct(prodID);*/
+            /* mailInter.From = "web@residencev.com";
+             mailInter.To = "hlavacekmichal.1@gmail.com";
+
+             SmtpClient smtpClient = new SmtpClient(mailInter.From, 25);
+
+             smtpClient.Credentials = new System.Net.NetworkCredential(mailInter.From, "Martin789*");
+             // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
+             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+             smtpClient.EnableSsl = true;
+             MailMessage mail = new MailMessage();
+
+             //Setting From , To and CC
+             mail.From = new MailAddress(mailInter.From, "MyWeb Site");
+             mail.To.Add(new MailAddress(mailInter.To));
+             //mail.CC.Add(new MailAddress("MyEmailID@gmail.com"));
+
+             smtpClient.Send(mail);*/
+            //Console.WriteLine("mail sendedt1" + mailInter.Content + "  2  " + mailInter.From + "   3   " + mailInter.To );
+            Console.WriteLine(mail.Body);
+            return View();
         }
 
         /*

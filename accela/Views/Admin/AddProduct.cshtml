@@ -48,9 +48,10 @@
         <label asp-for="@Model.Category.ID" class="form-label"> Category </label>
         <select asp-for="@Model.Category.ID" class="form-select" required>
             @{
-foreach(Category cat in ViewBag.CategoryList){
-                <option value="@cat.ID"> @cat.Name (@cat.URL) </option>
-}
+                foreach (Category cat in ViewBag.CategoryList)
+                {
+                    <option value="@cat.ID"> @cat.Name (@cat.URL) </option>
+                }
             }
         </select>
         <div id="linkHelp" class="form-text form-helper"> Category where product will be shown. <span class="form-mandatory"> This field is mandatory. </span> </div>
@@ -63,9 +64,10 @@ foreach(Category cat in ViewBag.CategoryList){
         <select asp-for="@Model.Producer.ID" class="form-select" required>
             <option selected disabled>Click here and select producer</option>
             @{
-foreach(Brand producer in ViewBag.ProducerList){
-                <option value="@producer.ID"> @producer.Name </option>
-}
+                foreach (Brand producer in ViewBag.ProducerList)
+                {
+                    <option value="@producer.ID"> @producer.Name </option>
+                }
             }
         </select>
         <span class="form-mandatory"> This field is mandatory. </span>
@@ -81,9 +83,10 @@ foreach(Brand producer in ViewBag.ProducerList){
         <select asp-for="@Model.Manager.ID" class="form-select">
             @{
                 <option selected value="0"> Without any specific manager</option>
-foreach(Manager mngrs in ViewBag.ManagerList){
-                <option value="@mngrs.ID"> @mngrs.Firstname @mngrs.Lastname </option>
-}
+                foreach (Manager mngrs in ViewBag.ManagerList)
+                {
+                    <option value="@mngrs.ID"> @mngrs.Firstname @mngrs.Lastname </option>
+                }
             }
         </select>
         <div id="linkHelp" class="form-text form-helper"> If you won't select manager (contact person), manager that is set as contact person of the brand will be shown instead. </div>
@@ -95,12 +98,21 @@ foreach(Manager mngrs in ViewBag.ManagerList){
         <div class="container">
             <fieldset class="form-group">
                 <a href="javascript:void(0)" onclick="$('#pro-image').click()">Upload Image</a>
-                <input type="file" id="pro-image" name="pro-image" style="display: none;" class="form-control" multiple>
+                <input type="file" id="pro-image" name="proImage" style="display: none;" class="form-control" multiple>
             </fieldset>
             <div class="preview-images-zone">
 
             </div>
         </div>
     </div>
+
+
+
+    
+    <div class="mb-3">
+        <label class="form-label" for="ImageFile"> Upload small picture </label>
+        <input type="file" name="ImageFile" class="form-control" />
+    </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
