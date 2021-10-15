@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using accela.Extensions;
 using System.Net.Mail;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Controllers
 {
@@ -16,14 +17,14 @@ namespace Controllers
     [ViewLayout("_AdminLayout")]
     public class AdminController : Controller
     {
-       // private readonly SignInManager<IdentityUser> _signInManager;
+        // private readonly SignInManager<IdentityUser> _signInManager;
 
         public AdminController(/*SignInManager<IdentityUser> signInManager*/)
         {
-        //    _signInManager = signInManager;
+            //    _signInManager = signInManager;
         }
 
-        public IActionResult Index(){
+        public IActionResult Index() {
 
             Database database = new Database();
             return View();
@@ -36,7 +37,7 @@ namespace Controllers
             return View();
         }
 
-        public IActionResult Managers(){
+        public IActionResult Managers() {
             Database db = new Database();
             ViewBag.ManagerList = db.GetAllManagers();
             return View();
@@ -48,15 +49,15 @@ namespace Controllers
         {
             Database db = new Database();
             Manager mng = db.GetManagerByID(mid);
-            if(mng.ID == 0)
+            if (mng.ID == 0)
             {
                 return RedirectToAction("Managers", "Admin");
             }
-            
+
             return View(mng);
         }
 
-        public IActionResult Departments(){
+        public IActionResult Departments() {
             Database db = new Database();
             ViewBag.DepartmentList = db.GetAllDepartments();
             return View();
@@ -67,7 +68,7 @@ namespace Controllers
         {
             Database db = new Database();
             Department dep = db.GetDepartmentDetails(did);
-            if(dep.ID == 0){
+            if (dep.ID == 0) {
                 return RedirectToAction("Departments", "Admin");
             }
             //Načti manažery
@@ -77,10 +78,10 @@ namespace Controllers
         }
 
         [HttpGet]
-        public IActionResult AddDepartment(int did = 0){
+        public IActionResult AddDepartment(int did = 0) {
             Department dep = new Department();
-            if(did != 0)
-            { 
+            if (did != 0)
+            {
                 Database db = new Database();
                 dep = db.GetDepartmentDetails(did);
             }
@@ -88,29 +89,29 @@ namespace Controllers
         }
 
         [HttpPost]
-        public IActionResult AddDepartment(Department dep){
+        public IActionResult AddDepartment(Department dep) {
             //Generate URL from Name
             dep.GenerateUrl();
             //Check if all form inputs are filled
-            if(dep.CheckDetails() == false){
+            if (dep.CheckDetails() == false) {
                 return View();
             }
 
             Database db = new Database();
-            if(dep.ID != 0)
+            if (dep.ID != 0)
             {
                 db.UpdateDepartment(dep);
-            }else{
+            } else {
                 db.AddDepartment(dep);
             }
             return RedirectToAction("Departments", "Admin");
         }
 
         [HttpGet]
-        public IActionResult AddManager(int uid = 0){
+        public IActionResult AddManager(int uid = 0) {
             Database db = new Database();
             Manager mng = new Manager();
-            if(uid != 0){
+            if (uid != 0) {
                 mng = db.GetManagerByID(uid);
             }
             ViewBag.DepartmentList = db.GetVisibleDepartments();
@@ -118,24 +119,24 @@ namespace Controllers
         }
 
         [HttpPost]
-        public IActionResult AddManager(Manager manager, IFormFile ImageFile){
+        public IActionResult AddManager(Manager manager, IFormFile ImageFile) {
             //Zkontroluj, jestli jsou všechny mandatory údaje opravdu vyplněné
-            if(manager.CheckDetails() == false)
+            if (manager.CheckDetails() == false)
             {
                 return View();
             }
             string FileName = null;
             //Nahraj obrázek, pokud je
-            if(ImageFile != null)
+            if (ImageFile != null)
             {
                 //ZKontroluj koncovky souboru (obrázku)
                 string imageExtension = Path.GetExtension(ImageFile.FileName).ToLower();
-                switch(imageExtension){
+                switch (imageExtension) {
                     case ".jpg":
                     case ".jpeg":
                     case ".gif":
                     case ".png":
-                        Console.WriteLine("koncovka: "+imageExtension);
+                        Console.WriteLine("koncovka: " + imageExtension);
                         FileName = this._uploadFile(ImageFile);
                         manager.ImageRelativeURL = FileName;
                         break;
@@ -146,58 +147,58 @@ namespace Controllers
 
                 }
             }
-            
+
 
             //Připoj se k databázi a proveď požadovanou operaci
             Database db = new Database();
-            if(manager.ID != 0)
+            if (manager.ID != 0)
             {
                 db.UpdateManager(manager);
-            }else{
+            } else {
                 db.AddManager(manager);
             }
             return RedirectToAction("Managers", "Admin");
         }
 
-        public IActionResult Brands(){
+        public IActionResult Brands() {
             Database db = new Database();
             ViewBag.BrandList = db.GetAllBrands();
             return View();
         }
 
         [HttpGet]
-        public IActionResult AddBrand(int ID){
+        public IActionResult AddBrand(int ID) {
             Brand brand = new Brand();
             Database db = new Database();
-            if(ID != 0)
+            if (ID != 0)
             {
                 brand = db.GetBrandByID(ID);
             }
             ViewBag.ManagerList = db.GetVisibleManagers();
             ViewBag.ProductList = db.GetVisibleProducts();
-           
+
             return View(brand);
         }
 
         [HttpPost]
-        public IActionResult AddBrand(Brand brand, IFormFile ImageFile){
+        public IActionResult AddBrand(Brand brand, IFormFile ImageFile) {
             brand.GenerateUrl();
-            if(brand.CheckDetails() == false){
+            if (brand.CheckDetails() == false) {
                 return RedirectToAction("AddBrand", "Admin");
             }
 
             string FileName = null;
 
-            if(ImageFile != null)
+            if (ImageFile != null)
             {
                 //ZKontroluj koncovky souboru (obrázku)
                 string imageExtension = Path.GetExtension(ImageFile.FileName).ToLower();
-                switch(imageExtension){
+                switch (imageExtension) {
                     case ".jpg":
                     case ".jpeg":
                     case ".gif":
                     case ".png":
-                        Console.WriteLine("koncovka: "+imageExtension);
+                        Console.WriteLine("koncovka: " + imageExtension);
                         FileName = this._uploadFile(ImageFile);
                         brand.ImageRelativeURL = FileName;
                         break;
@@ -210,10 +211,10 @@ namespace Controllers
             }
 
             Database db = new Database();
-            if(brand.ID != 0)
-            {            
+            if (brand.ID != 0)
+            {
                 db.UpdateBrand(brand);
-            }else
+            } else
             {
                 db.AddBrand(brand);
             }
@@ -223,13 +224,13 @@ namespace Controllers
         [HttpGet]
         public IActionResult Brand(int bid = 0)
         {
-            if(bid == 0)
+            if (bid == 0)
             {
                 return RedirectToAction("Brands", "Admin");
             }
             Database db = new Database();
             Brand brand = db.GetBrandByID(bid);
-            if(brand.ID == 0)
+            if (brand.ID == 0)
             {
                 //Neexistující brand
                 return RedirectToAction("Brands", "Admin");
@@ -262,7 +263,7 @@ namespace Controllers
         {
             return View(new News());
         }
-        [HttpGet]      
+        [HttpGet]
         public IActionResult AddProduct(int pid) {
             string checkID;
             if (pid == null)
@@ -283,9 +284,9 @@ namespace Controllers
             return View(prod);
         }
 
-         [HttpGet]      
+        [HttpGet]
         public IActionResult AddNew(int nid) {
-               
+
             Database db = new Database();
             ViewBag.ManagerList = db.GetVisibleManagers();
             ViewBag.BrandList = db.GetAllBrands();
@@ -294,8 +295,8 @@ namespace Controllers
             Console.WriteLine(nid);
             return View(news);
         }
-         [HttpPost]
-        public IActionResult AddNew(News news, IFormFile ImageFileBig, IFormFile ImageFile){
+        [HttpPost]
+        public IActionResult AddNew(News news, IFormFile ImageFileBig, IFormFile ImageFile) {
             //Zkontroluj, jestli jsou všechny mandatory údaje opravdu vyplněné
             /* if(manager.CheckDetails() == false)
              {
@@ -306,16 +307,16 @@ namespace Controllers
             string FileName = null;
             string FileBigName = null;
             //Nahraj obrázek, pokud je
-            if(ImageFileBig != null)
+            if (ImageFileBig != null)
             {
                 //ZKontroluj koncovky souboru (obrázku)
                 string imageExtension = Path.GetExtension(ImageFileBig.FileName).ToLower();
-                switch(imageExtension){
+                switch (imageExtension) {
                     case ".jpg":
                     case ".jpeg":
                     case ".gif":
                     case ".png":
-                        Console.WriteLine("koncovka: "+imageExtension);
+                        Console.WriteLine("koncovka: " + imageExtension);
                         FileBigName = this._uploadFile(ImageFileBig, "newImageBig", news.URL);
                         news.ImageBig = FileBigName;
                         break;
@@ -326,16 +327,16 @@ namespace Controllers
 
                 }
             }
-            if(ImageFile != null)
+            if (ImageFile != null)
             {
                 //ZKontroluj koncovky souboru (obrázku)
                 string imageExtension = Path.GetExtension(ImageFile.FileName).ToLower();
-                switch(imageExtension){
+                switch (imageExtension) {
                     case ".jpg":
                     case ".jpeg":
                     case ".gif":
                     case ".png":
-                        Console.WriteLine("koncovka: "+imageExtension);
+                        Console.WriteLine("koncovka: " + imageExtension);
                         FileBigName = this._uploadFile(ImageFile, "newImage", news.URL);
                         news.ImageSmall = FileName;
                         break;
@@ -348,16 +349,16 @@ namespace Controllers
             }
 
             Database db = new Database();
-             if(news.ID != 0)
-            {           
+            if (news.ID != 0)
+            {
                 db.UpdateNew(news);
                 //db.UpdateBrand(brand);
-            }else
+            } else
             {
                 db.AddNew(news);
                 //db.AddBrand(brand);
             }
-           
+
             return RedirectToAction("News", "Admin");
         }
 
@@ -384,11 +385,11 @@ namespace Controllers
         {
             //Vygeneruj URL
             cat.GenerateUrl();
-            if(cat.CheckDetails() == false)
+            if (cat.CheckDetails() == false)
             {
                 return View(cat);
             }
-            
+
             Database db = new Database();
             SystemMessage smg = db.AddCategory(cat);
             return RedirectToAction("Categories", "Admin");
@@ -412,7 +413,7 @@ namespace Controllers
         public IActionResult AddPool(Category pool)
         {
             pool.GenerateUrl();
-            if(pool.CheckDetails() == false)
+            if (pool.CheckDetails() == false)
             {
                 return View(pool);
             }
@@ -488,7 +489,7 @@ namespace Controllers
 
 
         [HttpGet]
-        public IActionResult Product(int prodID){
+        public IActionResult Product(int prodID) {
             Database db = new Database();
             Product prod = db.GetProduct(prodID);
             return View(prod);
@@ -497,16 +498,16 @@ namespace Controllers
         /*
             #Funkce pro nahrání souboru na server (obsahuje i kontrolu provedení)
         */
-        private string _uploadFile(IFormFile file, string imageDirection = null,string url = null)
+        private string _uploadFile(IFormFile file, string imageDirection = null, string url = null)
         {
             Uploader uploader = new Uploader();
             //Generate file name
-            string FileName = url+Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string FileName = url + Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
             Console.WriteLine("Vygenerováno jméno souboru");
             string SavePath = null;
             string Folder = null;
 
-            Console.WriteLine("koncovka2: "+Path.GetExtension(file.FileName));
+            Console.WriteLine("koncovka2: " + Path.GetExtension(file.FileName));
 
             if (imageDirection == null) {
                 //Generate url to save
@@ -557,18 +558,18 @@ namespace Controllers
                         break;
                 }
             }
-           
-            
+
+
 
             uploader.FilePath = SavePath;
             Console.WriteLine("Příprava na přesun");
-            
-            try{
+
+            try {
                 using (var stream = new FileStream(SavePath, FileMode.Create))
                 {
                     file.CopyTo(stream);
                 }
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
             }
 
@@ -584,47 +585,76 @@ namespace Controllers
         public IActionResult AddProductMultiImage(Mails mailInter)
         {
 
-            MailMessage mail = new MailMessage();
-            mail.To.Add("web@residencev.com");
-            //mail.To.Add("Another Email ID where you wanna send same email");
-            mail.From = new MailAddress("hlavacekmichal.1@gmail.com");
-            mail.Subject = "Email using Gmail";
-
-            string Body = "Hi, this mail is to test sending mail" +
-                          "using Gmail in ASP.NET" + mailInter.Content;
-            mail.Body = Body;
-
-            mail.IsBodyHtml = true;
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com"; //Or Your SMTP Server Address
-            smtp.Credentials = new System.Net.NetworkCredential ("hlavacekmichal.1@gmail.com", "sparta2381998");
-            //Or your Smtp Email ID and Password
-            smtp.EnableSsl = true;
-            
+            MailMessage msg = new MailMessage();
+            System.Net.Mail.SmtpClient client = this._createSmtpConection();
             try
             {
-                //client.Send(message);
-                smtp.Send(mail);
+                msg.Subject = "Add Subject";
+                msg.Body = "Add Email Body Part <h1>nadpis</h1>" +
+                    "<p style='color:red;'>"+mailInter.Content+"</p>" +
+                    "aahoj Mikulasi haf";
+                msg.From = new MailAddress("web@residencev.com");
+                msg.To.Add("mk@residencev.com");
+                msg.IsBodyHtml = true;
+
+                /* client.Host = "smtp-relay.sendinblue.com";
+                 System.Net.NetworkCredential basicauthenticationinfo = new System.Net.NetworkCredential("web@residencev.com", "DGaCVZgU8wBs1mpx");
+                 client.Port = int.Parse("587");
+                 client.EnableSsl = true;
+                 client.UseDefaultCredentials = false;
+                 client.Credentials = basicauthenticationinfo;
+                 client.DeliveryMethod = SmtpDeliveryMethod.Network;*/
+                //client = Sendinblue.CreateConection();
+                client.Send(msg);
+                
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception caught in CreateTestMessage2(): {0}",
-                    ex.ToString());
+                Console.WriteLine("Exception caught in CreateTestMessage2(): {0}", ex.ToString());
             }
+
+
+            /* MailMessage mail = new MailMessage();
+             mail.To.Add("hlavacekmichal.1@gmail.com");
+             //mail.To.Add("Another Email ID where you wanna send same email");
+             mail.From = new MailAddress("web@residencev.com");
+             mail.Subject = "Email using Gmail";
+
+             string Body = "Hi, this mail is to test sending mail" +
+                           "using Gmail in ASP.NET" + mailInter.Content;
+             mail.Body = Body;
+
+             mail.IsBodyHtml = true;
+             SmtpClient smtp = new SmtpClient();
+             smtp.Host = "smtp.gmail.com"; //Or Your SMTP Server Address
+             smtp.Credentials = new System.Net.NetworkCredential ("hlavacekmichal.1@gmail.com", "sparta2381998");
+             //Or your Smtp Email ID and Password
+             smtp.EnableSsl = true;
+
+             try
+             {
+                 //client.Send(message);
+                 smtp.Send(mail);
+             }
+             catch (Exception ex)
+             {
+                 Console.WriteLine("Exception caught in CreateTestMessage2(): {0}",
+                     ex.ToString());
+             }*/
 
 
             /* string to = "jane@contoso.com";
              string from = "ben@contoso.com";
              MailMessage message = new MailMessage(from, to);
              message.Subject = "Using the new SMTP client.";
-             message.Body = @"Using this new feature, you can send an email message from an application very easily.";*/
+             message.Body = @"Using this new feature, you can send an email message from an application very easily.";
 
             //SmtpClient client = new SmtpClient(server);
             // Credentials are necessary if the server requires the client
             // to authenticate before it will send email on the client's behalf.
             //client.UseDefaultCredentials = true;
 
-            /* try
+             try
              {
                  //client.Send(message);
              }
@@ -636,25 +666,25 @@ namespace Controllers
 
             /*Database db = new Database();
             Product prod = db.GetProduct(prodID);*/
-            /* mailInter.From = "web@residencev.com";
-             mailInter.To = "hlavacekmichal.1@gmail.com";
+            /*mailInter.From = "web@residencev.com";
+            mailInter.To = "hlavacekmichal.1@gmail.com";
 
-             SmtpClient smtpClient = new SmtpClient(mailInter.From, 25);
+            SmtpClient smtpClient = new SmtpClient(mailInter.From, 587);
 
-             smtpClient.Credentials = new System.Net.NetworkCredential(mailInter.From, "Martin789*");
-             // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
-             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-             smtpClient.EnableSsl = true;
-             MailMessage mail = new MailMessage();
+            smtpClient.Credentials = new System.Net.NetworkCredential(mailInter.From, "DGaCVZgU8wBs1mpx");
+            // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.EnableSsl = true;
+            MailMessage mail = new MailMessage();
 
-             //Setting From , To and CC
-             mail.From = new MailAddress(mailInter.From, "MyWeb Site");
-             mail.To.Add(new MailAddress(mailInter.To));
-             //mail.CC.Add(new MailAddress("MyEmailID@gmail.com"));
+            //Setting From , To and CC
+            mail.From = new MailAddress(mailInter.From, "MyWeb Site");
+            mail.To.Add(new MailAddress(mailInter.To));
+            //mail.CC.Add(new MailAddress("MyEmailID@gmail.com"));
 
-             smtpClient.Send(mail);*/
+            smtpClient.Send(mail);*/
             //Console.WriteLine("mail sendedt1" + mailInter.Content + "  2  " + mailInter.From + "   3   " + mailInter.To );
-            Console.WriteLine(mail.Body);
+            // Console.WriteLine(mail.Body);
             return View();
         }
 
@@ -678,6 +708,18 @@ namespace Controllers
                 Directory.CreateDirectory(path);
                 return true;
             }
+        }
+        private SmtpClient _createSmtpConection()
+        {
+            System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+            client.Host = "smtp-relay.sendinblue.com";
+            System.Net.NetworkCredential basicauthenticationinfo = new System.Net.NetworkCredential("web@residencev.com", "DGaCVZgU8wBs1mpx");
+            client.Port = int.Parse("587");
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = basicauthenticationinfo;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            return client;
         }
 
     }
