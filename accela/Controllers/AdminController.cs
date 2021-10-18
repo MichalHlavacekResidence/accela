@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Text;
 using accela.Extensions;
 using System.Net.Mail;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Grpc.Core;
 
 namespace Controllers
 {
@@ -585,107 +587,43 @@ namespace Controllers
         public IActionResult AddProductMultiImage(Mails mailInter)
         {
 
-            MailMessage msg = new MailMessage();
+            string path = "./wwwroot/file/emails/htmlpage.html";
+            //Server.MapPath(Url.Content("/~wwwroot/file/emails"));
+            if (System.IO.File.Exists(path))
+            {
+                Console.WriteLine("subor jede" + path);
+                string readText = System.IO.File.ReadAllText(path);
+                //Console.WriteLine(readText);
+            }
+            else
+            {
+                Console.WriteLine("ne subor nejede" + path);
+            }
+            
+           
+                //File.ReadAllText(path);
+
+            /*Funkcni mail*/
+            /*MailMessage msg = new MailMessage();
             System.Net.Mail.SmtpClient client = this._createSmtpConection();
             try
             {
                 msg.Subject = "Add Subject";
-                msg.Body = "Add Email Body Part <h1>nadpis</h1>" +
-                    "<p style='color:red;'>"+mailInter.Content+"</p>" +
-                    "aahoj Mikulasi haf";
+                msg.Body = "";
                 msg.From = new MailAddress("web@residencev.com");
                 msg.To.Add("mk@residencev.com");
                 msg.IsBodyHtml = true;
-
-                /* client.Host = "smtp-relay.sendinblue.com";
-                 System.Net.NetworkCredential basicauthenticationinfo = new System.Net.NetworkCredential("web@residencev.com", "DGaCVZgU8wBs1mpx");
-                 client.Port = int.Parse("587");
-                 client.EnableSsl = true;
-                 client.UseDefaultCredentials = false;
-                 client.Credentials = basicauthenticationinfo;
-                 client.DeliveryMethod = SmtpDeliveryMethod.Network;*/
-                //client = Sendinblue.CreateConection();
                 client.Send(msg);
+                Console.WriteLine("Email sendet");
                 
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Exception caught in CreateTestMessage2(): {0}", ex.ToString());
-            }
-
-
-            /* MailMessage mail = new MailMessage();
-             mail.To.Add("hlavacekmichal.1@gmail.com");
-             //mail.To.Add("Another Email ID where you wanna send same email");
-             mail.From = new MailAddress("web@residencev.com");
-             mail.Subject = "Email using Gmail";
-
-             string Body = "Hi, this mail is to test sending mail" +
-                           "using Gmail in ASP.NET" + mailInter.Content;
-             mail.Body = Body;
-
-             mail.IsBodyHtml = true;
-             SmtpClient smtp = new SmtpClient();
-             smtp.Host = "smtp.gmail.com"; //Or Your SMTP Server Address
-             smtp.Credentials = new System.Net.NetworkCredential ("hlavacekmichal.1@gmail.com", "sparta2381998");
-             //Or your Smtp Email ID and Password
-             smtp.EnableSsl = true;
-
-             try
-             {
-                 //client.Send(message);
-                 smtp.Send(mail);
-             }
-             catch (Exception ex)
-             {
-                 Console.WriteLine("Exception caught in CreateTestMessage2(): {0}",
-                     ex.ToString());
-             }*/
-
-
-            /* string to = "jane@contoso.com";
-             string from = "ben@contoso.com";
-             MailMessage message = new MailMessage(from, to);
-             message.Subject = "Using the new SMTP client.";
-             message.Body = @"Using this new feature, you can send an email message from an application very easily.";
-
-            //SmtpClient client = new SmtpClient(server);
-            // Credentials are necessary if the server requires the client
-            // to authenticate before it will send email on the client's behalf.
-            //client.UseDefaultCredentials = true;
-
-             try
-             {
-                 //client.Send(message);
-             }
-             catch (Exception ex)
-             {
-                 Console.WriteLine("Exception caught in CreateTestMessage2(): {0}",
-                     ex.ToString());
-             }*/
-
-            /*Database db = new Database();
-            Product prod = db.GetProduct(prodID);*/
-            /*mailInter.From = "web@residencev.com";
-            mailInter.To = "hlavacekmichal.1@gmail.com";
-
-            SmtpClient smtpClient = new SmtpClient(mailInter.From, 587);
-
-            smtpClient.Credentials = new System.Net.NetworkCredential(mailInter.From, "DGaCVZgU8wBs1mpx");
-            // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.EnableSsl = true;
-            MailMessage mail = new MailMessage();
-
-            //Setting From , To and CC
-            mail.From = new MailAddress(mailInter.From, "MyWeb Site");
-            mail.To.Add(new MailAddress(mailInter.To));
-            //mail.CC.Add(new MailAddress("MyEmailID@gmail.com"));
-
-            smtpClient.Send(mail);*/
-            //Console.WriteLine("mail sendedt1" + mailInter.Content + "  2  " + mailInter.From + "   3   " + mailInter.To );
-            // Console.WriteLine(mail.Body);
+            }*/
+            /*konec funkcni mail*/
             return View();
+           
         }
 
         /*
@@ -708,6 +646,31 @@ namespace Controllers
                 Directory.CreateDirectory(path);
                 return true;
             }
+        }
+        private bool _generateEmailHtmlFile()
+        {
+            //bude mit id(emailnovinky)_url(emailnovinky)
+            string path = "./wwwroot/file/emails/htmlpage.html";
+            string templateHead = System.IO.File.ReadAllText("./wwwroot/file/emailTemplate/emailHead.html");
+            string templateFooter = System.IO.File.ReadAllText("./wwwroot/file/emailTemplate/emailFooter.html");
+            //Server.MapPath(Url.Content("/~wwwroot/file/emails"));
+            if (System.IO.File.Exists(path))
+            {
+                Console.WriteLine("subor jede" + path);
+                string readText = System.IO.File.ReadAllText(path);
+                //Console.WriteLine(readText);
+            }
+            else
+            {
+                //System.IO.File.Copy(templatePath,path);
+                Console.WriteLine("ne subor nejede a byl vytvorenej" + path);
+                string contentText = templateHead + templateFooter;
+                System.IO.File.WriteAllText(path, contentText, Encoding.UTF8);
+            }
+            string appendText = "This is extra text" + Environment.NewLine;
+            System.IO.File.AppendAllText(path, appendText, Encoding.UTF8);
+
+            return true;
         }
         private SmtpClient _createSmtpConection()
         {

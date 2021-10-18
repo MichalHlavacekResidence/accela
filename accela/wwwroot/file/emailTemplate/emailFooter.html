@@ -1,0 +1,73 @@
+﻿        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" id="canspamBarWrapper" style="background-color:#FFFFFF; border-top:1px solid #E5E5E5;">
+            <tr>
+                <td align="center" valign="top" style="padding-top:20px; padding-bottom:20px;">
+                    <table border="0" cellpadding="0" cellspacing="0" id="canspamBar">
+                        <tr>
+                            <td align="center" valign="top" style="color:#606060; font-family:Helvetica, Arial, sans-serif; font-size:11px; line-height:150%; padding-right:20px; padding-bottom:5px; padding-left:20px; text-align:center;">
+                                This email was sent to <a href="mailto:web@residencev.com" target="_blank" style="color:#404040 !important;">web@residencev.com</a>
+                                <br />
+                                <a href="https://accela.us11.list-manage.com/about?u=e25ea331c5a540414e43dd8ff&id=842abab0f9&e=97875240b1&c=dedb5f56fc" target="_blank" style="color:#404040 !important;"><em>why did I get this?</em></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://accela.us11.list-manage.com/unsubscribe?u=e25ea331c5a540414e43dd8ff&id=842abab0f9&e=97875240b1&c=dedb5f56fc" style="color:#404040 !important;">unsubscribe from this list</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://accela.us11.list-manage.com/profile?u=e25ea331c5a540414e43dd8ff&id=842abab0f9&e=97875240b1" style="color:#404040 !important;">update subscription preferences</a>
+                                <br />
+                                Accela &middot; Sluzeb 4 &middot; Praha 10 &middot; Praha 108 00 &middot; Czech Republic
+                                <br />
+                                <br />
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <style type="text/css">
+            @media only screen and (max-width: 480px) {
+                table#canspamBar td {
+                    font-size: 14px !important;
+                }
+
+                    table#canspamBar td a {
+                        display: block !important;
+                        margin-top: 10px !important;
+                    }
+            }
+        </style>
+    </center>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        document.getElementById("copyToClipboard").addEventListener("click", function () {
+            var input = document.getElementById("clipboardSource");
+            input.select();
+            var successful = document.execCommand("copy");
+            if (successful) {
+                alert('Copied "' + input.value + '" to your clipboard.');
+            } else {
+                throw new Error("Failed to copy text (verify caller was in the context of an event handler)");
+            }
+        });
+
+        $('li.more > a').click(function () {
+            var toToggle = $($(this).attr('data-to-toggle'));
+            if (toToggle.is(':visible')) {
+                toToggle.slideUp('fast');
+                $(this).removeClass('is-active');
+                if ($('#awesomebar').find('.is-active').length < 1) {
+                    $('#awesomebar').removeClass('sub-active');
+                }
+            } else {
+                toToggle.slideDown('fast');
+                $(this).addClass('is-active');
+                $('#awesomebar').addClass('sub-active');
+            }
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>
