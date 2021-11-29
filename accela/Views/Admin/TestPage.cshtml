@@ -1,0 +1,36 @@
+<div class="mx-auto">
+    <h1 class="text-center"> Test Page </h1>
+</div>
+
+<form class="needs-validation" method="post" asp-action="TestPage" asp-controller="Admin" novalidate enctype="multipart/form-data">
+
+    <!--<input type='file' multiple name="myFiles" />-->
+
+    <div class="mb-3">
+        <div class="container">
+            <fieldset class="form-group">
+                <a class="btn btn-secondary" href="javascript:void(0)" onclick="$('#pro-image').click()">Upload Image</a>
+                <input type="file" id="pro-image" name="myFiles" style="display: none;" class="form-control" multiple>
+            </fieldset>
+            <div class="preview-images-zone">
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<button id="checkHaf">check</button>>
+
+
+@using (Html.BeginForm("TestPage", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="myFiles" multiple />
+    <button class="btn btn-primary">Upload</button>
+
+}
+
+

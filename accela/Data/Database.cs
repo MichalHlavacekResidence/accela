@@ -6,6 +6,7 @@ using MySqlConnector;
 using accela.Data;
 using Newtonsoft.Json;
 using System.Linq;
+using accela.Models.EmailModels;
 
 namespace accela.Data
 {
@@ -183,6 +184,7 @@ namespace accela.Data
         }
 
         ///
+        ///<summary>
         ///<summary>
         ///     Funkce je určená k uložení formuláře (dotazníku) do databáze.
         ///</summary>
@@ -884,7 +886,7 @@ namespace accela.Data
             try
             {
                 using (var db = new AppDb())
-                { 
+                {
                     db.Connection.Open();
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
@@ -1010,7 +1012,7 @@ namespace accela.Data
         ///<returns>
         ///     Funkce vrací string ve kterém jsou zabalené pomocí jsonu objekty jednotlivých novinek. Pokud nebyla novinka nalezena, vrací se prázdný string "No data"
         ///</returns>
-        public string AjaxGetNewToDiscover(int newsToWrite,int newsOnPage,string technology,string tags,string brand)
+        public string AjaxGetNewToDiscover(int newsToWrite, int newsOnPage, string technology, string tags, string brand)
         {
             try
             {
@@ -1022,7 +1024,7 @@ namespace accela.Data
                         cmd.Connection = db.Connection;
 
                         //string comandText = "SELECT News.ID, News.Title, News.BrandID, News.ContactID, News.ImageBig, News.ImageSmall, News.ContentSmall, News.Created, News.VideoURL, News.ImageNew,NewsTech.CategoryID FROM News JOIN NewsTech ON News.ID = NewsTech.NewID JOIN Categories ON Categories.ID = NewsTech.CategoryID JOIN NewsTags ON NewsTags.NewsID = News.ID WHERE News.BrandID IN (@brand) ORDER BY News.Created ASC LIMIT @limit OFFSET @offset";
-                        
+
                         string comandText = "SELECT News.ID, News.Title, News.BrandID, News.ContactID, News.ImageBig, News.ImageSmall, News.ContentSmall, News.Created, News.VideoURL, News.ImageNew,NewsTech.CategoryID FROM News JOIN NewsTech ON News.ID = NewsTech.NewID JOIN Categories ON Categories.ID = NewsTech.CategoryID JOIN NewsTags ON NewsTags.NewsID = News.ID WHERE News.Visibility = 1";
                         if (technology != null)
                         {
@@ -1037,8 +1039,8 @@ namespace accela.Data
                             comandText += " AND News.BrandID IN (" + brand + ")";
                         }
                         comandText += "  ORDER BY News.Created ASC LIMIT @limit OFFSET @offset";
-                  
-                       
+
+
                         //Console.WriteLine(comandText);
                         //Console.WriteLine(brand);
                         cmd.CommandText = comandText;
@@ -1103,7 +1105,7 @@ namespace accela.Data
         ///     Funkce vrací string ve kterém jsou přes json zabalené objekty . Pokud nebyla novinka nalezena, vrací se prázdný objekt s ID = 0.
         ///</returns>
         ///
-        
+
         public string AjaxGetRandomReferences()
         {
             try
@@ -1174,7 +1176,7 @@ namespace accela.Data
                         cmd.Connection = db.Connection;
 
                         string comandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility,BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID, Image FROM Products WHERE Visibility = 1 ";
-                        
+
                         if (categoryIDs != null)
                         {
                             comandText += " AND CategoryID IN (" + categoryIDs + ")";
@@ -1358,10 +1360,10 @@ namespace accela.Data
                             try { Created = reader.GetDateTime(7); } catch (Exception) { Created = DateTime.Now; }
                             try { videourl = reader.GetString(8); } catch (Exception) { videourl = null; }
                             try { imgnew = reader.GetString(9); } catch (Exception) { imgnew = null; }
-                            news.Add(new News(id, title, this.GetBrandByID(bid), imgbig, imgsml,  contentsml, Created, imgnew, this.GetTagsByNews(id)));
+                            news.Add(new News(id, title, this.GetBrandByID(bid), imgbig, imgsml, contentsml, Created, imgnew, this.GetTagsByNews(id)));
                         }
                         return news;
-                       // return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew, this.GetTagsByNews(id), this.GetProductByNewID(id));
+                        // return new News(id, title, this.GetBrandByID(bid), this.GetManagerByID(cid), imgbig, imgsml, content, contentsml, Created, videourl, imgnew, this.GetTagsByNews(id), this.GetProductByNewID(id));
                     }
                 }
             }
@@ -1626,7 +1628,7 @@ namespace accela.Data
                 return new SystemMessage("Přidání nového produktu", ex.Message, "Error");
             }
         }
-          public SystemMessage EditProduct(Product product)
+        public SystemMessage EditProduct(Product product)
         {
             try
             {
@@ -1711,7 +1713,7 @@ namespace accela.Data
                     {
                         cmd.Connection = db.Connection;
                         cmd.CommandText = "INSERT INTO News (Title,BrandID,ContactID,ImageBig,ImageSmall,Content,ContentSmall,Description,Url,Visibility,Published,Created) VALUES (@title,@brandID,@contantID,@imageBig,@imageSmall,@con,@conSmall,@desc,@url,@vis,@publis,@created)";
-                        
+
                         cmd.Parameters.AddWithValue("@title", news.Title);
                         cmd.Parameters.AddWithValue("@brandID", news.Producer.ID);
                         cmd.Parameters.AddWithValue("@contantID", news.Manager.ID);
@@ -1736,7 +1738,7 @@ namespace accela.Data
                 return new SystemMessage("Adding new news", ex.Message, "Error");
             }
         }
-         public SystemMessage UpdateNew(News news)
+        public SystemMessage UpdateNew(News news)
         {
             try
             {
@@ -2092,7 +2094,7 @@ namespace accela.Data
                     using (MySqlCommand command = new MySqlCommand())
                     {
                         command.Connection = db.Connection;
-                        command.CommandText = "SELECT ID FROM Categories WHERE PoolID IN ("+pools+")";
+                        command.CommandText = "SELECT ID FROM Categories WHERE PoolID IN (" + pools + ")";
                         //command.Parameters.AddWithValue("@ids", pools);
                         var reader = command.ExecuteReader();
                         if (!reader.HasRows)
@@ -2101,12 +2103,12 @@ namespace accela.Data
                         }
 
                         int ID = 0;
-                       
+
                         List<Category> poolCategories = new List<Category>();
                         while (reader.Read())
                         {
                             try { ID = reader.GetInt32(0); } catch (Exception) { ID = 0; }
-                           
+
                             //poolCategories.Add(new Category(ID, this.GetPool(poolid), name, url, desc, img, "", pos, vis, this.GetManagerByID(conid)));
                             poolCategories.Add(new Category(ID));
                         }
@@ -2257,7 +2259,7 @@ namespace accela.Data
                             try { url = reader.GetString(2); } catch (Exception) { url = null; }
                             try { pos = reader.GetInt32(3); } catch (Exception) { pos = 0; }
                             try { vis = reader.GetBoolean(4); } catch (Exception) { vis = false; }
-                            
+
                             tagList.Add(new Tags(ID, name, url, pos, vis));
                         }
                         return tagList;
@@ -2564,7 +2566,7 @@ namespace accela.Data
                     {
                         cmd.Connection = db.Connection;
                         cmd.CommandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Image FROM Products WHERE Visibility = 1 AND CategoryID = @categ ORDER BY Position ASC";
-                        cmd.Parameters.AddWithValue("@categ",idCateg);
+                        cmd.Parameters.AddWithValue("@categ", idCateg);
                         var reader = cmd.ExecuteReader();
                         if (!reader.HasRows)
                         {
@@ -2586,7 +2588,7 @@ namespace accela.Data
                             try { subtitle = reader.GetString(3); } catch (Exception) { subtitle = null; }
                             try { smalld = reader.GetString(4); } catch (Exception) { smalld = null; }
                             try { image = reader.GetString(5); } catch (Exception) { image = null; }
-                           
+
                             products.Add(new Product(id, name, url, subtitle, smalld, image));
                         }
                         return products;
@@ -2610,7 +2612,7 @@ namespace accela.Data
                     {
                         //Console.WriteLine(idsCateg + "aaa");
                         cmd.Connection = db.Connection;
-                        string comandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE Visibility = 1 AND CategoryID IN (" + idsCateg+") ORDER BY RAND()";
+                        string comandText = "SELECT ID, Name, URL, Subtitle, Small_desc, Description, Link, Visibility, BrandID, CategoryID, VideoURL, ReferenceLink, ManagerID FROM Products WHERE Visibility = 1 AND CategoryID IN (" + idsCateg + ") ORDER BY RAND()";
                         //"SELECT ID, Name, URL, Subtitle, Small_desc, Image FROM Products WHERE Visibility = 1 AND CategoryID = @categ ORDER BY Position ASC";
                         cmd.CommandText = comandText;
                         //cmd.Parameters.AddWithValue("@categ", idCateg);
@@ -2812,7 +2814,7 @@ namespace accela.Data
                     {
                         cmd.Connection = db.Connection;
                         cmd.CommandText = "SELECT Ref.ID, Ref.Name, Company,Img, Visibility,Ref.Position,Description FROM Ref JOIN ProductRef ON ProductRef.RefID = Ref.ID WHERE ProductRef.ProductID = @pid ORDER BY ProductRef.Position ASC";
-                        cmd.Parameters.AddWithValue("pid",idProd);
+                        cmd.Parameters.AddWithValue("pid", idProd);
                         var reader = cmd.ExecuteReader();
                         if (!reader.HasRows)
                         {
@@ -2888,7 +2890,7 @@ namespace accela.Data
                             try { smalld = reader.GetString(4); } catch (Exception) { smalld = null; }
                             try { image = reader.GetString(5); } catch (Exception) { image = null; }
 
-                             products.Add(new Product(id, name, url, subtitle, smalld,image));
+                            products.Add(new Product(id, name, url, subtitle, smalld, image));
                         }
                         return products;
                     }
@@ -3157,6 +3159,31 @@ namespace accela.Data
             }
         }
 
+        public SystemMessage EmailSend(int IDUser, int IDCampaign = 0)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "INSERT INTO EmailSendet (EmailUserID,EmailCampaignID) VALUES (@idu, @idc)";
+                        cmd.Parameters.AddWithValue("@idu",IDUser);
+                        cmd.Parameters.AddWithValue("@idc",IDCampaign);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Message successfully sent", "Your message was successfully sent to our system.", "ok");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new SystemMessage("Message was not sent", ex.Message, "Error");
+            }
+        }
+
         public Brand GetBrandByID(int brandID)
         {
             try
@@ -3397,7 +3424,7 @@ namespace accela.Data
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "SELECT ID, ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility, Image FROM Brands WHERE Visibility = 1 AND ID IN ("+ids+")";
+                        cmd.CommandText = "SELECT ID, ContactID, Name, URL, Description, Small_desc, Link, Position, Visibility, Image FROM Brands WHERE Visibility = 1 AND ID IN (" + ids + ")";
                         var reader = cmd.ExecuteReader();
                         if (!reader.HasRows)
                         {
@@ -3538,6 +3565,251 @@ namespace accela.Data
             {
                 Console.WriteLine("[GetReferences] " + ex.Message);
                 return new List<References>();
+            }
+        }
+
+        public EmailUsers GetAllEmailUser(int ID)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Firstname, Lastname, Email, Status FROM EmailUsers WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@id", ID);
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows == false)
+                        {
+                            return new EmailUsers();
+                        }
+
+                        int id = 0;
+                        string firstname = null;
+                        string surname = null;
+                        string email = null;
+                        string status = null;
+
+                        DateTime created = DateTime.Now;
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
+                            try { firstname = reader.GetString(1); } catch (Exception) { firstname = null; }
+                            try { surname = reader.GetString(2); } catch (Exception) { surname = null; }
+                            try { email = reader.GetString(3); } catch (Exception) { email = null; }
+                            try { status = reader.GetString(4); } catch (Exception) { status = null; }
+                        }
+                        return new EmailUsers(id, firstname, surname, email, status);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new EmailUsers();
+            }
+        }
+        public SystemMessage UnsubscriberUser(EmailUsers usr)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "UPDATE EmailUsers SET Status = @status WHERE ID = @id";
+                        cmd.Parameters.AddWithValue("@status", "unsubscriber");
+                        cmd.Parameters.AddWithValue("@id", usr.ID);
+                        cmd.ExecuteNonQuery();
+                        return new SystemMessage("Updating EmailUsers", "You are no longer a subscriber.", "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[UpdateBrand] " + ex.Message);
+                return new SystemMessage("Updating Brand", ex.Message, "Error");
+            }
+        }
+
+        public List<EmailUsers> GetAllEmailUsers()
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Firstname, Lastname, Email, Status FROM EmailUsers";
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows == false)
+                        {
+                            return new List<EmailUsers>();
+                        }
+
+                        int id = 0;
+                        string firstname = null;
+                        string surname = null;
+                        string email = null;
+                        string status = null;
+
+                        DateTime created = DateTime.Now;
+                        List<EmailUsers> mails = new List<EmailUsers>();
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
+                            try { firstname = reader.GetString(1); } catch (Exception) { firstname = null; }
+                            try { surname = reader.GetString(2); } catch (Exception) { surname = null; }
+                            try { email = reader.GetString(3); } catch (Exception) { email = null; }
+                            try { status = reader.GetString(4); } catch (Exception) { status = null; }
+
+                            mails.Add(new EmailUsers(id, firstname, surname, email, this.GetEmailTags(id), status));
+                        }
+                        return mails;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<EmailUsers>();
+            }
+        }
+        public List<EmailUsers> GetEmailUsersByName(string tagName)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT EmailUsers.ID, EmailUsers.Firstname, EmailUsers.Lastname, EmailUsers.Email, EmailUsers.Status FROM EmailUsers JOIN EmailUserTags ON EmailUsers.ID = EmailUserTags.EmailUsersID JOIN EmailTags ON EmailUserTags.EmailTagsID = EmailTags.ID WHERE EmailTags.Name = @tagName";
+                        cmd.Parameters.AddWithValue("@tagName", tagName);
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows == false)
+                        {
+                            return new List<EmailUsers>();
+                        }
+
+                        int id = 0;
+                        string firstname = null;
+                        string surname = null;
+                        string email = null;
+                        string status = null;
+
+                        DateTime created = DateTime.Now;
+                        List<EmailUsers> mails = new List<EmailUsers>();
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
+                            try { firstname = reader.GetString(1); } catch (Exception) { firstname = null; }
+                            try { surname = reader.GetString(2); } catch (Exception) { surname = null; }
+                            try { email = reader.GetString(3); } catch (Exception) { email = null; }
+                            try { status = reader.GetString(4); } catch (Exception) { status = null; }
+
+                            mails.Add(new EmailUsers(id, firstname, surname, email, this.GetEmailTags(id), status));
+                        }
+                        return mails;
+                    }
+                }
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<EmailUsers>();
+            }
+        }
+        public List<EmailTags> GetEmailTags(int idUser)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT EmailTags.Name FROM EmailTags JOIN EmailUserTags ON EmailTags.ID = EmailUserTags.EmailTagsID WHERE EmailUserTags.EmailUsersID = @idUser";
+                        cmd.Parameters.AddWithValue("@idUser",idUser);
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows == false)
+                        {
+                            return new List<EmailTags>();
+                        }
+
+                        int id = 0;
+                        string name = null;
+
+                        DateTime created = DateTime.Now;
+                        List<EmailTags> tags = new List<EmailTags>();
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
+
+                            tags.Add(new EmailTags(id,name));
+                        }
+                        return tags;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<EmailTags>();
+            }
+
+        }
+
+        public EmailTags GetEmailTag(int idTags)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Connection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+
+                        cmd.Connection = db.Connection;
+                        cmd.CommandText = "SELECT ID, Name FROM EmailTags WHERE Visibility = 1 AND ID = @id";
+                        cmd.Parameters.AddWithValue("@id", idTags);
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows == false)
+                        {
+                            return new EmailTags();
+                        }
+
+                        int id = 0;
+                        string name = null;
+                       
+                        while (reader.Read())
+                        {
+                            try { id = reader.GetInt32(0); } catch (Exception) { id = 0; }
+                            try { name = reader.GetString(1); } catch (Exception) { name = null; }
+                           
+
+                            
+                        }
+                        return new EmailTags(id, name);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new EmailTags();
             }
         }
 

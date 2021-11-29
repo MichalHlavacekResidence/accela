@@ -1,15 +1,57 @@
-$(document).ready(function() {
+const dt = new DataTransfer();
+$(document).ready(function () {
     document.getElementById('pro-image').addEventListener('change', readImage, false);
     
-    $(".preview-images-zone" ).sortable();
+    $(".preview-images-zone").sortable();
+  
     
-    $(document).on('click', '.image-cancel', function() {
+    $(document).on('click', '.image-cancel', function () {
         let no = $(this).data('no');
-        $(".preview-image.preview-show-"+no).remove();
+        $(".preview-image.preview-show-" + no).remove();
+        $('#pro-image').splice(no, 1);
+        console.log(no);
+
+        //delete $('#pro-image').prop('files')[0];
+        //$('#pro-image').prop('files').splice(no, 1)
+        var myFile = $('#pro-image').prop('files');
+
+        const newMyFile = [];
+        for (let i = 0; i < myFile.length; i++) {
+            var file = myFile[i];
+
+            if (i == no) {
+                file = null;
+            }
+            newMyFile.push(file);
+            console.log(newMyFile);
+        }
+        $('#pro-image').prop('files') = newMyFile;
+
+
+       /* myFile.toString.slice(1, 1);
+        console.log(myFile);*/
+      
+        
+       
+    });
+    $("#checkHaf").click(function () {
+        var myFile = $('#pro-image').prop('files');
+        console.log(myFile);
+
+        const input = document.getElementById('pro-image')
+        input.addEventListener('change', () => {
+            const fileListArr = Array.from(input.files);
+            fileListArr.splice(1, 1);
+            console.log(fileListArr);
+        });
+      
+        
+
+
     });
 });
 
-var num = 4;
+var num = 0;
 function readImage() {
    
     if (window.File && window.FileList && window.FileReader) {
@@ -33,6 +75,7 @@ function readImage() {
                             '</div>';
 
                 output.append(html);
+                console.log(num);
                 num = num + 1;
             });
 

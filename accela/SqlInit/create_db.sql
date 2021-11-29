@@ -41,6 +41,10 @@ VideoURL text,
 ButtonText VARCHAR(25),
 ButtonUrl text,Perex text,
 imageNew text);
+---------
+
+
+-----------
 
 CREATE TABLE NewsTags (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, NewsID int(11) NOT NULL, TagID int(11) NOT NULL, FOREIGN KEY (NewsID) REFERENCES News(ID), FOREIGN KEY (TagID) REFERENCES Tags(ID));
 
@@ -57,3 +61,29 @@ CREATE TABLE NewsTech (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, NewID int
 CREATE TABLE ProductRef (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, ProductID int(11) NOT NULL, FOREIGN KEY (ProductID) REFERENCES Products(ID), RefID int(11) NOT NULL, FOREIGN KEY (RefID) REFERENCES Ref(ID), Position int(5) NULL);
 
 CREATE TABLE RelatedProduct (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, ProductID int(11) NOT NULL, FOREIGN KEY (ProductID) REFERENCES Products(ID), RelatedProductID int(11) NOT NULL, FOREIGN KEY (RelatedProductID) REFERENCES Products(ID) , Position int(5) NULL);
+
+//email db
+
+CREATE TABLE EmailTags (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, Name Varchar(255), Visibility boolean NOT NULL );
+
+CREATE TABLE EmailUsers (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, Firstname Varchar(255), Lastname Varchar(255),Email Varchar(255) NOT NULL,  Status  Varchar (255),Address Varchar(255),PhoneNumber Varchar(255),Created DateTime NULL DEFAULT CURRENT_TIMESTAMP,DataChanged Datetime NULL );
+ 
+CREATE TABLE EmailUserTags (ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, EmailTagsID int(11) NOT NULL, FOREIGN KEY (EmailTagsID) REFERENCES EmailTags(ID),EmailUsersID int(11) NOT NULL, FOREIGN KEY (EmailUsersID) REFERENCES EmailUsers(ID),Description Varchar(255));
+
+CREATE TABLE CampaignTypes(ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, Name varchar(100) NOT NULL, Visibility Boolean NOT NULL);
+CampaignType(ID, Name,Visibility)
+
+CREATE TABLE EmailCampaigns(ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, CampaignTypesID int(11) NOT NULL, FOREIGN KEY (CampaignTypesID) REFERENCES CampaignTypes(ID), Created Datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, SendetTime Datetime NULL, Sendet Boolean NOT NULL,Name varchar(200) NOT NULL,Subject varchar(200) NOT NULL,EmailFrom varchar(100) NULL,Url varchar(200) NOT NULL)
+EmailCampaign(ID,created,sendet(date),sendet(bool),name,subject,emailFrom,url-nazev souboru,Type-jiny graficky styl nobo cokoli jineho)
+
+CREATE TABLE EmailCampaignTags(ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, EmailCampaignsID int(11) NOT NULL, FOREIGN KEY (EmailCampaignsID) REFERENCES EmailCampaigns(ID), EmailTagsID int(11) NOT NULL, FOREIGN KEY (EmailTagsID) REFERENCES EmailTags(ID));
+EmailCampaignTags(ID,IDCampaign,IDTag)
+
+CREATE TABLE EmailNews(ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL, NewsID int(11) NOT NULL, FOREIGN KEY (NewsID) REFERENCES News(ID), EmailCampaignsID int(11) NOT NULL, FOREIGN KEY (EmailCampaignsID) REFERENCES EmailCampaigns(ID));
+EmailNews(ID,IDNews,IDEmailCampaign)
+
+CREATE TABLE EmailSend(ID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,EmailCampaignsID int(11) NOT NULL, FOREIGN KEY (EmailCampaignsID) REFERENCES EmailCampaigns(ID), EmailUsersID int(11) NOT NULL, FOREIGN KEY (EmailUsersID) REFERENCES EmailUsers(ID), Created Datetime NOT NULL DEFAULT CURRENT_TIMESTAMP);
+EmailSend(ID,campaignID,EmailUserID,Date)
+
+
+//end email db

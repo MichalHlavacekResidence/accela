@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using accela.Data;
-
+using static accela.Models.Brand;
 
 namespace accela.Controllers
 {
@@ -30,7 +30,7 @@ namespace accela.Controllers
             }
             else
             {
-                return View();
+                return this.View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
             }
 
         }
@@ -48,7 +48,8 @@ namespace accela.Controllers
             Random randomizer = new Random();
             int key = randomizer.Next(0, Messages.Count);
             ViewBag.Message = Messages[key];
-            return View();
+            Database database = new Database();
+            return this.View(new HomeViewModel { Brands = database.GetVisibleBrands(), Categories = database.GetVisiblePools() });
         }
     }
 }
