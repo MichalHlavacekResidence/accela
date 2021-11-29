@@ -1,0 +1,77 @@
+@model accela.Models.Mails 
+@using accela.Models.EmailModels
+<div class="mx-auto">
+    <h1 class="text-center"> Send E-mail </h1>
+</div>
+
+<form class="needs-validation" method="post" asp-action="EmailPage" asp-controller="Admin" novalidate>
+
+    <div class="mb-3">
+        <h3>@ViewBag.message</h3>
+        @{
+
+            /*foreach (MailChimp.Net.Models.Member item in ViewBag.message)
+            {
+               <p> @item.EmailAddress  </p>
+            }*/
+            
+            <h2>datetime Campain</h2>
+            /* foreach(MailChimp.Net.Models.Campaign cca in ViewBag.kk)
+         {
+             <p>@cca.Id and @cca.Settings.Title adn @cca.Settings.TemplateId</p>
+         }
+         <h2>Listd</h2>
+         foreach (MailChimp.Net.Models.List item in ViewBag.message)
+         {
+             <p> @item.Id  and  @item.Name </p>
+         }
+        <h2>TEMPLATE</h2>
+         foreach (MailChimp.Net.Models.Template temp in ViewBag.template)
+         {
+             <p>@temp.Id  and @temp.Name adn @temp.ShareUrl</p>
+         }
+ <h2>SEGMENTS</h2>
+         foreach (MailChimp.Net.Models.ListSegment seg in ViewBag.segment)
+         {
+             <p> @seg.Name and @seg.ListId</p>
+         }
+         <h2>Campains</h2>
+         foreach (MailChimp.Net.Models.Campaign campain in ViewBag.campains)
+         {
+             <p>@campain.Id and @campain.Settings.Title adn @campain.ContentType</p>
+         }
+         <h2>CONTACTS</h2>
+         foreach (MailChimp.Net.Models.Member mem in ViewBag.contact)
+         {
+             <p>@mem.EmailAddress</p>
+             }
+
+         <h2>oneMember</h2>*/
+
+        }
+        <!--
+        <label asp-for="Model.Subtitle" class="form-label">Text E-Mail</label>
+    <input type="text" class="form-control" aria-describedby="subtitleHelp" asp-for="Model.Subtitle" />
+
+        -->
+        <label asp-for="@Model.Content" class="form-label">Text E-Mail</label>
+        <input type="text" class="form-control" aria-describedby="subtitleHelp" asp-for="@Model.Content" />
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div id="subtitleHelp" class="form-text form-helper"> Subtitle is shown under the name.  </div>
+
+        <div class="row">
+            @{
+                foreach (EmailUsers em in ViewBag.emailUsers)
+                {
+                    <p>@em.Email @em.Surname</p>
+                }
+            }
+        </div>
+
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

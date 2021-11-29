@@ -12,6 +12,12 @@ using accela.Extensions;
 using System.Net.Mail;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Grpc.Core;
+using accela.Models.EmailModels;
+
+
+using MailChimp.Net.Interfaces;
+using MailChimp.Net;
+using MailChimp.Net.Core;
 
 namespace Controllers
 {
@@ -424,11 +430,7 @@ namespace Controllers
             db.AddPool(pool);
             return RedirectToAction("Pools", "Admin");
         }
-        public IActionResult AddProductMultiImage()
-        {
-            Mails mail = new Mails();
-            return View(mail);
-        }
+       
 
         [HttpPost]
         public IActionResult AddProduct(Product product, IFormFile[] proImage, IFormFile ImageFile)
@@ -582,48 +584,172 @@ namespace Controllers
             bool result = uploader.CheckFileExistence(FileName, Folder);
             return FileName;
         }
+        //public IActionResult EmailPage()
+        public async Task<IActionResult> EmailPage()
+        {
+            Mails mail = new Mails();
+            /*Mailchimp test not work*/
+            
+            //string apiKey = "ce5878845d727a0e27f746736b88a667-us11";
+            /*string apiKey = "3434759dd813342dbeafdead8330162e-us11";
+
+            //IMailChimpManager manager = new MailChimpManager(apiKey);
+
+            IMailChimpManager mailChimpManager = new MailChimpManager(apiKey);
+
+            //var mailChimpListCollection = mailChimpManager.Lists.GetAllAsync().ConfigureAwait(false);
+            var mailChimpListCollection = await mailChimpManager.Lists.GetAllAsync(new ListRequest { Limit = 50 }).ConfigureAwait(false);
+            var template = await mailChimpManager.Templates.GetAllAsync().ConfigureAwait(false);
+            
+            var segment = await mailChimpManager.ListSegments.GetAllAsync("51c94162ad").ConfigureAwait(false);
+            var campains = await mailChimpManager.Campaigns.GetAllAsync(new CampaignRequest { Limit = 10 }).ConfigureAwait(false);
+            var contact = await mailChimpManager.Members.GetAllAsync("51c94162ad", new MemberRequest { Limit = 10 }).ConfigureAwait(false);
+            var oneMember = await mailChimpManager.Members.GetAsync("51c94162ad", "web@residencev.com").ConfigureAwait(false);//me
+            DateTime aa = new DateTime(2019,4,14);
+
+            var campainsDate = await mailChimpManager.Campaigns.GetAllAsync(new CampaignRequest { Limit = 1000, BeforeCreateTime = aa}).ConfigureAwait(false);*/
+
+
+            /* MailChimp.Net.Models.Campaign camp = new MailChimp.Net.Models.Campaign()
+             {
+                 camp.EmailsSent = oneMember;
+             };*/
+
+            // var ss = await createCampaignaa();
+
+            /*MailChimp.Net.Models.Campaign campain = new MailChimp.Net.Models.Campaign();
+            
+            campain.Settings.Title = "test";
+            campain.Settings.TemplateId = 193325;
+
+             var addCampain = await mailChimpManager.Campaigns.AddAsync(new MailChimp.Net.Models.Campaign
+             {   
+                 //Type = "",
+                 Type = new MailChimp.Net.Core.CampaignType {
+                 
+                 },
+                 ContentType = "template",
+                 Settings = new MailChimp.Net.Models.Setting
+                 {
+                     Title = "test 08.11",
+                     ReplyTo = "web@residencev.com",
+                     SubjectLine = "Do not reply, test mail",
+                     TemplateId = 193325,
+
+                 },
+
+             }).ConfigureAwait(false);
+               Console.WriteLine(addCampain.Id);
+               Console.WriteLine(addCampain.Status);*/
+            //await mailChimpManager.Campaigns.SendAsync("aa").ConfigureAwait(false);
+
+
+            /* // creating me
+             MailChimp.Net.Models.Member member = new MailChimp.Net.Models.Member()
+            {
+                EmailAddress = "web@residencev.com",
+                 ListId = "51c94162ad"
+            };
+            var responce = await mailChimpManager.Members.AddOrUpdateAsync("51c94162ad", member).ConfigureAwait(false);*/
+
+            /*var listId = "51c94162ad"; // contect List ID
+            var aa = await mailChimpManager.Members.GetAllAsync(listId).ConfigureAwait(false);*/
+            /*ViewBag.message = mailChimpListCollection;
+            ViewBag.template = template;
+            ViewBag.segment = segment;
+            ViewBag.campains = campains;
+            ViewBag.contact = contact;
+            ViewBag.oneMember = oneMember;
+            ViewBag.kk = campainsDate;*/
+            Database db = new Database();
+ 
+            List<EmailUsers> emailUser = db.GetAllEmailUsers();
+            ViewBag.message = "aa";
+            ViewBag.emailUsers = emailUser;
+            return View(mail);
+        }
+       
         /*funkce pro posílání emailu SendMail*/
         [HttpPost]
-        public IActionResult AddProductMultiImage(Mails mailInter)
+        public IActionResult EmailPage(Mails mailInter)
         {
+            Mails mail = new Mails();
+            Database db = new Database();
 
             string path = "./wwwroot/file/emails/htmlpage.html";
+            string pathBig = "./wwwroot/file/testEmailHtml/big.html";
             //Server.MapPath(Url.Content("/~wwwroot/file/emails"));
-            if (System.IO.File.Exists(path))
-            {
-                Console.WriteLine("subor jede" + path);
-                string readText = System.IO.File.ReadAllText(path);
-                //Console.WriteLine(readText);
-            }
-            else
-            {
-                Console.WriteLine("ne subor nejede" + path);
-            }
-            
-           
-                //File.ReadAllText(path);
+            string readText = "";
+             if (System.IO.File.Exists(pathBig))
+             {
+                 Console.WriteLine("subor jede");
+                 readText = System.IO.File.ReadAllText(pathBig);
+                 //Console.WriteLine(readText);
+             }
+             else
+             {
+                Console.WriteLine("ne subor nejede");
+                readText = mailInter.Content;
+                return View();
+             }
+
+
+            //File.ReadAllText(path);
 
             /*Funkcni mail*/
-            /*MailMessage msg = new MailMessage();
+            MailMessage msg = new MailMessage();
             System.Net.Mail.SmtpClient client = this._createSmtpConection();
             try
             {
+               
                 msg.Subject = "Add Subject";
-                msg.Body = "";
+                msg.Body = "Animal reserch" + mailInter.Content + readText;
                 msg.From = new MailAddress("web@residencev.com");
-                msg.To.Add("mk@residencev.com");
-                msg.IsBodyHtml = true;
-                client.Send(msg);
+               
+                List<EmailUsers> users = db.GetEmailUsersByName("Test");
+                foreach (EmailUsers usr in users)
+                {
+                    Console.WriteLine(usr.Email);
+                    msg.To.Add(usr.Email);
+                    msg.IsBodyHtml = true;
+                    db.EmailSend(usr.ID);
+                    client.Send(msg);
+                }
+               
+                
                 Console.WriteLine("Email sendet");
                 
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Exception caught in CreateTestMessage2(): {0}", ex.ToString());
-            }*/
+            }
             /*konec funkcni mail*/
-            return View();
            
+            List<EmailUsers> emailUser = db.GetAllEmailUsers();
+            ViewBag.message = "aa";
+            ViewBag.emailUsers = emailUser;
+            return View(mail);
+
+        }
+        public IActionResult TestPage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult TestPage(IEnumerable<IFormFile> myFiles)
+        {
+            Console.WriteLine("TestPage");
+            foreach (var file in myFiles)
+            {
+                if (file != null && file.Length > 0)
+                {
+                    Console.WriteLine(file.FileName );
+                    Console.WriteLine(file.Length);
+                }
+            }
+            return View();
         }
 
         /*
@@ -676,7 +802,8 @@ namespace Controllers
         {
             System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
             client.Host = "smtp-relay.sendinblue.com";
-            System.Net.NetworkCredential basicauthenticationinfo = new System.Net.NetworkCredential("web@residencev.com", "DGaCVZgU8wBs1mpx");
+            System.Net.NetworkCredential basicauthenticationinfo = new System.Net.NetworkCredential("web@residencev.com", "xsmtpsib-9f8e3626727b54d3e64b0e190dcb798d30cf6ee7542543b1ff26e3356fc93546-8tWrbYPpNOvmVQny");
+            
             client.Port = int.Parse("587");
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - accela</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href='~/file/font/OpenSans-Regular.ttf' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <header>
+       
+
+
+
+
+    </header>
+    <div class="container-fluid">
+
+        <main role="main" class="pb-3 row hpMainContainer d-flex justify-content-center">
+
+            <div class="col-12 hpPageNoContainer">
+                @RenderBody()
+            </div>
+
+        </main>
+    </div>
+
+
+    <footer class="border-top footer text-muted">
+        <div class="row footer-container justify-content-center col">
+        
+
+
+        </div>
+
+
+
+
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -191,6 +191,22 @@ footer {
     margin-top: 79px;
     z-index: 100;
 }
+.hpPageNoContainer {
+    padding: 0;
+    margin-bottom: 280px;
+    max-width: 100%;
+    width: 100%;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    /* margin-top: 79px; */
+    z-index: 100;
+}
+.centeredContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .hpProdItemL {
     padding-left: 0px !important;
 }
