@@ -3169,7 +3169,7 @@ namespace accela.Data
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = db.Connection;
-                        cmd.CommandText = "INSERT INTO EmailSendet (EmailUserID,EmailCampaignID) VALUES (@idu, @idc)";
+                        cmd.CommandText = "INSERT INTO EmailSend (EmailUsersID,EmailCampaignsID) VALUES (@idu, @idc)";
                         cmd.Parameters.AddWithValue("@idu",IDUser);
                         cmd.Parameters.AddWithValue("@idc",IDCampaign);
                         cmd.ExecuteNonQuery();

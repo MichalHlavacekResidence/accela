@@ -18,6 +18,7 @@ using accela.Models.EmailModels;
 using MailChimp.Net.Interfaces;
 using MailChimp.Net;
 using MailChimp.Net.Core;
+using System.Net.Mime;
 
 namespace Controllers
 {
@@ -588,10 +589,11 @@ namespace Controllers
         public async Task<IActionResult> EmailPage()
         {
             Mails mail = new Mails();
+            Database db = new Database();
             /*Mailchimp test not work*/
-            
+
             //string apiKey = "ce5878845d727a0e27f746736b88a667-us11";
-            /*string apiKey = "3434759dd813342dbeafdead8330162e-us11";
+            string apiKey = "3434759dd813342dbeafdead8330162e-us11";
 
             //IMailChimpManager manager = new MailChimpManager(apiKey);
 
@@ -607,7 +609,7 @@ namespace Controllers
             var oneMember = await mailChimpManager.Members.GetAsync("51c94162ad", "web@residencev.com").ConfigureAwait(false);//me
             DateTime aa = new DateTime(2019,4,14);
 
-            var campainsDate = await mailChimpManager.Campaigns.GetAllAsync(new CampaignRequest { Limit = 1000, BeforeCreateTime = aa}).ConfigureAwait(false);*/
+            var campainsDate = await mailChimpManager.Campaigns.GetAllAsync(new CampaignRequest { Limit = 1000, BeforeCreateTime = aa}).ConfigureAwait(false);
 
 
             /* MailChimp.Net.Models.Campaign camp = new MailChimp.Net.Models.Campaign()
@@ -617,35 +619,32 @@ namespace Controllers
 
             // var ss = await createCampaignaa();
 
-            /*MailChimp.Net.Models.Campaign campain = new MailChimp.Net.Models.Campaign();
             
-            campain.Settings.Title = "test";
-            campain.Settings.TemplateId = 193325;
 
-             var addCampain = await mailChimpManager.Campaigns.AddAsync(new MailChimp.Net.Models.Campaign
-             {   
-                 //Type = "",
-                 Type = new MailChimp.Net.Core.CampaignType {
-                 
-                 },
-                 ContentType = "template",
-                 Settings = new MailChimp.Net.Models.Setting
-                 {
-                     Title = "test 08.11",
-                     ReplyTo = "web@residencev.com",
-                     SubjectLine = "Do not reply, test mail",
-                     TemplateId = 193325,
+            var addCampain = await mailChimpManager.Campaigns.AddAsync(new MailChimp.Net.Models.Campaign
+            {
+                Type = CampaignType.Plaintext,
+                //ContentType = "template",
+                Settings = new MailChimp.Net.Models.Setting
+                {
+                    Title = "test 13.12",
+                    ReplyTo = "web@residencev.com",
+                    SubjectLine = "Do not reply, test mail",
+                    TemplateId = 193325,
+                     
 
-                 },
+                },
+                
+                
 
-             }).ConfigureAwait(false);
+            }).ConfigureAwait(false);
                Console.WriteLine(addCampain.Id);
-               Console.WriteLine(addCampain.Status);*/
+               Console.WriteLine(addCampain.Status);
             //await mailChimpManager.Campaigns.SendAsync("aa").ConfigureAwait(false);
 
 
-            /* // creating me
-             MailChimp.Net.Models.Member member = new MailChimp.Net.Models.Member()
+             // creating member
+             /*MailChimp.Net.Models.Member member = new MailChimp.Net.Models.Member()
             {
                 EmailAddress = "web@residencev.com",
                  ListId = "51c94162ad"
@@ -654,17 +653,17 @@ namespace Controllers
 
             /*var listId = "51c94162ad"; // contect List ID
             var aa = await mailChimpManager.Members.GetAllAsync(listId).ConfigureAwait(false);*/
-            /*ViewBag.message = mailChimpListCollection;
+            ViewBag.message = mailChimpListCollection;
             ViewBag.template = template;
             ViewBag.segment = segment;
             ViewBag.campains = campains;
             ViewBag.contact = contact;
             ViewBag.oneMember = oneMember;
-            ViewBag.kk = campainsDate;*/
-            Database db = new Database();
+            ViewBag.kk = campainsDate;
+            
  
             List<EmailUsers> emailUser = db.GetAllEmailUsers();
-            ViewBag.message = "aa";
+            //ViewBag.message = "aa";
             ViewBag.emailUsers = emailUser;
             return View(mail);
         }
@@ -682,10 +681,11 @@ namespace Controllers
             string readText = "";
              if (System.IO.File.Exists(pathBig))
              {
-                 Console.WriteLine("subor jede");
+                 
                  readText = System.IO.File.ReadAllText(pathBig);
-                 //Console.WriteLine(readText);
-             }
+                //Console.WriteLine(readText);
+                Console.WriteLine("subor jede");
+            }
              else
              {
                 Console.WriteLine("ne subor nejede");
@@ -696,7 +696,8 @@ namespace Controllers
 
             //File.ReadAllText(path);
 
-            /*Funkcni mail*/
+            /*neFunkcni mail neni odepreli mi opravneni sendinblue*/
+            /*
             MailMessage msg = new MailMessage();
             System.Net.Mail.SmtpClient client = this._createSmtpConection();
             try
@@ -712,19 +713,19 @@ namespace Controllers
                     Console.WriteLine(usr.Email);
                     msg.To.Add(usr.Email);
                     msg.IsBodyHtml = true;
-                    db.EmailSend(usr.ID);
-                    client.Send(msg);
+                    //db.EmailSend(usr.ID);
+                   
                 }
-               
-                
+                client.Send(msg);
+
                 Console.WriteLine("Email sendet");
                 
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Exception caught in CreateTestMessage2(): {0}", ex.ToString());
-            }
-            /*konec funkcni mail*/
+            }*/
+            /*konec neFunkcni mail dendinblue*/
            
             List<EmailUsers> emailUser = db.GetAllEmailUsers();
             ViewBag.message = "aa";
