@@ -15,35 +15,35 @@
                <p> @item.EmailAddress  </p>
             }*/
             
-            <h2>datetime Campain</h2>
+          <h2>datetime Campain</h2>
              foreach(MailChimp.Net.Models.Campaign cca in ViewBag.kk)
-         {
-             <p>@cca.Id and @cca.Settings.Title adn @cca.Settings.TemplateId</p>
+           {
+             <p>@cca.Id and @cca.Settings.Title adn @cca.Settings.TemplateId </p>
          }
          <h2>Listd</h2>
          foreach (MailChimp.Net.Models.List item in ViewBag.message)
          {
-             <p> @item.Id  and  @item.Name </p>
+             <p>list id @item.Id  name  @item.Name </p>
          }
         <h2>TEMPLATE</h2>
          foreach (MailChimp.Net.Models.Template temp in ViewBag.template)
          {
-             <p>@temp.Id  and @temp.Name adn @temp.ShareUrl</p>
+             <p> id @temp.Id  name @temp.Name url @temp.ShareUrl</p>
          }
  <h2>SEGMENTS</h2>
          foreach (MailChimp.Net.Models.ListSegment seg in ViewBag.segment)
          {
-             <p> @seg.Name and @seg.ListId</p>
+             <p>naem @seg.Name listid @seg.ListId</p>
          }
          <h2>Campains</h2>
          foreach (MailChimp.Net.Models.Campaign campain in ViewBag.campains)
          {
-             <p>@campain.Id and @campain.Settings.Title adn @campain.ContentType</p>
+             <p>@campain.Id and @campain.Settings.Title adn @campain.ContentType </p>
          }
          <h2>CONTACTS</h2>
          foreach (MailChimp.Net.Models.Member mem in ViewBag.contact)
          {
-             <p>@mem.EmailAddress</p>
+             <p>@mem.EmailAddress  </p>
              }
 
          <h2>oneMember</h2>

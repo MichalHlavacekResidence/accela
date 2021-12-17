@@ -600,30 +600,31 @@ namespace Controllers
             IMailChimpManager mailChimpManager = new MailChimpManager(apiKey);
 
             //var mailChimpListCollection = mailChimpManager.Lists.GetAllAsync().ConfigureAwait(false);
-            var mailChimpListCollection = await mailChimpManager.Lists.GetAllAsync(new ListRequest { Limit = 50 }).ConfigureAwait(false);
+            var mailChimpListCollection = await mailChimpManager.Lists.GetAllAsync(new ListRequest { Limit = 5 }).ConfigureAwait(false);
             var template = await mailChimpManager.Templates.GetAllAsync().ConfigureAwait(false);
             
             var segment = await mailChimpManager.ListSegments.GetAllAsync("51c94162ad").ConfigureAwait(false);
             var campains = await mailChimpManager.Campaigns.GetAllAsync(new CampaignRequest { Limit = 10 }).ConfigureAwait(false);
             var contact = await mailChimpManager.Members.GetAllAsync("51c94162ad", new MemberRequest { Limit = 10 }).ConfigureAwait(false);
             var oneMember = await mailChimpManager.Members.GetAsync("51c94162ad", "web@residencev.com").ConfigureAwait(false);//me
-            DateTime aa = new DateTime(2019,4,14);
-
-            var campainsDate = await mailChimpManager.Campaigns.GetAllAsync(new CampaignRequest { Limit = 1000, BeforeCreateTime = aa}).ConfigureAwait(false);
+            DateTime now = DateTime.Now;
 
 
-            /* MailChimp.Net.Models.Campaign camp = new MailChimp.Net.Models.Campaign()
-             {
-                 camp.EmailsSent = oneMember;
-             };*/
 
-            // var ss = await createCampaignaa();
+            var campainsDate = await mailChimpManager.Campaigns.GetAllAsync(new CampaignRequest { Limit = 1000, BeforeCreateTime = now}).ConfigureAwait(false);
 
+            string[] kraken = { "aaaa", "test" };
+            // var campaignTest = mailChimpManager.Campaigns.TestAsync("263e98012b"); 
+            //var testMail = mailChimpManager.Campaigns.TestAsync("263e98012b");
+        
+     
             
-
+            
+             //create campaign
             var addCampain = await mailChimpManager.Campaigns.AddAsync(new MailChimp.Net.Models.Campaign
             {
                 Type = CampaignType.Plaintext,
+                
                 //ContentType = "template",
                 Settings = new MailChimp.Net.Models.Setting
                 {
@@ -631,20 +632,27 @@ namespace Controllers
                     ReplyTo = "web@residencev.com",
                     SubjectLine = "Do not reply, test mail",
                     TemplateId = 193325,
+                    
                      
 
                 },
-                
-                
+                Recipients = new MailChimp.Net.Models.Recipient
+                {
+                    ListId = "d37275c722"
+                },
 
             }).ConfigureAwait(false);
                Console.WriteLine(addCampain.Id);
                Console.WriteLine(addCampain.Status);
+            //end add campaign
+            
+           // var SendetCampaign = mailChimpManager.Campaigns.SendAsync(cpID);
+
             //await mailChimpManager.Campaigns.SendAsync("aa").ConfigureAwait(false);
 
 
              // creating member
-             /*MailChimp.Net.Models.Member member = new MailChimp.Net.Models.Member()
+            /* MailChimp.Net.Models.Member member = new MailChimp.Net.Models.Member()
             {
                 EmailAddress = "web@residencev.com",
                  ListId = "51c94162ad"
